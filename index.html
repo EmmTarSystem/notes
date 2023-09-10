@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- Creation d'une tache -->
+    <div>
+        <p>
+            <fieldset>
+                <legend>Créer une note</legend>
+
+                <ul>
+                    
+                    <li>
+                        <label for="newNoteInputTitle">Titre : </label>
+                        <input id="newNoteInputTitle" type="text" placeholder="Titre" maxlength="150">
+                    </li>
+                    <li>
+                        <label for="newNoteInputDateStart">Date début</label>
+                        <input type="date" name="" id="newNoteInputDateStart">
+                    </li>
+                    <li>
+                        <label for="newNoteInputElement0">Elément 1</label>
+                        <input id="newNoteInputElement0" type="text" placeholder="Elément 0" maxlength="40"/>
+                    </li>
+                    <li>
+                        <label for="newNoteInputElement1">Elément 2</label>
+                        <input id="newNoteInputElement1" type="text" placeholder="Elément 1" maxlength="40"/>
+                    </li>
+                    <li>
+                        <label for="newNoteInputElement2">Elément 3</label>
+                        <input id="newNoteInputElement2" type="text" placeholder="Elément 2" maxlength="40"/>
+                    </li>
+                    <li>
+                        <label for="newNoteInputDetail">Detail</label>
+                        <textarea name="" id="newNoteInputDetail" cols="30" rows="10"></textarea>
+                    </li>
+                    <li>
+                        <label for="newNoteInputDateEnd">Date Limite</label>
+                        <input type="date" name="" id="newNoteInputDateEnd">
+                    </li>
+                    <li>
+                        <label for="newNoteInputStatut">Statut : </label>
+                        <select name="" id="newNoteInputStatut">
+                            <option value="A faire">A faire</option>
+                            <option value="En cours">En cours</option>
+                            <option value="Termine">Termine</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="newNoteInputPriority">Priorité : </label>
+                        <select name="" id="newNoteInputPriority">
+                            <option value="P0">P0</option>
+                            <option value="P1">P1</option>
+                            <option value="P2">P2</option>
+                            <option value="P3">P3</option>
+                        </select>
+                    </li>
+                </ul>
+
+                                
+            <button onclick="onTest()">test</button>    
+                
+            <button onclick="onFormatnewNoteInput()">Ajouter la note</button>    
+            </fieldset>
+        </p>
+    </div>
+
+    <!-- Rechercher une tacle -->
+
+    <div>
+        <p>
+            <button onclick="onSearchNotes('statut','En cours')">Notes En cours</button>
+            <button onclick="onSearchNotes('statut','A faire')">Notes A faire</button>
+        </p>
+    </div>
+    <p>
+        <input type="date" id="testDateFR">
+        <button onclick="onTestFR()">TEST FR</button>
+    </p>
+    
+    <p>
+        <button onclick="onStartDataBase()">start BD</button>
+        
+    </p>
+    <script src="./scripts/createNote.js"></script>
+    <script src="./scripts/App.js"></script>
+</body>
+</html>
