@@ -18,61 +18,64 @@
                 <ul>
                     
                     <li>
-                        <label for="newNoteInputTitle">Titre : </label>
-                        <input id="newNoteInputTitle" type="text" placeholder="Titre" maxlength="150">
+                        <label for="inputNoteTitle">Titre : </label>
+                        <input id="inputNoteTitle" type="text" placeholder="Titre" maxlength="150">
                     </li>
                     <li>
-                        <label for="newNoteInputDateStart">Date début</label>
-                        <input type="date" name="" id="newNoteInputDateStart">
-                    </li>
-                    <li>
-                        <label for="newNoteInputElement0">Elément 1</label>
-                        <input id="newNoteInputElement0" type="text" placeholder="Elément 0" maxlength="40"/>
-                    </li>
-                    <li>
-                        <label for="newNoteInputElement1">Elément 2</label>
-                        <input id="newNoteInputElement1" type="text" placeholder="Elément 1" maxlength="40"/>
-                    </li>
-                    <li>
-                        <label for="newNoteInputElement2">Elément 3</label>
-                        <input id="newNoteInputElement2" type="text" placeholder="Elément 2" maxlength="40"/>
-                    </li>
-                    <li>
-                        <label for="newNoteInputDetail">Detail</label>
-                        <textarea name="" id="newNoteInputDetail" cols="30" rows="10"></textarea>
-                    </li>
-                    <li>
-                        <label for="newNoteInputDateEnd">Date Limite</label>
-                        <input type="date" name="" id="newNoteInputDateEnd">
-                    </li>
-                    <li>
-                        <label for="newNoteInputStatut">Statut : </label>
-                        <select name="" id="newNoteInputStatut">
-                            <option value="A faire">A faire</option>
-                            <option value="En cours">En cours</option>
-                            <option value="Termine">Termine</option>
-                        </select>
-                    </li>
-                    <li>
-                        <label for="newNoteInputPriority">Priorité : </label>
-                        <select name="" id="newNoteInputPriority">
+                        <label for="selectorNotePriority">Priorité : </label>
+                        <select name="" id="selectorNotePriority">
                             <option value="P0">P0</option>
                             <option value="P1">P1</option>
                             <option value="P2">P2</option>
                             <option value="P3">P3</option>
                         </select>
                     </li>
+                    <li>
+                        <label for="selectorNoteStatut">Statut : </label>
+                        <select name="" id="selectorNoteStatut">
+                            <option value="A faire">A faire</option>
+                            <option value="En cours">En cours</option>
+                            <option value="Termine">Termine</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label for="inputNoteDateStart">Date début</label>
+                        <input type="date" name="" id="inputNoteDateStart">
+                    </li>
+                    <li>
+                        <label for="inputNoteStep1">Etape 1</label>
+                        <input id="inputNoteStep1" type="text" placeholder="Etape 1" maxlength="40"/>
+                        <input id="checkboxNoteStep1" type="checkbox">
+                    </li>
+                    <li>
+                        <label for="inputNoteStep2">Etape 2</label>
+                        <input id="inputNoteStep2" type="text" placeholder="Etape 2" maxlength="40"/>
+                        <input id="checkboxNoteStep2" type="checkbox">
+                    </li>
+                    <li>
+                        <label for="inputNoteStep3">Etape 3</label>
+                        <input id="inputNoteStep3" type="text" placeholder="Etape 3" maxlength="40"/>
+                        <input id="checkboxNoteStep3" type="checkbox">
+                    </li>
+                    <li>
+                        <label for="textareaNoteDetail">Detail</label>
+                        <textarea name="" id="textareaNoteDetail" cols="30" rows="10"></textarea>
+                    </li>
+                    <li>
+                        <label for="inputNoteDateEnd">Date Limite</label>
+                        <input type="date" name="" id="inputNoteDateEnd">
+                    </li>
                 </ul>
 
                                 
-            <button onclick="onTest()">test</button>    
+            <button onclick="onInitPage()">test</button>    
                 
-            <button onclick="onFormatnewNoteInput()">Ajouter la note</button>    
+            <button onclick="onFormatNote()">Ajouter la note</button>    
             </fieldset>
         </p>
     </div>
 
-    <!-- Rechercher une tacle -->
+    <!-- Rechercher une tache -->
 
     <div>
         <p>
@@ -85,11 +88,18 @@
         <button onclick="onTestFR()">TEST FR</button>
     </p>
     
+    <!-- Afficher les resultats de recherche -->
+    <div id="divSearchResult">
+        <h1>RESULTAT</h1>
+
+    </div>
+
     <p>
         <button onclick="onStartDataBase()">start BD</button>
         
     </p>
-    <script src="./scripts/createNote.js"></script>
+    
     <script src="./scripts/App.js"></script>
+    <script src="./scripts/Note.js"></script>
 </body>
 </html>
