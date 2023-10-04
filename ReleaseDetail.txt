@@ -1,0 +1,5 @@
+Créer une note
+Modifier une note
+Consulter une note
+
+Toutes les notes sont chargé en variable

@@ -2,14 +2,39 @@
 // -------------------------------------------------GLOBAL------------------------------------------------
 
 // DATE DU jour
-// new Date().toLocaleDateString('fr-fr', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) 
-// "vendredi 2 juillet 2021"
+let currentDateFR,
+    currentDateFormated;
+
+
+// Set tous les éléments concernant la date du jour
+function onSetDateDuJour() {
+    // Date au format complet
+    document.getElementById("pDateDuJour").innerHTML = new Date().toLocaleDateString('fr-fr', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
+
+    // Date du jour format FR
+    let e = new Date();
+    currentDateFR = e.toLocaleDateString("fr");
+    currentDateFR = currentDateFR.replace(/\//gi,"-");
+
+    console.log(currentDateFR);
+
+    // Date du jour format international
+
+    console.log(new Date());
+    
+}
+onSetDateDuJour();
+
+
+
+
+
 
 
 let db,
-    dbName = "BaseTest",
+    dbName = "MyDataBase",
     objectStoreName = "TaskList",
-    version = 4;
+    version = 1;
 
 
 // Lancement /création de la base de donnée
@@ -35,7 +60,7 @@ function onStartDataBase() {
             noteStore.createIndex('dateEnd','dateEnd',{unique:false});
             noteStore.createIndex('dateStartFormated','dateStartFormated',{unique:false});
             noteStore.createIndex('dateEndFormated','dateEndFormated',{unique:false});
-            noteStore.createIndex('statut','statut',{unique:false});
+            noteStore.createIndex('status','status',{unique:false});
         }
     };
 
@@ -45,7 +70,7 @@ function onStartDataBase() {
 
     openRequest.onsuccess = function(){
         db = openRequest.result
-        console.log("Base ready");
+        console.log("Data Base ready");
     };
 
 
@@ -61,12 +86,12 @@ function onFormatDateCreated() {
     let tempDate = e.toLocaleDateString("fr");
 
     let finalDateFR = tempDate.replace(/\//gi,"-");
-
-    return finalDateFR
+     return finalDateFR;
 }
 
 
-// Formatage des dates selectionnées en mode universel
+
+// Formatage des dates sélectionnées en mode universel
 function onFormatSelectedDate(e){
     let dateFormated = e.replace(/-/gi,"");
     console.log(dateFormated);
@@ -75,7 +100,7 @@ function onFormatSelectedDate(e){
 
 
 
-// Formatage des dates en mode FR
+// Formatage des dates sélectionnées en mode FR
 function onFormatSelectedDateFR(e) {
     
     let tempDateFR = e.split("-");

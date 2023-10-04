@@ -8,6 +8,7 @@
     <title>Document</title>
 </head>
 <body>
+    <p id="pDateDuJour"></p>
 
     <!-- Creation d'une tache -->
     <div>
@@ -31,8 +32,8 @@
                         </select>
                     </li>
                     <li>
-                        <label for="selectorNoteStatut">Statut : </label>
-                        <select name="" id="selectorNoteStatut">
+                        <label for="selectorNoteStatus">Statut : </label>
+                        <select name="" id="selectorNoteStatus">
                             <option value="A faire">A faire</option>
                             <option value="En cours">En cours</option>
                             <option value="Termine">Termine</option>
@@ -58,6 +59,16 @@
                         <input id="checkboxNoteStep3" type="checkbox">
                     </li>
                     <li>
+                        <label for="inputNoteStep4">Etape 4</label>
+                        <input id="inputNoteStep4" type="text" placeholder="Etape 4" maxlength="40"/>
+                        <input id="checkboxNoteStep4" type="checkbox">
+                    </li>
+                    <li>
+                        <label for="inputNoteStep5">Etape 5</label>
+                        <input id="inputNoteStep5" type="text" placeholder="Etape 5" maxlength="40"/>
+                        <input id="checkboxNoteStep5" type="checkbox">
+                    </li>
+                    <li>
                         <label for="textareaNoteDetail">Detail</label>
                         <textarea name="" id="textareaNoteDetail" cols="30" rows="10"></textarea>
                     </li>
@@ -68,7 +79,7 @@
                 </ul>
 
                                 
-            <button onclick="onInitPage()">test</button>    
+            <button onclick="onUpdatePage()">Update Page</button>    
                 
             <button onclick="onFormatNote()">Ajouter la note</button>    
             </fieldset>
@@ -77,22 +88,20 @@
 
     <!-- Rechercher une tache -->
 
-    <div>
-        <p>
-            <button onclick="onSearchNotes('statut','En cours')">Notes En cours</button>
-            <button onclick="onSearchNotes('statut','A faire')">Notes A faire</button>
-        </p>
-    </div>
-    <p>
-        <input type="date" id="testDateFR">
-        <button onclick="onTestFR()">TEST FR</button>
-    </p>
     
+  
     <!-- Afficher les resultats de recherche -->
-    <div id="divSearchResult">
-        <h1>RESULTAT</h1>
+    <h1>Notes en cours</h1>
+    <div id="divBtnNotesEnCours">
+        <!-- Injection des boutons -->
 
     </div>
+    <h1>Notes a faire</h1>
+    <div id="divBtnNotesAFaire">
+        <!-- Injection des boutons -->
+
+    </div>
+    
 
     <p>
         <button onclick="onStartDataBase()">start BD</button>
