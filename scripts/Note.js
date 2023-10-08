@@ -6,7 +6,7 @@ let notesEnCoursArray= [],//les notes en cours
     boolEditNoteCreation,//mode d'ouverture de l'editeur de note en mode création ou modification
     noteEnCoursIndexToStart,//pour l'affichage des notes avec les boutons next et previous
     noteAFaireIndexToStart,//pour l'affichage des notes avec les boutons next et previous
-    maxBtnNoteToDisplay,//nbre de bouton maximum qui sont affiché dans la liste
+    maxBtnNoteToDisplay = 4,//nbre de bouton maximum qui sont affiché dans la liste
     btnNoteEnCoursPreviousRef = document.getElementById("btnNoteEnCoursPrevious"),//les boutons de navigation des notes
     btnNoteEnCoursNextRef = document.getElementById("btnNoteEnCoursNext"),//les boutons de navigation des notes
     btnNoteAFairePreviousRef = document.getElementById("btnNoteAFairePrevious"),//les boutons de navigation des notes
@@ -23,7 +23,8 @@ function onUpdatePage() {
     // Reset les array
     notesEnCoursArray = [];
     notesAFaireArray = [];
-
+    noteEnCoursIndexToStart = 0;
+    noteAFaireIndexToStart = 0;
     
 
 
@@ -84,19 +85,21 @@ function onSortItem(arrayResult) {
     })
 
 
-    // Vide les div de boutons
-    onClearDIV("divBtnNotesEnCours");
-    onClearDIV("divBtnNotesAFaire");
     
-    // Creation des boutons par catégories
-    onSetButtonNotes("divBtnNotesEnCours",notesEnCoursArray);
-    onSetButtonNotes("divBtnNotesAFaire",notesAFaireArray);
+    // Creation des liste de notes par catégories
+    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart);
+    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart);
 }
 
 
 
 // Crée les boutons des notes selon la catégorie
-function onSetButtonNotes(divNotesTarget,noteArray) {
+function onSetListNotes(divNotesTarget,noteArray,indexToStart) {
+
+    // Vide la div de note
+    onClearDIV(divNotesTarget);
+
+
     let CurrentDivNotesRef = document.getElementById(divNotesTarget);
 
     console.log("création des boutons de notes pour la div : " + divNotesTarget);
@@ -104,9 +107,11 @@ function onSetButtonNotes(divNotesTarget,noteArray) {
 
     // condition si il y a des notes ou non
     if (noteArray.length > 0 ) {
+        let nbreIteration = 0;
 
-        noteArray.forEach(e=>{
-
+        for (let i = indexToStart ; i < noteArray.length ; i++){
+            let e = noteArray[i];
+        
             // Creation de la div
             let div = document.createElement("div");
             div.onclick = function(){
@@ -135,15 +140,23 @@ function onSetButtonNotes(divNotesTarget,noteArray) {
 
             CurrentDivNotesRef.appendChild(div);
 
-    
-        })
+            nbreIteration++
+            // Met fin a la generation si atteind le nbre d'iteration max d'affichage
+            if ( nbreIteration === maxBtnNoteToDisplay) {
+                break;
+            }
+        }
+
     }else{
         console.log("Aucune note pour " + divNotesTarget);
         CurrentDivNotesRef.innerHTML = "Aucune note";
     }
 
-    
+    // Gestion de visibilité des boutons de notes
+    onSetBtnNavNotesVisibility();
 }
+
+
 
 // fonction de vidage des div
 function onClearDIV(divID) {
@@ -152,9 +165,9 @@ function onClearDIV(divID) {
 }
 
 
-// Gestion des boutons de notes
-
-function onSetBtnNotesVisibility() {
+// Gestion des boutons de navigation de notes
+// Visibilité
+function onSetBtnNavNotesVisibility() {
     
     // Bouton note A faire "suivant"
     if (noteAFaireIndexToStart + maxBtnNoteToDisplay >= notesAFaireArray.length) {
@@ -177,6 +190,32 @@ function onSetBtnNotesVisibility() {
     btnNoteEnCoursPreviousRef.disabled = noteEnCoursIndexToStart === 0 ? "disabled": "";
     
 }
+
+// Navigation dans les boutons de notes
+// Notes en cours
+function onClickNavNoteEnCoursPrevious() {
+    noteEnCoursIndexToStart -= maxBtnNoteToDisplay;
+    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart);
+}
+
+function onClickNavNoteEnCoursNext() {
+    noteEnCoursIndexToStart += maxBtnNoteToDisplay;
+    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart);
+}
+
+// Notes à faire
+function onClickNavNoteAFairePrevious() {
+    noteAFaireIndexToStart -= maxBtnNoteToDisplay;
+    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart);
+}
+
+function onClickNavNoteAFaireNext() {
+    noteAFaireIndexToStart += maxBtnNoteToDisplay;
+    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart);
+}
+
+
+
 
 
 
