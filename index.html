@@ -8,13 +8,95 @@
     <title>Document</title>
 </head>
 <body>
-    <p id="pDateDuJour"></p>
+    <h1 id="h1DateDuJour"></h1>
+    <p>
+        <button onclick="onStartDataBase()">Start BD</button>
+        <button onclick="onUpdatePage()">Update Page</button>    
+    </p>
 
-    <!-- Creation d'une tache -->
-    <div>
+    <!-- ---------------------------  Div zone principale ------------------------------------- -->
+    <div id="divMain">
+        <p>
+            <button onclick="onDisplayNoteEditor(true)">Créer une note</button>
+
+        </p>
+        
+
+        <!-- ----------------- DIV Tableau d'affichage des boutons de notes--------------------------- -->
+        <div>
+            <table>
+                <tr>
+                    <th>Notes à faire</th>
+                    <th>Notes en cours</th>
+                </tr>
+                <tr>
+                    <td>
+                        <div id="divBtnNotesEnCours">
+                            <!-- Injection des boutons -->
+                        </div>
+                    </td>
+                    <td>
+                        <div id="divBtnNotesAFaire">
+                            <!-- Injection des boutons -->
+                        </div>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+        <!-- -----------------FIN DIV Tableau d'affichage des boutons de notes--------------------------- -->
+       
+
+        <!-- ------------------ ---------  Visualisation d'une tache ------------------>
+        <div id="divNoteView" class="divNoteView">
+            <h1 id="h1NoteViewTitle"> TITRE </h1>
+            <h2 id="h2NoteViewPriority">Priorité</h2>
+            <h3 id="h3NoteViewStatus">Status</h3>
+            <p id="pNoteViewDateStart">Date de début</p>
+            <p id="pNoteViewDateEnd">Date de fin</p>
+            <ul>
+                <li>
+                    <label id="labelNoteViewStep1">Etape 1</label>
+                    <input id="checkboxNoteViewStep1" type="checkbox">
+                </li>
+                <li>
+                    <label id="labelNoteViewStep2">Etape 2</label>
+                    <input id="checkboxNoteViewStep2" type="checkbox">
+                </li>
+                <li>
+                    <label id="labelNoteViewStep3">Etape 3</label>
+                    <input id="checkboxNoteViewStep3" type="checkbox">
+                </li>
+                <li>
+                    <label id="labelNoteViewStep4">Etape 4</label>
+                    <input id="checkboxNoteViewStep4" type="checkbox">
+                </li>
+                <li>
+                    <label id="labelNoteViewStep5">Etape 5</label>
+                    <input id="checkboxNoteViewStep5" type="checkbox">
+                </li>
+                
+                
+            </ul>
+            <p id="pNoteViewDetail">Detail</p>
+            <p id="pNoteViewDateCreated">noteCréé le : </p>
+
+            <!-- Les boutons -->
+            <button onclick="onDisplayNoteEditor(false)">Modifier</button>
+            <button onclick="onDeleteNote()">Supprimer</button>
+        </div>
+        <!-- ------------------ --------- FIN Visualisation d'une tache ------------------>
+
+    </div>
+    <!-- --------------------------- FIN Div zone principale ------------------------------------- -->
+
+
+
+    <!-- ----------------- Creation /modification d'une tache --------------------->
+    <div id="divNoteEditor" class="divNoteEditor">
         <p>
             <fieldset>
-                <legend>Créer une note </legend>
+                <legend id="legendNoteEditor">Editer une note</legend>
 
                 <ul>
                     
@@ -25,10 +107,9 @@
                     <li>
                         <label for="selectorNotePriority">Priorité : </label>
                         <select name="" id="selectorNotePriority">
-                            <option value="P0">P0</option>
-                            <option value="P1">P1</option>
-                            <option value="P2">P2</option>
-                            <option value="P3">P3</option>
+                            <option value="Routine">Routine</option>
+                            <option value="Urgent">Urgent</option>
+                            <option value="Flash">Flash</option>
                         </select>
                     </li>
                     <li>
@@ -77,37 +158,14 @@
                         <input type="date" name="" id="inputNoteDateEnd">
                     </li>
                 </ul>
-
-                                
-            <button onclick="onUpdatePage()">Update Page</button>    
-                
-            <button onclick="onFormatNote()">Ajouter la note</button>    
+ 
+            <button id="btnValidNoteEditor" onclick="onClickBtnValidNoteEditor()">Ajouter la note</button>
+            <button id="btnAnnulNoteEditor" onclick="onClickBtnAnnulNoteEditor()">Retour</button>    
             </fieldset>
         </p>
     </div>
+    <!-- ----------------- FIN Creation /modification d'une tache --------------------->
 
-    <!-- Rechercher une tache -->
-
-    
-  
-    <!-- Afficher les resultats de recherche -->
-    <h1>Notes en cours</h1>
-    <div id="divBtnNotesEnCours">
-        <!-- Injection des boutons -->
-
-    </div>
-    <h1>Notes a faire</h1>
-    <div id="divBtnNotesAFaire">
-        <!-- Injection des boutons -->
-
-    </div>
-    
-
-    <p>
-        <button onclick="onStartDataBase()">start BD</button>
-        
-    </p>
-    
     <script src="./scripts/App.js"></script>
     <script src="./scripts/Note.js"></script>
 </body>

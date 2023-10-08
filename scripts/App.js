@@ -9,7 +9,7 @@ let currentDateFR,
 // Set tous les éléments concernant la date du jour
 function onSetDateDuJour() {
     // Date au format complet
-    document.getElementById("pDateDuJour").innerHTML = new Date().toLocaleDateString('fr-fr', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
+    document.getElementById("h1DateDuJour").innerHTML = new Date().toLocaleDateString('fr-fr', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
 
     // Date du jour format FR
     let e = new Date();
@@ -44,7 +44,7 @@ function onStartDataBase() {
 
     // Traitement selon résultat
 
-
+   
     // Mise à jour ou création requise
     openRequest.onupgradeneeded = function () {
         console.log("Initialisation de la base de donnée");
@@ -115,5 +115,29 @@ function onFormatSelectedDateFR(e) {
     return finalDateFR
 }
 
+// Formatage des dates sélectionnées en mode US
+function onFormatSelectedDateUS(e) {
+    
+    let tempDateUS = e.split("-");
+    
 
+    let finalDateUS = "";
+    for (const i of tempDateUS) {
+        finalDateUS = finalDateUS + "-" + i
+    }; 
+    // Suppression de premier "-"
+    finalDateUS = finalDateUS.replace("-","");
+    return finalDateUS
+}
+
+
+// Desactivation de la page principale
+let divMainRef = document.getElementById("divMain");
+
+function onDisableMainPage(disable) {
+    let isDisable = Boolean(disable === true);
+
+    divMainRef.style.opacity = isDisable? 0.1 : 1;
+    divMainRef.style.pointerEvents = isDisable? "none" : "all";
+}
 

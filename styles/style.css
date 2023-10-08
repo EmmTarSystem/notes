@@ -1,5 +1,82 @@
 body {
-	background-color: rgb(187, 186, 186);
+	background-color: grey;
 }
 
 
+/* Edition de notes */
+
+div.divNoteEditor{
+	display: none;
+	position: absolute;
+	background-color:rgba(255, 232, 189, 0.974);
+	width: 500px;
+	left: 500px;top: 20px;
+}
+
+/* Visualisation des notes */
+
+div.divNoteView{
+	position: absolute;
+	background-color:rgba(255, 232, 189, 0.974);;
+	width: 500px;
+	left: 1050px;top: 20px;
+	text-align: center;
+	
+}
+
+
+
+/* -------------------------------- Style des boutons de notes----------------------------------- */
+
+
+
+
+div.btnNoteUrgent{
+	background-color: #fff7d1;
+	border-radius: 10px;
+	width:200px ;height: 100px;
+	border: none;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 10px;
+
+}
+
+div.btnNoteUrgent:hover{
+	background-color: #fff2ab;
+	cursor: pointer;
+}
+
+
+div.btnNoteRoutine{
+	background-color: #e4f9e0;
+	border-radius: 10px;
+	width:200px ;height: 100px;
+	border: none;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 10px;
+
+}
+
+div.btnNoteRoutine:hover{
+	background-color: #cbf1c4;
+	cursor: pointer;
+}
+
+
+div.btnNoteFlash{
+	background-color: #ffe4f1;
+	border-radius: 10px;
+	width:200px ;height: 100px;
+	border: none;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 10px;
+
+}
+
+div.btnNoteFlash:hover{
+	background-color: #ffcce5;
+	cursor: pointer;
+}

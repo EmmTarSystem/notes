@@ -1,8 +1,14 @@
-// --------------------------UPDATE  PAGE ------------------------------------------------
+
 let notesEncoursArray= [],//les notes en cours
-    notesAFaireArray =[];//les notes à faire
+    notesAFaireArray =[],//les notes à faire
+    currentKeyNoteInView,//la key de la note en cours de visualisation
+    currentNoteInView,//le contenu de la note en cours de visualisation
+    boolEditNoteCreation;//mode d'ouverture de l'editeur de note en mode création ou modification
     
     
+
+
+// --------------------------              UPDATE  PAGE                ------------------------------------------------
 
 
 
@@ -87,16 +93,35 @@ function onSetButtonNotes(divNotesTarget,noteArray) {
 
     console.log("création des boutons de notes pour la div : " + divNotesTarget);
 
-    noteArray.forEach(e=>{
-        let button = document.createElement("button");
-        button.type = "button";
-        button.innerHTML = e.priority + " - " +e.title;
-        button.onclick = function(){
-            onDisplayNotes(e.key);
-        }
-        CurrentDivNotesRef.appendChild(button);
 
-    })
+    // condition si il y a des notes ou non
+    if (noteArray.length > 0 ) {
+
+        noteArray.forEach(e=>{
+
+            // Creation de la div
+            let div = document.createElement("div");
+            div.onclick = function(){
+                onSearchNotesToDisplay(e.key);
+            }
+            
+            // Set la classe de la div selon la priorité
+            if (e.priority === "Routine") {div.className = "btnNoteRoutine"};
+            if (e.priority === "Urgent") {div.className = "btnNoteUrgent"};
+            if (e.priority === "Flash") {div.className = "btnNoteFlash"};
+
+            // Creation du texte dans la div
+            div.innerHTML = e.title;
+            
+            CurrentDivNotesRef.appendChild(div);
+    
+        })
+    }else{
+        console.log("Aucune note pour " + divNotesTarget);
+        CurrentDivNotesRef.innerHTML = "Aucune note";
+    }
+
+    
 }
 
 // fonction de vidage des div
@@ -105,11 +130,24 @@ function onClearDIV(divID) {
     currentDivRef.innerHTML = "";
 }
 
-// ----------------------------EDITION de Notes -----------------------------------------
+
+
+
+
+
+// ----------------------------       EDITION de Notes           -----------------------------------------
+
+
+
+
+
+
+
 
 // Variabilisation des items
 
-let inputNoteTitleRef = document.getElementById("inputNoteTitle"),
+let divNoteEditorRef = document.getElementById("divNoteEditor"),
+    inputNoteTitleRef = document.getElementById("inputNoteTitle"),
     selectorNoteStatusRef = document.getElementById("selectorNoteStatus"),
     inputNoteDateStartRef = document.getElementById("inputNoteDateStart"),
     inputNoteStep1Ref = document.getElementById("inputNoteStep1"),
@@ -124,7 +162,113 @@ let inputNoteTitleRef = document.getElementById("inputNoteTitle"),
     checkboxNoteStep2Ref = document.getElementById("checkboxNoteStep2"),
     checkboxNoteStep3Ref = document.getElementById("checkboxNoteStep3"),
     checkboxNoteStep4Ref = document.getElementById("checkboxNoteStep4"),
-    checkboxNoteStep5Ref = document.getElementById("checkboxNoteStep5");
+    checkboxNoteStep5Ref = document.getElementById("checkboxNoteStep5"),
+    btnValidNoteEditorRef = document.getElementById("btnValidNoteEditor"),
+    btnAnnulNoteEditorRef = document.getElementById("btnAnnulNoteEditor"),
+    legendNoteEditorRef = document.getElementById("legendNoteEditor");
+
+
+
+
+function onDisplayNoteEditor(boolModeCreation){
+
+    // Desactive la page principale
+    onDisableMainPage(true);
+    divNoteEditorRef.style.display = "block";
+
+
+    // clear l'editeur de note
+    onClearNoteEditor();
+
+    // Set le mode d'ouverture de l'editeur de note
+    boolEditNoteCreation = boolModeCreation;
+
+    if (boolEditNoteCreation) {
+        console.log("ouverture de l'editeur en mode création");
+
+        btnValidNoteEditorRef.innerHTML = "Ajouter la note";
+        btnAnnulNoteEditorRef.innerHTML = "Retour";
+        legendNoteEditorRef.innerHTML = "Créer une note";
+    }else{
+        console.log("ouverture de l'editeur en mode Modification");
+
+        btnValidNoteEditorRef.innerHTML = "Valider la modification";
+        btnAnnulNoteEditorRef.innerHTML = "Annuler";
+        legendNoteEditorRef.innerHTML = "Modifier une note";
+        // Set l'editeur de note avec les éléments de la note en cours
+        onSetNoteEditor(currentNoteInView);
+    }
+
+
+
+}
+
+
+
+
+
+// Remplit l'éditeur de note lorsqu'il est ouvert en mode "Modification"
+function onSetNoteEditor(e) {
+    console.log("set l'editeur pour modification");
+    inputNoteTitleRef.value = e.title;
+    selectorNoteStatusRef.value = e.status;
+    inputNoteDateStartRef.value = e.dateStartUS;
+    inputNoteStep1Ref.value = e.step1;
+    inputNoteStep2Ref.value = e.step2;
+    inputNoteStep3Ref.value = e.step3;
+    inputNoteStep4Ref.value = e.step4;
+    inputNoteStep5Ref.value = e.step5;
+    textareaNoteDetailRef.value = e.detail;
+    inputNoteDateEndRef.value = e.dateEndUS;
+    selectorNotePriorityRef.value = e.priority;
+    checkboxNoteStep1Ref.checked = e.step1Checked;
+    checkboxNoteStep2Ref.checked = e.step2Checked;
+    checkboxNoteStep3Ref.checked = e.step3Checked;
+    checkboxNoteStep4Ref.checked = e.step4Checked;
+    checkboxNoteStep5Ref.checked = e.step5Checked;
+
+
+}
+
+
+
+
+// Vide l'editeur de note
+function onClearNoteEditor() {
+    console.log("Clear l'editeur de note");
+    inputNoteTitleRef.value = "";
+    textareaNoteDetailRef.value = "";
+    inputNoteStep1Ref.value = "";
+    inputNoteStep2Ref.value = "";
+    inputNoteStep3Ref.value = "";
+    inputNoteStep4Ref.value = "";
+    inputNoteStep5Ref.value = "";
+    inputNoteDateStartRef.value = "";
+    inputNoteDateEndRef.value = "";
+    selectorNoteStatusRef.value = "A faire";
+    selectorNotePriorityRef.value = "Routine";
+    checkboxNoteStep1Ref.checked = false;
+    checkboxNoteStep2Ref.checked = false;
+    checkboxNoteStep3Ref.checked = false;
+    checkboxNoteStep4Ref.checked = false;
+    checkboxNoteStep5Ref.checked = false;
+};
+
+
+
+
+
+
+
+// Click sur le bouton de validation dans l'éditeur de note
+function onClickBtnValidNoteEditor() {
+    
+
+
+    // Lance le formatage de la note
+    onFormatNote();
+}
+
 
 
 
@@ -134,8 +278,11 @@ function onFormatNote(){
     // Les dates
      let tempDateStart = onFormatSelectedDate(inputNoteDateStartRef.value);
      let tempDateEnd = onFormatSelectedDate(inputNoteDateEndRef.value);
-     let tempDateStartFR = onFormatSelectedDateFR(inputNoteDateStartRef.value);
      let tempDateEndFR = onFormatSelectedDateFR(inputNoteDateEndRef.value);
+     let tempDateEndUS = onFormatSelectedDateUS(inputNoteDateEndRef.value);
+
+     let tempDateStartFR = onFormatSelectedDateFR(inputNoteDateStartRef.value);
+     let tempDateStartUS = onFormatSelectedDateUS(inputNoteDateStartRef.value);
      let tempDateCreated = onFormatDateCreated();
 
     console.log("date start = " + tempDateStart );
@@ -148,24 +295,44 @@ function onFormatNote(){
     let noteToInsert = {
         title :inputNoteTitleRef.value,
         dateStartFormated : tempDateStart,
-        dateStart :tempDateStartFR,
+        dateStartFR :tempDateStartFR,
+        dateStartUS :tempDateStartUS,
         status : selectorNoteStatusRef.value,
-        item0 : inputNoteStep1Ref.value,
-        item0Checked : checkboxNoteStep1Ref.checked,
-        item1 : inputNoteStep2Ref.value,
-        item1Checked : checkboxNoteStep2Ref.checked,
-        item2 : inputNoteStep3Ref.value,
-        item2Checked : checkboxNoteStep3Ref.checked,
+        step1 : inputNoteStep1Ref.value,
+        step1Checked : checkboxNoteStep1Ref.checked,
+        step2 : inputNoteStep2Ref.value,
+        step2Checked : checkboxNoteStep2Ref.checked,
+        step3 : inputNoteStep3Ref.value,
+        step3Checked : checkboxNoteStep3Ref.checked,
+        step4 : inputNoteStep4Ref.value,
+        step4Checked : checkboxNoteStep4Ref.checked,
+        step5 : inputNoteStep5Ref.value,
+        step5Checked : checkboxNoteStep5Ref.checked,
         detail : textareaNoteDetailRef.value,
         dateEndFormated : tempDateEnd,
-        dateEnd : tempDateEndFR,
+        dateEndFR : tempDateEndFR,
+        dateEndUS : tempDateEndUS,
         dateCreated : tempDateCreated,
         priority : selectorNotePriorityRef.value
     }
 
-    console.log(noteToInsert);
+// Filtre selon création ou modification des données
+    if (boolEditNoteCreation) {
+        console.log("mode création de note");
+        console.log(noteToInsert);
+        // Insertion des datas dans la base
+        onInsertData(noteToInsert);
+        onUpdatePage();
+    }else{
+        onInsertModification(noteToInsert);
+        console.log("mode modification de note");
+    }
+    
 
-    onInsertData(noteToInsert);
+    
+
+    // Clear l'editeur de note
+    onClearNoteEditor();
 
 }
 
@@ -192,8 +359,270 @@ function onInsertData(e) {
 }
 
 
+// Insertion d'une modification de note
+function onInsertModification(e) {
+    console.log("fonction d'insertion de la donnée modifié");
+
+    let transaction = db.transaction(objectStoreName,"readwrite");
+    let store = transaction.objectStore(objectStoreName);
+    let modifyRequest = store.getAll(IDBKeyRange.only(currentKeyNoteInView));
+
+    
+
+    modifyRequest.onsuccess = function () {
+        console.log("modifyRequest = success");
+
+        let modifiedData = modifyRequest.result[0];
+
+        modifiedData.dateCreated = e.dateCreated;
+        modifiedData.dateEndFR = e.dateEndFR;
+        modifiedData.dateEndFormated = e.dateEndFormated;
+        modifiedData.dateEndUS = e.dateEndUS;
+        modifiedData.dateStartFR = e.dateStartFR;
+        modifiedData.dateStartFormated = e.dateStartFormated;
+        modifiedData.dateStartUS = e.dateStartUS;
+        modifiedData.detail = e.detail;
+        modifiedData.priority = e.priority;
+        modifiedData.status = e.status;
+        modifiedData.step1 = e.step1;
+        modifiedData.step2 = e.step2;
+        modifiedData.step3 = e.step3;
+        modifiedData.step4 = e.step4;
+        modifiedData.step5 = e.step5;
+        modifiedData.step1Checked = e.step1Checked;
+        modifiedData.step2Checked = e.step2Checked;
+        modifiedData.step3Checked = e.step3Checked;
+        modifiedData.step4Checked = e.step4Checked;
+        modifiedData.step5Checked = e.step5Checked;
+        modifiedData.title = e.title;
+
+
+        let insertModifiedData = store.put(modifiedData);
+
+        insertModifiedData.onsuccess = function (){
+            console.log("insertModifiedData = success");
+
+            // Actualisation de la page
+            onUpdatePage();
+        }
+
+        insertModifiedData.onerror = function (){
+            console.log("insertModifiedData = error");
+
+            
+        }
+
+
+    }
+
+    modifyRequest.onerror = function(){
+        console.log("ModifyRequest = error");
+    }
+
+    transaction.oncomplete = function(){
+        console.log("transaction complete");
+
+        // Affiche a nouveau la note qui a été modifié
+        console.log("affiche à nouveau la note modifié");
+        onSearchNotesToDisplay(currentKeyNoteInView);
+        
+        // reactive la div principale
+        onDisableMainPage(false);
+        // Cacle la div edition
+        divNoteEditorRef.style.display = "none";
+    }
+}
+
+
+
+
+
+// Annuler une édition de note
+function onClickBtnAnnulNoteEditor() {
+
+    // reactive la div principale
+    onDisableMainPage(false);
+    // Cacle la div edition
+    divNoteEditorRef.style.display = "none";
+
+    // Filtre si création ou modification de note
+    if (boolEditNoteCreation) {
+        
+    }else{
+
+    }
+}
+
+
+
+
 // ------------------------------------------ Afficher notes ---------------------------------
 
-function onDisplayNotes(keyRef) {
+
+
+
+
+
+
+
+
+function onSearchNotesToDisplay(keyRef) {
     console.log("Affichage de la note avec la key :  " + keyRef);
+    // set la variable qui stocke la key de la note en cours de visualisation
+
+    currentKeyNoteInView = keyRef;
+
+    // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
+    console.log("lecture de la Base de Données");
+    let transaction = db.transaction(objectStoreName);//readonly
+    let objectStore = transaction.objectStore(objectStoreName);
+    let request = objectStore.getAll(IDBKeyRange.only(keyRef));
+    
+    
+    request.onsuccess = function (){
+        console.log("Requete de recherche réussit");
+        console.log(request.result);
+
+        // Affiche la note voulue
+        let tempResult = request.result;
+        console.log(tempResult[0]);
+        onDisplayNote(tempResult[0]);
+        // Set le contenu de la note en cours de visualisation dans une variable
+        currentNoteInView = tempResult[0];
+    };
+
+    request.onerror = function (){
+        console.log("Erreur lors de la recherche");
+    };
+
+}
+
+
+// Variabilisation pour l'affichage d'une note
+let boolNoteViewItemsAlreadySet = false,//pour ne permettre le référencement qu'une seule fois
+    h1NoteViewTitleRef,
+    h2NoteViewPriorityRef,
+    h3NoteViewStatusRef,
+    pNoteViewDetailRef,
+    labelNoteViewStep1Ref,
+    labelNoteViewStep2Ref,
+    labelNoteViewStep3Ref,
+    labelNoteViewStep4Ref,
+    labelNoteViewStep5Ref,
+    checkboxNoteViewStep1Ref,
+    checkboxNoteViewStep2Ref,
+    checkboxNoteViewStep3Ref,
+    checkboxNoteViewStep4Ref,
+    checkboxNoteViewStep5Ref,
+    pNoteViewDateStartRef,
+    pNoteViewDateEndRef,
+    pNoteViewDateCreatedRef;
+
+
+function onDisplayNote(e) {
+    // Variabilisation unique des éléments
+
+    
+
+    if (boolNoteViewItemsAlreadySet === false) {
+        h1NoteViewTitleRef = document.getElementById("h1NoteViewTitle");
+        h2NoteViewPriorityRef = document.getElementById("h2NoteViewPriority");
+        h3NoteViewStatusRef = document.getElementById("h3NoteViewStatus");
+        pNoteViewDetailRef = document.getElementById("pNoteViewDetail");
+        checkboxNoteViewStep1Ref = document.getElementById("checkboxNoteViewStep1");
+        checkboxNoteViewStep2Ref = document.getElementById("checkboxNoteViewStep2");
+        checkboxNoteViewStep3Ref = document.getElementById("checkboxNoteViewStep3");
+        checkboxNoteViewStep4Ref = document.getElementById("checkboxNoteViewStep4");
+        checkboxNoteViewStep5Ref = document.getElementById("checkboxNoteViewStep5");
+        labelNoteViewStep1Ref = document.getElementById("labelNoteViewStep1");
+        labelNoteViewStep2Ref = document.getElementById("labelNoteViewStep2");
+        labelNoteViewStep3Ref = document.getElementById("labelNoteViewStep3");
+        labelNoteViewStep4Ref = document.getElementById("labelNoteViewStep4");
+        labelNoteViewStep5Ref = document.getElementById("labelNoteViewStep5");
+        pNoteViewDateStartRef = document.getElementById("pNoteViewDateStart");
+        pNoteViewDateEndRef = document.getElementById("pNoteViewDateEnd");
+        pNoteViewDateCreatedRef = document.getElementById("pNoteViewDateCreated");
+
+        // les items ne sont référencés qu'une seule fois
+        boolNoteViewItemsAlreadySet = true;
+    }
+
+    
+
+    // Vide les élements prédédents
+    onClearNoteView();
+
+
+
+    // Set les nouveaux élements
+    h1NoteViewTitleRef.innerHTML = e.title;
+    h2NoteViewPriorityRef.innerHTML = e.priority;
+    h3NoteViewStatusRef.innerHTML = e.status;
+    pNoteViewDetailRef.innerHTML = e.detail;
+    checkboxNoteViewStep1Ref.checked = e.step1Checked;
+    checkboxNoteViewStep2Ref.checked = e.step2Checked;
+    checkboxNoteViewStep3Ref.checked = e.step3Checked; 
+    checkboxNoteViewStep4Ref.checked = e.step4Checked; 
+    checkboxNoteViewStep5Ref.checked = e.step5Checked; 
+    labelNoteViewStep1Ref.innerHTML = e.step1;
+    labelNoteViewStep2Ref.innerHTML = e.step2;
+    labelNoteViewStep3Ref.innerHTML = e.step3;
+    labelNoteViewStep4Ref.innerHTML = e.step4;
+    labelNoteViewStep5Ref.innerHTML = e.step5;
+    pNoteViewDateStartRef.innerHTML = "Date de début : " + e.dateStartFR;
+    pNoteViewDateEndRef.innerHTML = "Date de fin : " + e.dateEndFR;
+    pNoteViewDateCreatedRef.innerHTML = "Note créée le : " + e.dateCreated;
+}
+
+
+// Clear le visualiseur de note
+function onClearNoteView() {
+    h1NoteViewTitleRef.innerHTML = "";
+    h2NoteViewPriorityRef.innerHTML = "";
+    h3NoteViewStatusRef.innerHTML = "";
+    pNoteViewDetailRef.innerHTML = "";
+    checkboxNoteViewStep1Ref.checked = false;
+    checkboxNoteViewStep2Ref.checked = false;
+    checkboxNoteViewStep3Ref.checked = false; 
+    checkboxNoteViewStep4Ref.checked = false; 
+    checkboxNoteViewStep5Ref.checked = false; 
+    labelNoteViewStep1Ref.innerHTML = "";
+    labelNoteViewStep2Ref.innerHTML = "";
+    labelNoteViewStep3Ref.innerHTML = "";
+    labelNoteViewStep4Ref.innerHTML = "";
+    labelNoteViewStep5Ref.innerHTML = "";
+    pNoteViewDateStartRef.innerHTML = "";
+    pNoteViewDateEndRef.innerHTML = "";
+    pNoteViewDateCreatedRef.innerHTML = "";
+}
+
+
+
+
+// --------------------------------------------- SUPPRESSION D'UNE NOTE --------------------------------
+
+
+function onDeleteNote() {
+    // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
+    console.log("Suppression de la note avec la key : " + currentKeyNoteInView);
+    let transaction = db.transaction(objectStoreName,"readwrite");//transaction en écriture
+    let objectStore = transaction.objectStore(objectStoreName);
+    let request = objectStore.delete(IDBKeyRange.only(currentKeyNoteInView));
+    
+    
+    request.onsuccess = function (){
+        console.log("Requete de suppression réussit");
+        
+        onUpdatePage();
+    };
+
+    request.onerror = function (){
+        console.log("Erreur lors de la requete de suppression");
+        
+
+        
+    };
+
+    // Clear le visualiseur de note
+    onClearNoteView();
 }
