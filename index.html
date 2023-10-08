@@ -26,8 +26,8 @@
         <div>
             <table>
                 <tr>
-                    <th>Notes à faire</th>
                     <th>Notes en cours</th>
+                    <th>Notes à faire</th>
                 </tr>
                 <tr>
                     <td>
@@ -41,6 +41,16 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <button id="btnNoteEnCoursPrevious">Previous</button>
+                        <button id="btnNoteEnCoursNext">Next</button>
+                    </td>
+                    <td>
+                        <button id="btnNoteAFairePrevious">Previous</button>
+                        <button id="btnNoteAFaireNext">Next</button>
+                    </td>
+                </tr>
                 
             </table>
         </div>
@@ -49,11 +59,11 @@
 
         <!-- ------------------ ---------  Visualisation d'une tache ------------------>
         <div id="divNoteView" class="divNoteView">
-            <h1 id="h1NoteViewTitle"> TITRE </h1>
-            <h2 id="h2NoteViewPriority">Priorité</h2>
-            <h3 id="h3NoteViewStatus">Status</h3>
-            <p id="pNoteViewDateStart">Date de début</p>
-            <p id="pNoteViewDateEnd">Date de fin</p>
+            <h2 id="noteViewTag"> TAG </h2>
+            <h3 id="noteViewTitle"> TITRE </h3>
+            <h4 id="noteViewPriority">Priorité</h4>
+            <h4 id="hnoteViewStatus">Status</h4>
+            <p id="noteViewDateInfo">Date de début</p>
             <ul>
                 <li>
                     <label id="labelNoteViewStep1">Etape 1</label>
@@ -99,7 +109,10 @@
                 <legend id="legendNoteEditor">Editer une note</legend>
 
                 <ul>
-                    
+                    <li>
+                        <label for="inputNoteTag">TAG : </label>
+                        <input id="inputNoteTag" type="text" placeholder="Titre" maxlength="150">
+                    </li>
                     <li>
                         <label for="inputNoteTitle">Titre : </label>
                         <input id="inputNoteTitle" type="text" placeholder="Titre" maxlength="150">

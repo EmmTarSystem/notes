@@ -61,6 +61,7 @@ function onStartDataBase() {
             noteStore.createIndex('dateStartFormated','dateStartFormated',{unique:false});
             noteStore.createIndex('dateEndFormated','dateEndFormated',{unique:false});
             noteStore.createIndex('status','status',{unique:false});
+            noteStore.createIndex('tag','tag',{unique:false});
         }
     };
 
@@ -139,5 +140,12 @@ function onDisableMainPage(disable) {
 
     divMainRef.style.opacity = isDisable? 0.1 : 1;
     divMainRef.style.pointerEvents = isDisable? "none" : "all";
+}
+
+//formatage = mise en majuscule
+
+function onSetToUppercase(e) {
+    let upperCase = e.toUpperCase();
+    return upperCase;
 }
 

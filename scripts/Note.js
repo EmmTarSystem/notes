@@ -1,11 +1,16 @@
 
-let notesEncoursArray= [],//les notes en cours
+let notesEnCoursArray= [],//les notes en cours
     notesAFaireArray =[],//les notes à faire
     currentKeyNoteInView,//la key de la note en cours de visualisation
     currentNoteInView,//le contenu de la note en cours de visualisation
-    boolEditNoteCreation;//mode d'ouverture de l'editeur de note en mode création ou modification
-    
-    
+    boolEditNoteCreation,//mode d'ouverture de l'editeur de note en mode création ou modification
+    noteEnCoursIndexToStart,//pour l'affichage des notes avec les boutons next et previous
+    noteAFaireIndexToStart,//pour l'affichage des notes avec les boutons next et previous
+    maxBtnNoteToDisplay,//nbre de bouton maximum qui sont affiché dans la liste
+    btnNoteEnCoursPreviousRef = document.getElementById("btnNoteEnCoursPrevious"),//les boutons de navigation des notes
+    btnNoteEnCoursNextRef = document.getElementById("btnNoteEnCoursNext"),//les boutons de navigation des notes
+    btnNoteAFairePreviousRef = document.getElementById("btnNoteAFairePrevious"),//les boutons de navigation des notes
+    btnNoteAFaireNextRef = document.getElementById("btnNoteAFaireNext");//les boutons de navigation des notes
 
 
 // --------------------------              UPDATE  PAGE                ------------------------------------------------
@@ -16,12 +21,10 @@ function onUpdatePage() {
     console.log("update Page");
     // Clear la page
     // Reset les array
-    notesEncoursArray = [];
+    notesEnCoursArray = [];
     notesAFaireArray = [];
 
-    // Vide les div de boutons
-    onClearDIV("divBtnNotesEnCours");
-    onClearDIV("divBtnNotesAFaire");
+    
 
 
 
@@ -36,9 +39,9 @@ function onUpdatePage() {
         console.log("Les éléments ont été récupéré dans la base");
         console.log("stockage dans le tableau temporaire");
 
-        console.log("request.result : " + request.result);
+        
         let arrayResult = request.result;
-        console.log("arrayResult : " + arrayResult);
+        
 
         // fonction de trie
         onSortItem(arrayResult)
@@ -52,7 +55,7 @@ function onUpdatePage() {
 
 
 
-// Trie et stock dans les variables avec uniquement key/titre/priorité
+// Trie et stock dans les variables avec uniquement key/titre/priorité/tag
 function onSortItem(arrayResult) {
     
 
@@ -64,7 +67,7 @@ function onSortItem(arrayResult) {
 
     // Ne recupère que les valeurs nécessaires
     tempNoteEnCoursArray.forEach(e=>{
-        notesEncoursArray.push({key:e.key,title:e.title,priority:e.priority})
+        notesEnCoursArray.push({key:e.key,title:e.title,priority:e.priority,tag:e.tag})
     })
 
 
@@ -77,11 +80,16 @@ function onSortItem(arrayResult) {
 
     // Ne recupère que les valeurs nécessaires
     tempNoteAFaireArray.forEach(e=>{
-       notesAFaireArray.push({key:e.key,title:e.title,priority:e.priority})
+       notesAFaireArray.push({key:e.key,title:e.title,priority:e.priority,tag:e.tag})
     })
 
+
+    // Vide les div de boutons
+    onClearDIV("divBtnNotesEnCours");
+    onClearDIV("divBtnNotesAFaire");
+    
     // Creation des boutons par catégories
-    onSetButtonNotes("divBtnNotesEnCours",notesEncoursArray);
+    onSetButtonNotes("divBtnNotesEnCours",notesEnCoursArray);
     onSetButtonNotes("divBtnNotesAFaire",notesAFaireArray);
 }
 
@@ -110,10 +118,23 @@ function onSetButtonNotes(divNotesTarget,noteArray) {
             if (e.priority === "Urgent") {div.className = "btnNoteUrgent"};
             if (e.priority === "Flash") {div.className = "btnNoteFlash"};
 
-            // Creation du texte dans la div
-            div.innerHTML = e.title;
+            // Creation du tag dans la div
+            let h3 = document.createElement("h3");
+            h3.innerHTML = "[ " + e.tag + " ]";
             
+
+            // Creation du texte dans la div
+            let p = document.createElement("p");
+            p.innerHTML = e.title;
+
+
+            // insertion des éléments créés dans la div
+            div.appendChild(h3);
+            div.appendChild(p);
+
+
             CurrentDivNotesRef.appendChild(div);
+
     
         })
     }else{
@@ -131,7 +152,31 @@ function onClearDIV(divID) {
 }
 
 
+// Gestion des boutons de notes
 
+function onSetBtnNotesVisibility() {
+    
+    // Bouton note A faire "suivant"
+    if (noteAFaireIndexToStart + maxBtnNoteToDisplay >= notesAFaireArray.length) {
+        btnNoteAFaireNextRef.disabled = "disabled";
+    }else{
+        btnNoteAFaireNextRef.disabled = "";
+    }
+
+    // Bouton note A faire "précédent"
+    btnNoteAFairePreviousRef.disabled = noteAFaireIndexToStart === 0 ? "disabled": "";
+
+    // Bouton note A faire "suivant"
+    if (noteEnCoursIndexToStart + maxBtnNoteToDisplay >= notesEnCoursArray.length) {
+        btnNoteEnCoursNextRef.disabled = "disabled";
+    }else{
+        btnNoteEnCoursNextRef.disabled = "";
+    }
+
+    // Bouton note A faire "précédent"
+    btnNoteEnCoursPreviousRef.disabled = noteEnCoursIndexToStart === 0 ? "disabled": "";
+    
+}
 
 
 
@@ -147,6 +192,7 @@ function onClearDIV(divID) {
 // Variabilisation des items
 
 let divNoteEditorRef = document.getElementById("divNoteEditor"),
+    inputNoteTagRef = document.getElementById("inputNoteTag"),
     inputNoteTitleRef = document.getElementById("inputNoteTitle"),
     selectorNoteStatusRef = document.getElementById("selectorNoteStatus"),
     inputNoteDateStartRef = document.getElementById("inputNoteDateStart"),
@@ -210,6 +256,7 @@ function onDisplayNoteEditor(boolModeCreation){
 // Remplit l'éditeur de note lorsqu'il est ouvert en mode "Modification"
 function onSetNoteEditor(e) {
     console.log("set l'editeur pour modification");
+    inputNoteTagRef.value = e.tag;
     inputNoteTitleRef.value = e.title;
     selectorNoteStatusRef.value = e.status;
     inputNoteDateStartRef.value = e.dateStartUS;
@@ -236,6 +283,7 @@ function onSetNoteEditor(e) {
 // Vide l'editeur de note
 function onClearNoteEditor() {
     console.log("Clear l'editeur de note");
+    inputNoteTagRef.value = "";
     inputNoteTitleRef.value = "";
     textareaNoteDetailRef.value = "";
     inputNoteStep1Ref.value = "";
@@ -285,15 +333,17 @@ function onFormatNote(){
      let tempDateStartUS = onFormatSelectedDateUS(inputNoteDateStartRef.value);
      let tempDateCreated = onFormatDateCreated();
 
-    console.log("date start = " + tempDateStart );
-    console.log("date end = " + tempDateEnd );
-    console.log("date created = " + tempDateCreated);
+    
+    //Formatage en majuscule
+    let tempTag = onSetToUppercase(inputNoteTagRef.value);
+    let tempTitle = onSetToUppercase(inputNoteTitleRef.value);
 
-
+    
     // Mise en format variable
 
     let noteToInsert = {
-        title :inputNoteTitleRef.value,
+        tag : tempTag,
+        title :tempTitle,
         dateStartFormated : tempDateStart,
         dateStartFR :tempDateStartFR,
         dateStartUS :tempDateStartUS,
@@ -331,8 +381,7 @@ function onFormatNote(){
 
     
 
-    // Clear l'editeur de note
-    onClearNoteEditor();
+    
 
 }
 
@@ -346,10 +395,14 @@ function onInsertData(e) {
 
     insertRequest.onsuccess = function () {
         console.log(e.title + "a été ajouté à la base");
+
+        // Clear l'editeur de note
+        onClearNoteEditor();
     }
 
     insertRequest.onerror = function(){
         console.log("Error", insertRequest.error);
+        alert(insertRequest.error);
     }
 
     transaction.oncomplete = function(){
@@ -374,6 +427,7 @@ function onInsertModification(e) {
 
         let modifiedData = modifyRequest.result[0];
 
+        modifiedData.tag = e.tag;
         modifiedData.dateCreated = e.dateCreated;
         modifiedData.dateEndFR = e.dateEndFR;
         modifiedData.dateEndFormated = e.dateEndFormated;
@@ -407,7 +461,7 @@ function onInsertModification(e) {
         }
 
         insertModifiedData.onerror = function (){
-            console.log("insertModifiedData = error");
+            console.log("insertModifiedData = error",insertModifiedData.error);
 
             
         }
@@ -500,9 +554,10 @@ function onSearchNotesToDisplay(keyRef) {
 
 // Variabilisation pour l'affichage d'une note
 let boolNoteViewItemsAlreadySet = false,//pour ne permettre le référencement qu'une seule fois
-    h1NoteViewTitleRef,
-    h2NoteViewPriorityRef,
-    h3NoteViewStatusRef,
+    noteViewTagRef,
+    noteViewTitleRef,
+    noteViewPriorityRef,
+    hnoteViewStatusRef,
     pNoteViewDetailRef,
     labelNoteViewStep1Ref,
     labelNoteViewStep2Ref,
@@ -514,8 +569,7 @@ let boolNoteViewItemsAlreadySet = false,//pour ne permettre le référencement q
     checkboxNoteViewStep3Ref,
     checkboxNoteViewStep4Ref,
     checkboxNoteViewStep5Ref,
-    pNoteViewDateStartRef,
-    pNoteViewDateEndRef,
+    noteViewDateInfoRef,
     pNoteViewDateCreatedRef;
 
 
@@ -525,9 +579,10 @@ function onDisplayNote(e) {
     
 
     if (boolNoteViewItemsAlreadySet === false) {
-        h1NoteViewTitleRef = document.getElementById("h1NoteViewTitle");
-        h2NoteViewPriorityRef = document.getElementById("h2NoteViewPriority");
-        h3NoteViewStatusRef = document.getElementById("h3NoteViewStatus");
+        noteViewTagRef = document.getElementById("noteViewTag");
+        noteViewTitleRef = document.getElementById("noteViewTitle");
+        noteViewPriorityRef = document.getElementById("noteViewPriority");
+        hnoteViewStatusRef = document.getElementById("hnoteViewStatus");
         pNoteViewDetailRef = document.getElementById("pNoteViewDetail");
         checkboxNoteViewStep1Ref = document.getElementById("checkboxNoteViewStep1");
         checkboxNoteViewStep2Ref = document.getElementById("checkboxNoteViewStep2");
@@ -539,8 +594,7 @@ function onDisplayNote(e) {
         labelNoteViewStep3Ref = document.getElementById("labelNoteViewStep3");
         labelNoteViewStep4Ref = document.getElementById("labelNoteViewStep4");
         labelNoteViewStep5Ref = document.getElementById("labelNoteViewStep5");
-        pNoteViewDateStartRef = document.getElementById("pNoteViewDateStart");
-        pNoteViewDateEndRef = document.getElementById("pNoteViewDateEnd");
+        noteViewDateInfoRef = document.getElementById("noteViewDateInfo");
         pNoteViewDateCreatedRef = document.getElementById("pNoteViewDateCreated");
 
         // les items ne sont référencés qu'une seule fois
@@ -555,9 +609,10 @@ function onDisplayNote(e) {
 
 
     // Set les nouveaux élements
-    h1NoteViewTitleRef.innerHTML = e.title;
-    h2NoteViewPriorityRef.innerHTML = e.priority;
-    h3NoteViewStatusRef.innerHTML = e.status;
+    noteViewTagRef.innerHTML = "[ " + e.tag + " ]";
+    noteViewTitleRef.innerHTML = e.title;
+    noteViewPriorityRef.innerHTML = e.priority;
+    hnoteViewStatusRef.innerHTML = e.status;
     pNoteViewDetailRef.innerHTML = e.detail;
     checkboxNoteViewStep1Ref.checked = e.step1Checked;
     checkboxNoteViewStep2Ref.checked = e.step2Checked;
@@ -569,17 +624,17 @@ function onDisplayNote(e) {
     labelNoteViewStep3Ref.innerHTML = e.step3;
     labelNoteViewStep4Ref.innerHTML = e.step4;
     labelNoteViewStep5Ref.innerHTML = e.step5;
-    pNoteViewDateStartRef.innerHTML = "Date de début : " + e.dateStartFR;
-    pNoteViewDateEndRef.innerHTML = "Date de fin : " + e.dateEndFR;
+    noteViewDateInfoRef.innerHTML = "Début : " + e.dateStartFR +" --- Fin : " + e.dateEndFR;
     pNoteViewDateCreatedRef.innerHTML = "Note créée le : " + e.dateCreated;
 }
 
 
 // Clear le visualiseur de note
 function onClearNoteView() {
-    h1NoteViewTitleRef.innerHTML = "";
-    h2NoteViewPriorityRef.innerHTML = "";
-    h3NoteViewStatusRef.innerHTML = "";
+    noteViewTagRef.innerHTML = "";
+    noteViewTitleRef.innerHTML = "";
+    noteViewPriorityRef.innerHTML = "";
+    hnoteViewStatusRef.innerHTML = "";
     pNoteViewDetailRef.innerHTML = "";
     checkboxNoteViewStep1Ref.checked = false;
     checkboxNoteViewStep2Ref.checked = false;
@@ -591,8 +646,7 @@ function onClearNoteView() {
     labelNoteViewStep3Ref.innerHTML = "";
     labelNoteViewStep4Ref.innerHTML = "";
     labelNoteViewStep5Ref.innerHTML = "";
-    pNoteViewDateStartRef.innerHTML = "";
-    pNoteViewDateEndRef.innerHTML = "";
+    noteViewDateInfoRef.innerHTML = "";
     pNoteViewDateCreatedRef.innerHTML = "";
 }
 
