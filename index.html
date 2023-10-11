@@ -9,21 +9,20 @@
 </head>
 <body>
     <h1 id="h1DateDuJour"></h1>
-    <p>
-        <button onclick="onStartDataBase()">Start BD</button>
-        <button onclick="onUpdatePage()">Update Page</button>    
-    </p>
+    
 
     <!-- ---------------------------  Div zone principale ------------------------------------- -->
     <div id="divMain">
-        <p>
-            <button onclick="onDisplayNoteEditor(true)">Créer une note</button>
-
-        </p>
+        <div class="mainMenu">
+            <p>
+                <button class="basicBtn" onclick="onDisplayNoteEditor(true)">Créer une note</button>
+            </p>
+        </div>
+        
         
 
         <!-- ----------------- DIV Tableau d'affichage des boutons de notes--------------------------- -->
-        <div>
+        <div class="listBtnNote">
             <table>
                 <tr>
                     <th>Notes en cours</th>
@@ -43,12 +42,12 @@
                 </tr>
                 <tr>
                     <td>
-                        <button onclick="onClickNavNoteEnCoursPrevious()" id="btnNoteEnCoursPrevious">Previous</button>
-                        <button onclick="onClickNavNoteEnCoursNext()" id="btnNoteEnCoursNext">Next</button>
+                        <button class="basicBtn" onclick="onClickNavNoteEnCoursPrevious()" id="btnNoteEnCoursPrevious">Previous</button>
+                        <button class="basicBtn" onclick="onClickNavNoteEnCoursNext()" id="btnNoteEnCoursNext">Next</button>
                     </td>
                     <td>
-                        <button onclick="onClickNavNoteAFairePrevious()" id="btnNoteAFairePrevious">Previous</button>
-                        <button onclick="onClickNavNoteAFaireNext()" id="btnNoteAFaireNext">Next</button>
+                        <button class="basicBtn" onclick="onClickNavNoteAFairePrevious()" id="btnNoteAFairePrevious">Previous</button>
+                        <button class="basicBtn" onclick="onClickNavNoteAFaireNext()" id="btnNoteAFaireNext">Next</button>
                     </td>
                 </tr>
                 
@@ -59,41 +58,59 @@
 
         <!-- ------------------ ---------  Visualisation d'une tache ------------------>
         <div id="divNoteView" class="divNoteView">
-            <h2 id="noteViewTag"> TAG </h2>
-            <h3 id="noteViewTitle"> TITRE </h3>
-            <h4 id="noteViewPriority">Priorité</h4>
-            <h4 id="hnoteViewStatus">Status</h4>
-            <p id="noteViewDateInfo">Date de début</p>
-            <ul>
-                <li>
-                    <label id="labelNoteViewStep1">Etape 1</label>
-                    <input id="checkboxNoteViewStep1" type="checkbox">
-                </li>
-                <li>
-                    <label id="labelNoteViewStep2">Etape 2</label>
-                    <input id="checkboxNoteViewStep2" type="checkbox">
-                </li>
-                <li>
-                    <label id="labelNoteViewStep3">Etape 3</label>
-                    <input id="checkboxNoteViewStep3" type="checkbox">
-                </li>
-                <li>
-                    <label id="labelNoteViewStep4">Etape 4</label>
-                    <input id="checkboxNoteViewStep4" type="checkbox">
-                </li>
-                <li>
-                    <label id="labelNoteViewStep5">Etape 5</label>
-                    <input id="checkboxNoteViewStep5" type="checkbox">
-                </li>
-                
-                
-            </ul>
-            <p id="pNoteViewDetail">Detail</p>
-            <p id="pNoteViewDateCreated">noteCréé le : </p>
+            <table>
+                <tr>
+                    <th class="urgenceCategorie"><p class="noteViewHead" id="noteViewPriority">Priorité</p></th>
+                    <th class="noteViewTag"><p class="noteViewHead" id="noteViewTag">[ TAG ]</p></th>
+                    <th class="urgenceCategorie"><p class="noteViewHead" id="hnoteViewStatus">Status</p></th>
+                </tr>
+                <tr class="viewNoteRowTitle">
+                    <td colspan="3"><p id="noteViewTitle"> TITRE </p></td>
+                </tr>
+                <tr class="tableViewNoteRowDetail">
+                    <td colspan="3"><p id="pNoteViewDetail">Detail</p></td>
+                </tr>
+                <tr class="tableViewNoteRowStep">
+                    <td colspan="3">
+                        <ul>
+                            <li>
+                                <label id="labelNoteViewStep1">Etape 1</label>
+                                <input id="checkboxNoteViewStep1" type="checkbox">
+                            </li>
+                            <li>
+                                <label id="labelNoteViewStep2">Etape 2</label>
+                                <input id="checkboxNoteViewStep2" type="checkbox">
+                            </li>
+                            <li>
+                                <label id="labelNoteViewStep3">Etape 3</label>
+                                <input id="checkboxNoteViewStep3" type="checkbox">
+                            </li>
+                            <li>
+                                <label id="labelNoteViewStep4">Etape 4</label>
+                                <input id="checkboxNoteViewStep4" type="checkbox">
+                            </li>
+                            <li>
+                                <label id="labelNoteViewStep5">Etape 5</label>
+                                <input id="checkboxNoteViewStep5" type="checkbox">
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr class="noteViewDateRow">
+                    <td colspan="3"><p id="noteViewDateInfo">Date de début et fin</p></td>
+                </tr>
+                <tr class="noteViewDateRow">
+                    <td colspan="3"><p id="pNoteViewDateCreated">noteCréé le : </p></td>
+                </tr>
+                <!-- Les boutons -->
+                <tr>
+                    <td colspan="3">
+                        <button onclick="onDisplayNoteEditor(false)">Modifier</button>
+                        <button onclick="onDeleteNote()">Supprimer</button>
+                    </td>
+                </tr>
 
-            <!-- Les boutons -->
-            <button onclick="onDisplayNoteEditor(false)">Modifier</button>
-            <button onclick="onDeleteNote()">Supprimer</button>
+            </table>
         </div>
         <!-- ------------------ --------- FIN Visualisation d'une tache ------------------>
 
@@ -111,11 +128,11 @@
                 <ul>
                     <li>
                         <label for="inputNoteTag">TAG : </label>
-                        <input id="inputNoteTag" type="text" placeholder="Titre" maxlength="150">
+                        <input class="input-field" id="inputNoteTag" type="text" placeholder="TAG" maxlength="150">
                     </li>
                     <li>
                         <label for="inputNoteTitle">Titre : </label>
-                        <input id="inputNoteTitle" type="text" placeholder="Titre" maxlength="150">
+                        <input class="input-field" id="inputNoteTitle" type="text" placeholder="Titre" maxlength="150">
                     </li>
                     <li>
                         <label for="selectorNotePriority">Priorité : </label>
@@ -138,33 +155,33 @@
                         <input type="date" name="" id="inputNoteDateStart">
                     </li>
                     <li>
-                        <label for="inputNoteStep1">Etape 1</label>
-                        <input id="inputNoteStep1" type="text" placeholder="Etape 1" maxlength="40"/>
+                        <label for="textareaNoteDetail">Detail</label>
+                        <textarea class="textarea-field" name="" id="textareaNoteDetail" cols="30" rows="10"></textarea>
+                    </li>
+                    <li>
+                        <!-- <label for="inputNoteStep1">Etape 1</label> -->
+                        <input class="input-field" id="inputNoteStep1" type="text" placeholder="Etape 1" maxlength="40"/>
                         <input id="checkboxNoteStep1" type="checkbox">
                     </li>
                     <li>
-                        <label for="inputNoteStep2">Etape 2</label>
-                        <input id="inputNoteStep2" type="text" placeholder="Etape 2" maxlength="40"/>
+                        <!-- <label for="inputNoteStep2">Etape 2</label> -->
+                        <input class="input-field" id="inputNoteStep2" type="text" placeholder="Etape 2" maxlength="40"/>
                         <input id="checkboxNoteStep2" type="checkbox">
                     </li>
                     <li>
-                        <label for="inputNoteStep3">Etape 3</label>
-                        <input id="inputNoteStep3" type="text" placeholder="Etape 3" maxlength="40"/>
+                        <!-- <label for="inputNoteStep3">Etape 3</label> -->
+                        <input class="input-field" id="inputNoteStep3" type="text" placeholder="Etape 3" maxlength="40"/>
                         <input id="checkboxNoteStep3" type="checkbox">
                     </li>
                     <li>
-                        <label for="inputNoteStep4">Etape 4</label>
-                        <input id="inputNoteStep4" type="text" placeholder="Etape 4" maxlength="40"/>
+                        <!-- <label for="inputNoteStep4">Etape 4</label> -->
+                        <input class="input-field" id="inputNoteStep4" type="text" placeholder="Etape 4" maxlength="40"/>
                         <input id="checkboxNoteStep4" type="checkbox">
                     </li>
                     <li>
-                        <label for="inputNoteStep5">Etape 5</label>
-                        <input id="inputNoteStep5" type="text" placeholder="Etape 5" maxlength="40"/>
+                        <!-- <label for="inputNoteStep5">Etape 5</label> -->
+                        <input class="input-field" id="inputNoteStep5" type="text" placeholder="Etape 5" maxlength="40"/>
                         <input id="checkboxNoteStep5" type="checkbox">
-                    </li>
-                    <li>
-                        <label for="textareaNoteDetail">Detail</label>
-                        <textarea name="" id="textareaNoteDetail" cols="30" rows="10"></textarea>
                     </li>
                     <li>
                         <label for="inputNoteDateEnd">Date Limite</label>
@@ -172,8 +189,8 @@
                     </li>
                 </ul>
  
-            <button id="btnValidNoteEditor" onclick="onClickBtnValidNoteEditor()">Ajouter la note</button>
-            <button id="btnAnnulNoteEditor" onclick="onClickBtnAnnulNoteEditor()">Retour</button>    
+            <button id="btnValidNoteEditor" class="editorBtn" onclick="onClickBtnValidNoteEditor()">Ajouter la note</button>
+            <button id="btnAnnulNoteEditor" class="editorBtn" onclick="onClickBtnAnnulNoteEditor()">Retour</button>    
             </fieldset>
         </p>
     </div>

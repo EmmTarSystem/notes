@@ -118,24 +118,22 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart) {
                 onSearchNotesToDisplay(e.key);
             }
             
-            // Set la classe de la div selon la priorité
-            if (e.priority === "Routine") {div.className = "btnNoteRoutine"};
-            if (e.priority === "Urgent") {div.className = "btnNoteUrgent"};
-            if (e.priority === "Flash") {div.className = "btnNoteFlash"};
+            div.className = "divBtnListNote"
 
             // Creation du tag dans la div
-            let h3 = document.createElement("h3");
-            h3.innerHTML = "[ " + e.tag + " ]";
+            let tag = document.createElement("p");
+            tag.innerHTML = "[ " + e.tag + " ]";
+            tag.className = "listNoteTAG";
             
 
             // Creation du texte dans la div
-            let p = document.createElement("p");
-            p.innerHTML = e.title;
+            let title = document.createElement("p");
+            title.innerHTML = e.title;
 
 
             // insertion des éléments créés dans la div
-            div.appendChild(h3);
-            div.appendChild(p);
+            div.appendChild(tag);
+            div.appendChild(title);
 
 
             CurrentDivNotesRef.appendChild(div);
@@ -663,7 +661,7 @@ function onDisplayNote(e) {
     labelNoteViewStep3Ref.innerHTML = e.step3;
     labelNoteViewStep4Ref.innerHTML = e.step4;
     labelNoteViewStep5Ref.innerHTML = e.step5;
-    noteViewDateInfoRef.innerHTML = "Début : " + e.dateStartFR +" --- Fin : " + e.dateEndFR;
+    noteViewDateInfoRef.innerHTML = "Début : " + e.dateStartFR +"   - - -   Fin : " + e.dateEndFR;
     pNoteViewDateCreatedRef.innerHTML = "Note créée le : " + e.dateCreated;
 }
 

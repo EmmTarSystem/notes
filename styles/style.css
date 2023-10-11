@@ -1,84 +1,247 @@
 body {
-	background-color: grey;
+	font-family: Arial, sans-serif; /* Police de caractères */
+  	background: #f0f0f0; /* Couleur de l'arrière-plan */
+  	margin: 0;
+  	padding: 0;
+  	display: flex;
+  	/* justify-content: center;
+  	align-items: center;
+  	min-height: 100vh; */
+}
+
+/* Style de titre */
+h1 {
+	font-size: 36px;
+	color: #333; /* Couleur du texte du titre */
+}
+
+/* Style du paragraphe */
+p {
+	font-size: 18px;
+	color: #777; /* Couleur du texte du paragraphe */
 }
 
 
-/* Edition de notes */
 
-div.divNoteEditor{
+/* Style de l'éditeur de note */
+.divNoteEditor {
 	display: none;
 	position: fixed;
-	border-radius: 10px;
-	background-color:rgba(255, 232, 189, 0.974);
-	width: 500px;height: 600px;
-	left: 50%;top: 20px;
+    width: 400px;
+	left: 800px;
+	background: linear-gradient(45deg, #3498db, #6c5ce7);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+  
+
+  /* Style des labels */
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #ffffff;
+}
+  
+  /* Style des champs de texte */
+.input-field{
+    display: inline-block;
+    width: 250px;
+    padding: 5px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    font-size: 12px;
 }
 
-/* Visualisation des notes */
+.textarea-field{
+	display: inline-block;
+    width: 300px;
+    padding: 5px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+  
+  /* Style des boutons du formulaire */
+.editorBtn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 30px;
+    color: #ffffff;
+    background: linear-gradient(45deg, #3498db, #6c5ce7);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+
+}
+  
+  /* Style au survol du bouton du formulaire */
+.submit-button:hover {
+    background: linear-gradient(45deg, #6c5ce7, #3498db);
+    transform: scale(1.05);
+}
+
+
+ /* Nouvelle couleur du texte pour le bouton (teinte plus claire) */
+.submit-button {
+    color: #ecf0f1; /* Couleur tendant vers le blanc */
+}
+
+
+
+
+/* ------------------------------------------  Visualisation des notes ------------------------------*/
 
 div.divNoteView{
-	position: fixed;
-	border-radius: 10px;
-	background-color:rgba(255, 232, 189, 0.974);;
-	width: 500px;height: 600px;
+
+	background: linear-gradient(45deg, #3498db, #6c5ce7);
+  	color: #333; /* Couleur du texte */
+  	padding: 20px;
+  	border-radius: 10px;
+  	box-shadow: 0 0 10px rgba(3, 110, 241, 0.1); /* Ombre portée */
+	width: 400px;height: 600px;
 	left: 50%;top: 20px;
 	text-align: center;
+	position: fixed;
+	left: 800px;
 	
 }
 
+table{
+	width: 100%;
+}
 
+table, tr, td, th{
+	border-radius: 10px 0px;
+	
+}
 
-/* -------------------------------- Style des boutons de notes----------------------------------- */
+p.noteViewHead{
+	color: white;
+	font-size: 1.5ch ;
+}
+th.urgenceCategorie{
+	width: 20%;
+}
+th.noteViewTag{
+	width: 60%;
+}
 
-
-
-
-div.btnNoteUrgent{
-	background-color: #fff7d1;
-	border-radius: 10px;
-	width:200px ;height: 100px;
-	border: none;
+tr.viewNoteRowTitle {
+	background: #f0f0f0;
+	border-radius: 10px 0px;
+}
+tr.viewNoteRowTitle p{
+	color: black;
+	font-size: 2.5ch;
 	font-weight: bold;
-	text-align: center;
+}
+
+/* Detail */
+tr.tableViewNoteRowDetail{
+	height: 180px;
+	background-color:#f0f0f0;
+}
+
+tr.tableViewNoteRowDetail p{
+	text-align: left;
+	font-size: 1.8ch;
+	color: black;
+}
+
+/* Step */
+tr.tableViewNoteRowStep{
+	height: 180px;
+	background-color:#f0f0f0;
+}
+
+tr.tableViewNoteRowStep label{
+	color: black;
+}
+tr.tableViewNoteRowStep li{
+	text-align: left;
+}
+/* Dates */
+tr.noteViewDateRow {
+	background-color:#f0f0f0;
+}
+tr.noteViewDateRow p{
+	color: black;
+	font-size: 1.5ch ;
+}
+
+
+/*  ------------------------------------ Bouton d'application ---------------------------------- */
+
+
+button.basicBtn{
+
+	display: inline-block;
+  	padding: 10px 20px;
+  	font-size: 16px;
+  	text-align: center;
+  	text-decoration: none;
+  	border: none;
+  	border-radius: 30px;
+  	color: #ffffff;
+  	background: linear-gradient(45deg, #3498db, #6c5ce7);
+  	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  	cursor: pointer;
+  	transition: background 0.3s, transform 0.2s;
+}
+
+/* Style au survol du bouton */
+button.basicBtn:hover {
+	background: linear-gradient(45deg, #6c5ce7, #3498db);
+	transform: scale(1.05);
+	 
+}
+/* ------------------------- MENU PRINCIPALE ------------------------ */
+div.mainMenu{
+	margin-left: 200px;
+}
+
+/* -------------------------------- Liste des notes----------------------------------- */
+
+/* la div de la liste des notes */
+div.listBtnNote{
+
+	position: fixed;
+	top: 120px;
+	left: 20px;
+}
+
+
+p.listNoteTAG{
+	color: white;
+	font-size: 12px;
+}
+
+div.divBtnListNote{
+	background: linear-gradient(45deg, #3498db, #6c5ce7);
 	margin-bottom: 10px;
-
-}
-
-div.btnNoteUrgent:hover{
-	background-color: #fff2ab;
-	cursor: pointer;
-}
-
-
-div.btnNoteRoutine{
-	background-color: #e4f9e0;
-	border-radius: 10px;
+  	border-radius: 10px 0px;
+  	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre portée */
+	text-align: center;
 	width:200px ;height: 100px;
-	border: none;
-	font-weight: bold;
-	text-align: center;
-	margin-bottom: 10px;
+	transition: transform 0.3s ease;
+  	transform: translateX(0px);
+	
 
 }
 
-div.btnNoteRoutine:hover{
-	background-color: #cbf1c4;
+div.divBtnListNote p {
+	color: white;
+	
+}
+
+div.divBtnListNote:hover{
 	cursor: pointer;
+	transform: translateX(10px);
 }
 
-
-div.btnNoteFlash{
-	background-color: #ffe4f1;
-	border-radius: 10px;
-	width:200px ;height: 100px;
-	border: none;
-	font-weight: bold;
-	text-align: center;
-	margin-bottom: 10px;
-
-}
-
-div.btnNoteFlash:hover{
-	background-color: #ffcce5;
-	cursor: pointer;
-}

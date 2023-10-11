@@ -72,6 +72,9 @@ function onStartDataBase() {
     openRequest.onsuccess = function(){
         db = openRequest.result
         console.log("Data Base ready");
+
+        // Premiere actualisation de la page
+        onUpdatePage();
     };
 
 
@@ -149,3 +152,6 @@ function onSetToUppercase(e) {
     return upperCase;
 }
 
+
+// Lancement de la database
+onStartDataBase();
