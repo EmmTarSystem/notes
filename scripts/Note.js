@@ -238,6 +238,7 @@ let divNoteEditorRef = document.getElementById("divNoteEditor"),
     inputNoteStep3Ref = document.getElementById("inputNoteStep3"),
     inputNoteStep4Ref = document.getElementById("inputNoteStep4"),
     inputNoteStep5Ref = document.getElementById("inputNoteStep5"),
+    inputNoteStep6Ref = document.getElementById("inputNoteStep6"),
     textareaNoteDetailRef = document.getElementById("textareaNoteDetail"),
     inputNoteDateEndRef = document.getElementById("inputNoteDateEnd"),
     selectorNotePriorityRef = document.getElementById("selectorNotePriority"),
@@ -246,6 +247,7 @@ let divNoteEditorRef = document.getElementById("divNoteEditor"),
     checkboxNoteStep3Ref = document.getElementById("checkboxNoteStep3"),
     checkboxNoteStep4Ref = document.getElementById("checkboxNoteStep4"),
     checkboxNoteStep5Ref = document.getElementById("checkboxNoteStep5"),
+    checkboxNoteStep6Ref = document.getElementById("checkboxNoteStep6"),
     btnValidNoteEditorRef = document.getElementById("btnValidNoteEditor"),
     btnAnnulNoteEditorRef = document.getElementById("btnAnnulNoteEditor"),
     legendNoteEditorRef = document.getElementById("legendNoteEditor");
@@ -302,6 +304,7 @@ function onSetNoteEditor(e) {
     inputNoteStep3Ref.value = e.step3;
     inputNoteStep4Ref.value = e.step4;
     inputNoteStep5Ref.value = e.step5;
+    inputNoteStep6Ref.value = e.step6;
     textareaNoteDetailRef.value = e.detail;
     inputNoteDateEndRef.value = e.dateEndUS;
     selectorNotePriorityRef.value = e.priority;
@@ -310,6 +313,7 @@ function onSetNoteEditor(e) {
     checkboxNoteStep3Ref.checked = e.step3Checked;
     checkboxNoteStep4Ref.checked = e.step4Checked;
     checkboxNoteStep5Ref.checked = e.step5Checked;
+    checkboxNoteStep6Ref.checked = e.step6Checked;
 
 
 }
@@ -328,6 +332,7 @@ function onClearNoteEditor() {
     inputNoteStep3Ref.value = "";
     inputNoteStep4Ref.value = "";
     inputNoteStep5Ref.value = "";
+    inputNoteStep6Ref.value = "";
     inputNoteDateStartRef.value = "";
     inputNoteDateEndRef.value = "";
     selectorNoteStatusRef.value = "A faire";
@@ -337,6 +342,7 @@ function onClearNoteEditor() {
     checkboxNoteStep3Ref.checked = false;
     checkboxNoteStep4Ref.checked = false;
     checkboxNoteStep5Ref.checked = false;
+    checkboxNoteStep6Ref.checked = false;
 };
 
 
@@ -395,6 +401,8 @@ function onFormatNote(){
         step4Checked : checkboxNoteStep4Ref.checked,
         step5 : inputNoteStep5Ref.value,
         step5Checked : checkboxNoteStep5Ref.checked,
+        step6 : inputNoteStep6Ref.value,
+        step6Checked : checkboxNoteStep6Ref.checked,
         detail : textareaNoteDetailRef.value,
         dateEndFormated : tempDateEnd,
         dateEndFR : tempDateEndFR,
@@ -480,11 +488,13 @@ function onInsertModification(e) {
         modifiedData.step3 = e.step3;
         modifiedData.step4 = e.step4;
         modifiedData.step5 = e.step5;
+        modifiedData.step6 = e.step6;
         modifiedData.step1Checked = e.step1Checked;
         modifiedData.step2Checked = e.step2Checked;
         modifiedData.step3Checked = e.step3Checked;
         modifiedData.step4Checked = e.step4Checked;
         modifiedData.step5Checked = e.step5Checked;
+        modifiedData.step6Checked = e.step6Checked;
         modifiedData.title = e.title;
 
 
@@ -601,11 +611,13 @@ let boolNoteViewItemsAlreadySet = false,//pour ne permettre le référencement q
     labelNoteViewStep3Ref,
     labelNoteViewStep4Ref,
     labelNoteViewStep5Ref,
+    labelNoteViewStep6Ref,
     checkboxNoteViewStep1Ref,
     checkboxNoteViewStep2Ref,
     checkboxNoteViewStep3Ref,
     checkboxNoteViewStep4Ref,
     checkboxNoteViewStep5Ref,
+    checkboxNoteViewStep6Ref,
     noteViewDateInfoRef,
     pNoteViewDateCreatedRef;
 
@@ -626,11 +638,13 @@ function onDisplayNote(e) {
         checkboxNoteViewStep3Ref = document.getElementById("checkboxNoteViewStep3");
         checkboxNoteViewStep4Ref = document.getElementById("checkboxNoteViewStep4");
         checkboxNoteViewStep5Ref = document.getElementById("checkboxNoteViewStep5");
+        checkboxNoteViewStep6Ref = document.getElementById("checkboxNoteViewStep6");
         labelNoteViewStep1Ref = document.getElementById("labelNoteViewStep1");
         labelNoteViewStep2Ref = document.getElementById("labelNoteViewStep2");
         labelNoteViewStep3Ref = document.getElementById("labelNoteViewStep3");
         labelNoteViewStep4Ref = document.getElementById("labelNoteViewStep4");
         labelNoteViewStep5Ref = document.getElementById("labelNoteViewStep5");
+        labelNoteViewStep6Ref = document.getElementById("labelNoteViewStep6");
         noteViewDateInfoRef = document.getElementById("noteViewDateInfo");
         pNoteViewDateCreatedRef = document.getElementById("pNoteViewDateCreated");
 
@@ -655,12 +669,14 @@ function onDisplayNote(e) {
     checkboxNoteViewStep2Ref.checked = e.step2Checked;
     checkboxNoteViewStep3Ref.checked = e.step3Checked; 
     checkboxNoteViewStep4Ref.checked = e.step4Checked; 
-    checkboxNoteViewStep5Ref.checked = e.step5Checked; 
+    checkboxNoteViewStep5Ref.checked = e.step5Checked;
+    checkboxNoteViewStep6Ref.checked = e.step6Checked; 
     labelNoteViewStep1Ref.innerHTML = e.step1;
     labelNoteViewStep2Ref.innerHTML = e.step2;
     labelNoteViewStep3Ref.innerHTML = e.step3;
     labelNoteViewStep4Ref.innerHTML = e.step4;
     labelNoteViewStep5Ref.innerHTML = e.step5;
+    labelNoteViewStep6Ref.innerHTML = e.step6;
     noteViewDateInfoRef.innerHTML = "Début : " + e.dateStartFR +"   - - -   Fin : " + e.dateEndFR;
     pNoteViewDateCreatedRef.innerHTML = "Note créée le : " + e.dateCreated;
 }
@@ -677,12 +693,14 @@ function onClearNoteView() {
     checkboxNoteViewStep2Ref.checked = false;
     checkboxNoteViewStep3Ref.checked = false; 
     checkboxNoteViewStep4Ref.checked = false; 
-    checkboxNoteViewStep5Ref.checked = false; 
+    checkboxNoteViewStep5Ref.checked = false;
+    checkboxNoteViewStep6Ref.checked = false; 
     labelNoteViewStep1Ref.innerHTML = "";
     labelNoteViewStep2Ref.innerHTML = "";
     labelNoteViewStep3Ref.innerHTML = "";
     labelNoteViewStep4Ref.innerHTML = "";
     labelNoteViewStep5Ref.innerHTML = "";
+    labelNoteViewStep6Ref.innerHTML = "";
     noteViewDateInfoRef.innerHTML = "";
     pNoteViewDateCreatedRef.innerHTML = "";
 }

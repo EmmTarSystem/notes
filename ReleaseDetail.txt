@@ -1,5 +1,15 @@
-Créer une note
-Modifier une note
-Consulter une note
+0.5.0
+Version fonctionnel
 
-Toutes les notes sont chargé en variable
+0.5.1
+    Optimisation code :
+        ajout de variable CSS.
+    Evolution :
+        élargissement Visualisation et edition des notes;
+        augmentation du nbre de caractère pour input étape et élargissement (80);
+        ajout étape 6;
+        limitation tag à 20 caractere;
+        optimisation espace editeur de note;
+        affichage du "detail" en texte justifié.
+
+

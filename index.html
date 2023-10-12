@@ -93,6 +93,10 @@
                                 <label id="labelNoteViewStep5">Etape 5</label>
                                 <input id="checkboxNoteViewStep5" type="checkbox">
                             </li>
+                            <li>
+                                <label id="labelNoteViewStep6">Etape 6</label>
+                                <input id="checkboxNoteViewStep6" type="checkbox">
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -128,11 +132,11 @@
                 <ul>
                     <li>
                         <label for="inputNoteTag">TAG : </label>
-                        <input class="input-field" id="inputNoteTag" type="text" placeholder="TAG" maxlength="150">
+                        <input class="input-field" id="inputNoteTag" type="text" placeholder="20 caractères max" maxlength="20">
                     </li>
                     <li>
                         <label for="inputNoteTitle">Titre : </label>
-                        <input class="input-field" id="inputNoteTitle" type="text" placeholder="Titre" maxlength="150">
+                        <input class="input-field" id="inputNoteTitle" type="text" placeholder="Titre" maxlength="80">
                     </li>
                     <li>
                         <label for="selectorNotePriority">Priorité : </label>
@@ -141,8 +145,6 @@
                             <option value="Urgent">Urgent</option>
                             <option value="Flash">Flash</option>
                         </select>
-                    </li>
-                    <li>
                         <label for="selectorNoteStatus">Statut : </label>
                         <select name="" id="selectorNoteStatus">
                             <option value="A faire">A faire</option>
@@ -151,39 +153,42 @@
                         </select>
                     </li>
                     <li>
-                        <label for="inputNoteDateStart">Date début</label>
-                        <input type="date" name="" id="inputNoteDateStart">
-                    </li>
-                    <li>
                         <label for="textareaNoteDetail">Detail</label>
                         <textarea class="textarea-field" name="" id="textareaNoteDetail" cols="30" rows="10"></textarea>
                     </li>
                     <li>
                         <!-- <label for="inputNoteStep1">Etape 1</label> -->
-                        <input class="input-field" id="inputNoteStep1" type="text" placeholder="Etape 1" maxlength="40"/>
+                        <input class="input-field" id="inputNoteStep1" type="text" placeholder="Etape 1" maxlength="80"/>
                         <input id="checkboxNoteStep1" type="checkbox">
                     </li>
                     <li>
                         <!-- <label for="inputNoteStep2">Etape 2</label> -->
-                        <input class="input-field" id="inputNoteStep2" type="text" placeholder="Etape 2" maxlength="40"/>
+                        <input class="input-field" id="inputNoteStep2" type="text" placeholder="Etape 2" maxlength="80"/>
                         <input id="checkboxNoteStep2" type="checkbox">
                     </li>
                     <li>
                         <!-- <label for="inputNoteStep3">Etape 3</label> -->
-                        <input class="input-field" id="inputNoteStep3" type="text" placeholder="Etape 3" maxlength="40"/>
+                        <input class="input-field" id="inputNoteStep3" type="text" placeholder="Etape 3" maxlength="80"/>
                         <input id="checkboxNoteStep3" type="checkbox">
                     </li>
                     <li>
                         <!-- <label for="inputNoteStep4">Etape 4</label> -->
-                        <input class="input-field" id="inputNoteStep4" type="text" placeholder="Etape 4" maxlength="40"/>
+                        <input class="input-field" id="inputNoteStep4" type="text" placeholder="Etape 4" maxlength="80"/>
                         <input id="checkboxNoteStep4" type="checkbox">
                     </li>
                     <li>
                         <!-- <label for="inputNoteStep5">Etape 5</label> -->
-                        <input class="input-field" id="inputNoteStep5" type="text" placeholder="Etape 5" maxlength="40"/>
+                        <input class="input-field" id="inputNoteStep5" type="text" placeholder="Etape 5" maxlength="80"/>
                         <input id="checkboxNoteStep5" type="checkbox">
                     </li>
                     <li>
+                        <!-- <label for="inputNoteStep6">Etape 6</label> -->
+                        <input class="input-field" id="inputNoteStep6" type="text" placeholder="Etape 6" maxlength="80"/>
+                        <input id="checkboxNoteStep6" type="checkbox">
+                    </li>
+                    <li>
+                        <label for="inputNoteDateStart">Date début</label>
+                        <input type="date" name="" id="inputNoteDateStart">
                         <label for="inputNoteDateEnd">Date Limite</label>
                         <input type="date" name="" id="inputNoteDateEnd">
                     </li>
