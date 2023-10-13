@@ -12,4 +12,13 @@ Version fonctionnel
         optimisation espace editeur de note;
         affichage du "detail" en texte justifié.
 
+0.5.2
+    Optimisation code:
+        modification system de formatage
+    Evolution:
+        Champ TAG vide = DIVERS
+        Modification visuel bouton navigation note
+        ajout numéro release
+
+
 

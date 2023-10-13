@@ -16,8 +16,13 @@ body {
 }
 
 /* Style de titre */
-h1 {
+
+div.dateVersion{
 	margin-left: 50px;
+	text-align: center;
+}
+
+h1 {
 	font-size: 36px;
 	color: #333; /* Couleur du texte du titre */
 }
@@ -188,7 +193,6 @@ tr.noteViewDateRow p{
 
 
 button.basicBtn{
-
 	display: inline-block;
   	padding: 10px 20px;
   	font-size: 16px;
@@ -219,9 +223,8 @@ div.mainMenu{
 
 /* la div de la liste des notes */
 div.listBtnNote{
-
 	position: fixed;
-	top: 120px;
+	top: 150px;
 	left: 20px;
 }
 

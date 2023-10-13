@@ -377,16 +377,12 @@ function onFormatNote(){
      let tempDateCreated = onFormatDateCreated();
 
     
-    //Formatage en majuscule
-    let tempTag = onSetToUppercase(inputNoteTagRef.value);
-    let tempTitle = onSetToUppercase(inputNoteTitleRef.value);
-
     
     // Mise en format variable
 
     let noteToInsert = {
-        tag : tempTag,
-        title :tempTitle,
+        tag : inputNoteTagRef.value,
+        title :inputNoteTitleRef.value,
         dateStartFormated : tempDateStart,
         dateStartFR :tempDateStartFR,
         dateStartUS :tempDateStartUS,
@@ -411,6 +407,27 @@ function onFormatNote(){
         priority : selectorNotePriorityRef.value
     }
 
+    //Formatage en full majuscule titre/TAG
+    noteToInsert.tag = onSetToUppercase(noteToInsert.tag);
+    noteToInsert.title = onSetToUppercase(noteToInsert.title);
+
+    // Premiere lettre en majuscule
+    noteToInsert.step1 = onSetFirstLetterUppercase(noteToInsert.step1);
+    noteToInsert.step2 = onSetFirstLetterUppercase(noteToInsert.step2);
+    noteToInsert.step3 = onSetFirstLetterUppercase(noteToInsert.step3);
+    noteToInsert.step4 = onSetFirstLetterUppercase(noteToInsert.step4);
+    noteToInsert.step5 = onSetFirstLetterUppercase(noteToInsert.step5);
+    noteToInsert.step6 = onSetFirstLetterUppercase(noteToInsert.step6);
+
+    // traitement champ TAG VIDE
+    if (noteToInsert.tag === "" || noteToInsert.tag === undefined) {
+        console.log("tag vide remplacé par 'DIVERS'");
+        noteToInsert.tag = "DIVERS";
+    };
+
+
+
+
 // Filtre selon création ou modification des données
     if (boolEditNoteCreation) {
         console.log("mode création de note");
@@ -424,11 +441,9 @@ function onFormatNote(){
     }
     
 
-    
-
-    
-
 }
+
+
 
 
 // Insertion d'un nouvelle note

@@ -145,11 +145,15 @@ function onDisableMainPage(disable) {
     divMainRef.style.pointerEvents = isDisable? "none" : "all";
 }
 
-//formatage = mise en majuscule
-
+//formatage =  tout en majuscule
 function onSetToUppercase(e) {
     let upperCase = e.toUpperCase();
     return upperCase;
+}
+
+function onSetFirstLetterUppercase(e) {
+    let firstLetterUpperCase = e.charAt(0).toUpperCase() + e.slice(1);
+    return firstLetterUpperCase;
 }
 
 
