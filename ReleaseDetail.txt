@@ -25,14 +25,17 @@ Version fonctionnel
         Desactivation div par systeme d'array
     Evolution
         Modification visuel
-        Possibilité d'impression
+        Possibilité d'impression beta
         Ajout d'un bouton retour Chariot pour "detail"
         6 notes affichées par liste
         ajout statut "Termine archive"
-        ajout background btn note avec image de la priorité
+        ajout background btn note avec image de priorité
         correction des positionnements dans la liste des boutons
         Mise en place des icônes
         Correction date du jour Majuscule
+0.7.0
+    Evolution
+        Système d'impression fonctionnel
 
 
 

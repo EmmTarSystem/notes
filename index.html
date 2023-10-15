@@ -16,7 +16,7 @@
     <div class="divMain" id="divMain">
         <div class="dateVersion">
             <h1 id="h1DateDuJour"></h1>
-            <p>Release : 0.6.0</p>
+            <p>Release : 0.7.0</p>
             
         </div>
 
@@ -36,7 +36,7 @@
             <h2>Mes tâches</h2>
             <table>
                 <tr class="rowTopLine">
-                    <th id="thTxtEnCours">En cours ( 8 )</th>
+                    <th id="thTxtEnCours">En cours ( 0 )</th>
                 </tr>
                 <tr>
                     <td class="tdListeNotes">
@@ -53,7 +53,7 @@
                     </td>
                 </tr>
                 <tr class="rowTopLine">
-                    <th id="thTxtAFaire">A faire ( 25 )</th>
+                    <th id="thTxtAFaire">A faire ( 0 )</th>
                 </tr>
                 <tr>
                     <td class="tdListeNotes">
@@ -77,64 +77,63 @@
 
         <!-- ------------------ ---------  Visualisation d'une tache ------------------>
         <div id="divNoteView" class="divNoteView">
-            <table>
-                <tr>
-                    <th class="urgenceCategorie"><p class="noteViewHead" id="noteViewPriority">Priorité</p></th>
-                    <th class="noteViewTag"><p class="noteViewHead" id="noteViewTag">[ TAG ]</p></th>
-                    <th class="urgenceCategorie"><p class="noteViewHead" id="hnoteViewStatus">Status</p></th>
-                </tr>
-                <tr class="viewNoteRowTitle">
-                    <td colspan="3"><p id="noteViewTitle"> TITRE </p></td>
-                </tr>
-                <tr class="tableViewNoteRowDetail">
-                    <td colspan="3"><p id="pNoteViewDetail">Detail</p></td>
-                </tr>
-                <tr class="tableViewNoteRowStep">
-                    <td colspan="3">
-                        <ul>
-                            <li>
-                                <label id="labelNoteViewStep1">Etape 1</label>
-                                <input id="checkboxNoteViewStep1" type="checkbox">
-                            </li>
-                            <li>
-                                <label id="labelNoteViewStep2">Etape 2</label>
-                                <input id="checkboxNoteViewStep2" type="checkbox">
-                            </li>
-                            <li>
-                                <label id="labelNoteViewStep3">Etape 3</label>
-                                <input id="checkboxNoteViewStep3" type="checkbox">
-                            </li>
-                            <li>
-                                <label id="labelNoteViewStep4">Etape 4</label>
-                                <input id="checkboxNoteViewStep4" type="checkbox">
-                            </li>
-                            <li>
-                                <label id="labelNoteViewStep5">Etape 5</label>
-                                <input id="checkboxNoteViewStep5" type="checkbox">
-                            </li>
-                            <li>
-                                <label id="labelNoteViewStep6">Etape 6</label>
-                                <input id="checkboxNoteViewStep6" type="checkbox">
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr class="noteViewDateRow">
-                    <td colspan="3"><p id="noteViewDateInfo">Date Debut et fin</p></td>
-                </tr>
-                <tr class="noteViewDateRow">
-                    <td colspan="3"><p id="pNoteViewDateCreated">noteCréé le : </p></td>
-                </tr>
-                <!-- Les boutons -->
-                <tr>
-                    <td colspan="3">
-                        <button class="basicBtn" onclick="onDisplayNoteEditor(false)"><img class="iconeMenu" src="./images/IconeEditer.png" alt="Editer"></button>
-                        <button class="basicBtn" onclick="onDeleteNote()"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Supprimer" srcset=""></button>
-                        <button class="basicBtn" onclick="onClickPrint()"><img class="iconeMenu" src="./images/Icone-imp.png" alt="Imprimer" srcset=""></button>
-                    </td>
-                </tr>
-
-            </table>
+            <div id="printArea">
+                <table>
+                    <tr>
+                        <th class="urgenceCategorie"><p class="noteViewHead" id="noteViewPriority">Priorité</p></th>
+                        <th class="noteViewTag"><p class="noteViewHead" id="noteViewTag">[ TAG ]</p></th>
+                        <th class="urgenceCategorie"><p class="noteViewHead" id="hnoteViewStatus">Status</p></th>
+                    </tr>
+                    <tr class="viewNoteRowTitle">
+                        <td colspan="3"><p id="noteViewTitle"> TITRE </p></td>
+                    </tr>
+                    <tr class="tableViewNoteRowDetail">
+                        <td colspan="3"><p id="pNoteViewDetail">Detail</p></td>
+                    </tr>
+                    <tr class="tableViewNoteRowStep">
+                        <td colspan="3">
+                            <ul>
+                                <li>
+                                    <label id="labelNoteViewStep1">Etape 1</label>
+                                    <input id="checkboxNoteViewStep1" type="checkbox">
+                                </li>
+                                <li>
+                                    <label id="labelNoteViewStep2">Etape 2</label>
+                                    <input id="checkboxNoteViewStep2" type="checkbox">
+                                </li>
+                                <li>
+                                    <label id="labelNoteViewStep3">Etape 3</label>
+                                    <input id="checkboxNoteViewStep3" type="checkbox">
+                                </li>
+                                <li>
+                                    <label id="labelNoteViewStep4">Etape 4</label>
+                                    <input id="checkboxNoteViewStep4" type="checkbox">
+                                </li>
+                                <li>
+                                    <label id="labelNoteViewStep5">Etape 5</label>
+                                    <input id="checkboxNoteViewStep5" type="checkbox">
+                                </li>
+                                <li>
+                                    <label id="labelNoteViewStep6">Etape 6</label>
+                                    <input id="checkboxNoteViewStep6" type="checkbox">
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr class="noteViewDateRow">
+                        <td colspan="3"><p id="noteViewDateInfo">Date Debut et fin</p></td>
+                    </tr>
+                    <tr class="noteViewDateRow">
+                        <td colspan="3"><p id="pNoteViewDateCreated">noteCréé le : </p></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- Les boutons -->
+            <p> 
+                <button class="basicBtn" onclick="onDisplayNoteEditor(false)"><img class="iconeMenu" src="./images/IconeEditer.png" alt="Editer"></button>
+                <button class="basicBtn" onclick="onDeleteNote()"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Supprimer" srcset=""></button>
+                <button class="basicBtn" onclick="onClickPrint()"><img class="iconeMenu" src="./images/Icone-imp.png" alt="Imprimer" srcset=""></button>
+            </p>
         </div>
         <!-- ------------------ --------- FIN Visualisation d'une tache ------------------>
 
