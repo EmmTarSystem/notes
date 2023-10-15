@@ -1,5 +1,5 @@
 // Initialisation variables
-// -------------------------------------------------GLOBAL------------------------------------------------
+// -------------------------------------------------   GLOBAL        ------------------------------------------------
 
 // DATE DU jour
 let currentDateFR,
@@ -9,9 +9,15 @@ let currentDateFR,
 // Set tous les éléments concernant la date du jour
 function onSetDateDuJour() {
     // Date au format complet
-    document.getElementById("h1DateDuJour").innerHTML = new Date().toLocaleDateString('fr-fr', { weekday:"long", year:"numeric", month:"short", day:"numeric"})
+    let fullDateFormated = new Date().toLocaleDateString('fr-fr', { weekday:"long", year:"numeric", month:"short", day:"numeric"});
 
-    // Date du jour format FR
+    console.log("fulldate : " + fullDateFormated);
+    // Premiere lettre majuscule
+    fullDateFormated = fullDateFormated.charAt(0).toUpperCase() + fullDateFormated.slice(1);
+
+    document.getElementById("h1DateDuJour").innerHTML = fullDateFormated;
+
+    // stockager de la Date du jour format FR pour plus tard
     let e = new Date();
     currentDateFR = e.toLocaleDateString("fr");
     currentDateFR = currentDateFR.replace(/\//gi,"-");
@@ -136,13 +142,20 @@ function onFormatSelectedDateUS(e) {
 
 
 // Desactivation de la page principale
-let divMainRef = document.getElementById("divMain");
+let allDivToDisable = [];
+    allDivToDisable.push(document.getElementById("divMainMenu"));
+    allDivToDisable.push(document.getElementById("divListBtnNote"));
+    allDivToDisable.push(document.getElementById("divNoteView"));
+
 
 function onDisableMainPage(disable) {
     let isDisable = Boolean(disable === true);
 
-    divMainRef.style.opacity = isDisable? 0.1 : 1;
-    divMainRef.style.pointerEvents = isDisable? "none" : "all";
+    allDivToDisable.forEach(e =>{
+        e.style.opacity = isDisable? 0.1 : 1;
+        e.style.pointerEvents = isDisable? "none" : "all";
+    });
+    
 }
 
 //formatage =  tout en majuscule
@@ -155,6 +168,10 @@ function onSetFirstLetterUppercase(e) {
     let firstLetterUpperCase = e.charAt(0).toUpperCase() + e.slice(1);
     return firstLetterUpperCase;
 }
+
+
+
+
 
 
 // Lancement de la database

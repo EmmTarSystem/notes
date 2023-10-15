@@ -18,7 +18,21 @@ Version fonctionnel
     Evolution:
         Champ TAG vide = DIVERS
         Modification visuel bouton navigation note
-        ajout numéro release
+        ajout numéro release.
+
+0.6.0
+    Optimisation code
+        Desactivation div par systeme d'array
+    Evolution
+        Modification visuel
+        Possibilité d'impression
+        Ajout d'un bouton retour Chariot pour "detail"
+        6 notes affichées par liste
+        ajout statut "Termine archive"
+        ajout background btn note avec image de la priorité
+        correction des positionnements dans la liste des boutons
+        Mise en place des icônes
+        Correction date du jour Majuscule
 
 
 

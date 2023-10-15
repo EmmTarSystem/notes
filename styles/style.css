@@ -1,6 +1,7 @@
 /* Déclaration variables */
 :root{
-	--main-color-style1:linear-gradient(45deg, #3498db, #6c5ce7);
+	--gradient-blue:linear-gradient(45deg, #3498db, #6c5ce7);
+	--gradient-red:linear-gradient(to right, #eaa29a, #b20a2c);
 	--div-note-width: 600px;
 }
 
@@ -10,16 +11,29 @@ body {
   	margin: 0;
   	padding: 0;
   	display: flex;
-  	/* justify-content: center;
-  	align-items: center;
-  	min-height: 100vh; */
+  	
 }
+
+
+
+/* position interface global */
+
+div.divMain{
+	margin-left: auto;
+	margin-right: auto;
+	width: 1500px;height: 700px;
+}
+
+
+
+
 
 /* Style de titre */
 
 div.dateVersion{
-	margin-left: 50px;
-	text-align: center;
+	position: absolute;
+	margin-left: 5%;
+	width: 500px;
 }
 
 h1 {
@@ -34,14 +48,22 @@ p {
 }
 
 
+img.iconeMenu{
+	width: 25px;
+}
+
+img.iconeNavigation{
+	width: 10px;
+}
+/* ---------------------------------------------- EDITION de NOTES ------------------------------ */
 
 /* Style de l'éditeur de note */
 .divNoteEditor {
+	position: absolute;
+	left: 55%;top: 15px;
 	display: none;
-	position: fixed;
     width: var(--div-note-width);
-	left: 800px;
-	background: var(--main-color-style1);
+	background: var(--gradient-blue);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -75,29 +97,6 @@ label {
     font-size: 12px;
   }
   
-  /* Style des boutons du formulaire */
-.editorBtn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    text-align: center;
-    text-decoration: none;
-    border: none;
-    border-radius: 30px;
-    color: #ffffff;
-    background: linear-gradient(45deg, #3498db, #6c5ce7);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-
-}
-  
-  /* Style au survol du bouton du formulaire */
-.submit-button:hover {
-    background: linear-gradient(45deg, #6c5ce7, #3498db);
-    transform: scale(1.05);
-}
-
 
  /* Nouvelle couleur du texte pour le bouton (teinte plus claire) */
 .submit-button {
@@ -105,23 +104,43 @@ label {
 }
 
 
+/* alignement des boutons dans un tableau */
+
+tr.tableRowBtn{
+	text-align: center;
+}
 
 
+
+/* placement bouton editeur */
+p.pButtonEditor{
+	text-align: center;
+}
+
+
+/* Les petits bouton pour editer les detail */
+.btnDetailEditor{
+	background-color: white;
+	border-radius: 5px;
+	border: none;
+	transition: background 0.3s, transform 0.2s;
+}
+.btnDetailEditor:hover{
+	transform: scale(1.05);
+}
 /* ------------------------------------------  Visualisation des notes ------------------------------*/
 
 div.divNoteView{
-
-	background: var(--main-color-style1);
+	position: absolute;
+	left: 55%;top: 15px;
+	background: var(--gradient-blue);
   	color: #333; /* Couleur du texte */
   	padding: 20px;
   	border-radius: 10px;
   	box-shadow: 0 0 10px rgba(3, 110, 241, 0.1); /* Ombre portée */
 	width: var(--div-note-width);height: 600px;
-	left: 50%;top: 20px;
 	text-align: center;
-	position: fixed;
-	left: 800px;
-	
+	display: none;
 }
 
 table{
@@ -201,7 +220,7 @@ button.basicBtn{
   	border: none;
   	border-radius: 30px;
   	color: #ffffff;
-  	background: var(--main-color-style1);
+  	background: var(--gradient-blue);
   	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   	cursor: pointer;
   	transition: background 0.3s, transform 0.2s;
@@ -214,43 +233,96 @@ button.basicBtn:hover {
 	transform: scale(1.05);
 	 
 }
-/* ------------------------- MENU PRINCIPALE ------------------------ */
+
+
+
+
+/* ------------------------- MENU PRINCIPAL ------------------------ */
 div.mainMenu{
-	margin-left: 200px;
+	position: relative;
+	margin-left: 40%;
 }
 
 /* -------------------------------- Liste des notes----------------------------------- */
 
+
+
 /* la div de la liste des notes */
 div.listBtnNote{
-	position: fixed;
-	top: 150px;
-	left: 20px;
+	position: relative;
+	text-align: center;
+	top: 15%;left: 2%;
+	width: 700px;
 }
 
 
-p.listNoteTAG{
+
+/* Ligne entre les status de notes */
+tr.rowTopLine{
+	background: var(--gradient-blue);
 	color: white;
-	font-size: 12px;
 }
 
+
+
+td.tdListeNotes{
+	height: 200px;
+	text-align: left;
+	vertical-align: top;
+}
+
+
+/* bouton individuel liste note COMMUN */
 div.divBtnListNote{
-	background: var(--main-color-style1);
-	margin-bottom: 10px;
+	display: inline-block;
+	margin-top: 10px;
+	margin-left: 20px;
   	border-radius: 10px 0px;
   	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre portée */
 	text-align: center;
-	width:200px ;height: 100px;
+	width:200px ;height: 80px;
 	transition: transform 0.3s ease;
   	transform: translateX(0px);
-	margin-left: 20px;
+	background-size: contain;
+	white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
+ 	overflow: hidden;    /* Cache le texte qui dépasse */
+}
+
+/* bouton individuel liste note URGENT FLASH ROUTINE*/
+
+div.divBtnListNoteFlash{
+	background-image: url(../images/BtnNoteBackground_Flash.png);
 
 }
 
+div.divBtnListNoteUrgent{
+	background-image: url(../images/BtnNoteBackground_Urgent.png);
+}
+
+div.divBtnListNoteRoutine{
+	background-image: url(../images/BtnNoteBackground_Routine.png);
+}
+
+
+/* tag */
+p.listNoteTAG{
+	color: white;
+	font-size: 10px;
+	overflow: hidden; /* Cache le texte qui dépasse */
+  	text-overflow: ellipsis; /* Ajoute des points de suspension (...) pour indiquer que du texte est masqué */
+  	white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
+}
+
+
+/* titre */
 div.divBtnListNote p {
 	color: white;
-	
+	font-size: 12px;
+	overflow: hidden; /* Cache le texte qui dépasse */
+  	text-overflow: ellipsis; /* Ajoute des points de suspension (...) pour indiquer que du texte est masqué */
+  	white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
 }
+
 
 div.divBtnListNote:hover{
 	cursor: pointer;

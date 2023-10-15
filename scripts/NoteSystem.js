@@ -1,4 +1,8 @@
 
+
+
+
+
 let notesEnCoursArray= [],//les notes en cours
     notesAFaireArray =[],//les notes à faire
     currentKeyNoteInView,//la key de la note en cours de visualisation
@@ -6,11 +10,22 @@ let notesEnCoursArray= [],//les notes en cours
     boolEditNoteCreation,//mode d'ouverture de l'editeur de note en mode création ou modification
     noteEnCoursIndexToStart,//pour l'affichage des notes avec les boutons next et previous
     noteAFaireIndexToStart,//pour l'affichage des notes avec les boutons next et previous
-    maxBtnNoteToDisplay = 4,//nbre de bouton maximum qui sont affiché dans la liste
+    maxBtnNoteToDisplay = 6,//nbre de bouton maximum qui sont affiché dans la liste
     btnNoteEnCoursPreviousRef = document.getElementById("btnNoteEnCoursPrevious"),//les boutons de navigation des notes
     btnNoteEnCoursNextRef = document.getElementById("btnNoteEnCoursNext"),//les boutons de navigation des notes
     btnNoteAFairePreviousRef = document.getElementById("btnNoteAFairePrevious"),//les boutons de navigation des notes
     btnNoteAFaireNextRef = document.getElementById("btnNoteAFaireNext");//les boutons de navigation des notes
+
+
+
+
+
+
+
+
+
+
+
 
 
 // --------------------------              UPDATE  PAGE                ------------------------------------------------
@@ -87,14 +102,17 @@ function onSortItem(arrayResult) {
 
     
     // Creation des liste de notes par catégories
-    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart);
-    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart);
+    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"thTxtEnCours","En cours");
+    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"thTxtAFaire","A Faire");
 }
 
 
 
 // Crée les boutons des notes selon la catégorie
-function onSetListNotes(divNotesTarget,noteArray,indexToStart) {
+function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,textToDisplay) {
+    // set le nombre de tache 
+    let currentThRef = document.getElementById(thIDRef);
+    currentThRef.innerHTML = textToDisplay + " ( " + noteArray.length + " )";
 
     // Vide la div de note
     onClearDIV(divNotesTarget);
@@ -118,7 +136,11 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart) {
                 onSearchNotesToDisplay(e.key);
             }
             
-            div.className = "divBtnListNote"
+
+            // Set la class de la divbouton selon l'urgence
+            if (e.priority === "Routine") { div.className ="divBtnListNote divBtnListNoteRoutine" };
+            if (e.priority === "Urgent") { div.className ="divBtnListNote divBtnListNoteUrgent" };
+            if (e.priority === "Flash") { div.className ="divBtnListNote divBtnListNoteFlash" };
 
             // Creation du tag dans la div
             let tag = document.createElement("p");
@@ -129,7 +151,7 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart) {
             // Creation du texte dans la div
             let title = document.createElement("p");
             title.innerHTML = e.title;
-
+            title.className = "listNoteTitle";
 
             // insertion des éléments créés dans la div
             div.appendChild(tag);
@@ -193,23 +215,23 @@ function onSetBtnNavNotesVisibility() {
 // Notes en cours
 function onClickNavNoteEnCoursPrevious() {
     noteEnCoursIndexToStart -= maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart);
+    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"thTxtEnCours","En cours");
 }
 
 function onClickNavNoteEnCoursNext() {
     noteEnCoursIndexToStart += maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart);
+    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"thTxtEnCours","En cours");
 }
 
 // Notes à faire
 function onClickNavNoteAFairePrevious() {
     noteAFaireIndexToStart -= maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart);
+    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"thTxtAFaire","A Faire");
 }
 
 function onClickNavNoteAFaireNext() {
     noteAFaireIndexToStart += maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart);
+    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"thTxtAFaire","A Faire");
 }
 
 
@@ -248,9 +270,8 @@ let divNoteEditorRef = document.getElementById("divNoteEditor"),
     checkboxNoteStep4Ref = document.getElementById("checkboxNoteStep4"),
     checkboxNoteStep5Ref = document.getElementById("checkboxNoteStep5"),
     checkboxNoteStep6Ref = document.getElementById("checkboxNoteStep6"),
-    btnValidNoteEditorRef = document.getElementById("btnValidNoteEditor"),
-    btnAnnulNoteEditorRef = document.getElementById("btnAnnulNoteEditor"),
     legendNoteEditorRef = document.getElementById("legendNoteEditor");
+
 
 
 
@@ -259,7 +280,15 @@ function onDisplayNoteEditor(boolModeCreation){
 
     // Desactive la page principale
     onDisableMainPage(true);
-    divNoteEditorRef.style.display = "block";
+    divNoteEditorRef.style.display = "inline-block";
+
+    // cache la visionneuse de note si visible
+
+    // Cache la visionneuse de note si visible (et donc déjà référencé)
+    if (divNoteViewRef !== undefined) {
+        divNoteViewRef.style.display = "none";
+    }
+    
 
 
     // clear l'editeur de note
@@ -271,14 +300,10 @@ function onDisplayNoteEditor(boolModeCreation){
     if (boolEditNoteCreation) {
         console.log("ouverture de l'editeur en mode création");
 
-        btnValidNoteEditorRef.innerHTML = "Ajouter la note";
-        btnAnnulNoteEditorRef.innerHTML = "Retour";
         legendNoteEditorRef.innerHTML = "Créer une note";
     }else{
         console.log("ouverture de l'editeur en mode Modification");
 
-        btnValidNoteEditorRef.innerHTML = "Valider la modification";
-        btnAnnulNoteEditorRef.innerHTML = "Annuler";
         legendNoteEditorRef.innerHTML = "Modifier une note";
         // Set l'editeur de note avec les éléments de la note en cours
         onSetNoteEditor(currentNoteInView);
@@ -287,6 +312,25 @@ function onDisplayNoteEditor(boolModeCreation){
 
 
 }
+
+
+
+
+// Bouton d'insertion d'éléments dans détail
+function onInsertReturnLine(){
+    // recupère le texte actuel
+    // ajoute le BR
+    // Insert le nouveau texte
+    let tempDetailEditor = textareaNoteDetailRef.value;
+    tempDetailEditor += "<br />"
+    textareaNoteDetailRef.value = tempDetailEditor;
+
+}
+
+
+
+
+
 
 
 
@@ -560,6 +604,7 @@ function onClickBtnAnnulNoteEditor() {
     onDisableMainPage(false);
     // Cacle la div edition
     divNoteEditorRef.style.display = "none";
+    divNoteViewRef.style.display = "inline-block";
 
     // Filtre si création ou modification de note
     if (boolEditNoteCreation) {
@@ -634,7 +679,8 @@ let boolNoteViewItemsAlreadySet = false,//pour ne permettre le référencement q
     checkboxNoteViewStep5Ref,
     checkboxNoteViewStep6Ref,
     noteViewDateInfoRef,
-    pNoteViewDateCreatedRef;
+    pNoteViewDateCreatedRef,
+    divNoteViewRef;
 
 
 function onDisplayNote(e) {
@@ -662,6 +708,7 @@ function onDisplayNote(e) {
         labelNoteViewStep6Ref = document.getElementById("labelNoteViewStep6");
         noteViewDateInfoRef = document.getElementById("noteViewDateInfo");
         pNoteViewDateCreatedRef = document.getElementById("pNoteViewDateCreated");
+        divNoteViewRef = document.getElementById("divNoteView");
 
         // les items ne sont référencés qu'une seule fois
         boolNoteViewItemsAlreadySet = true;
@@ -692,8 +739,12 @@ function onDisplayNote(e) {
     labelNoteViewStep4Ref.innerHTML = e.step4;
     labelNoteViewStep5Ref.innerHTML = e.step5;
     labelNoteViewStep6Ref.innerHTML = e.step6;
-    noteViewDateInfoRef.innerHTML = "Début : " + e.dateStartFR +"   - - -   Fin : " + e.dateEndFR;
-    pNoteViewDateCreatedRef.innerHTML = "Note créée le : " + e.dateCreated;
+    noteViewDateInfoRef.innerHTML = "<b>Début : </b>" + e.dateStartFR +"   - - -   <b>Fin : </b>" + e.dateEndFR;
+    pNoteViewDateCreatedRef.innerHTML = "<b>Note créée le : </b>" + e.dateCreated;
+
+    // Rend la visionneuse de note visible
+    divNoteViewRef.style.display = "inline-block";
+
 }
 
 
@@ -749,4 +800,11 @@ function onDeleteNote() {
 
     // Clear le visualiseur de note
     onClearNoteView();
+
+    // Cache la visionneuse de note
+    divNoteViewRef.style.display = "none";
 }
+
+
+
+
