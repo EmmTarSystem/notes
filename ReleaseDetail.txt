@@ -36,6 +36,8 @@ Version fonctionnel
 0.7.0
     Evolution
         Système d'impression fonctionnel
-
+0.7.1
+    Evolution
+        Remplacement du checkbox dans la visionneuse par des images.
 
 

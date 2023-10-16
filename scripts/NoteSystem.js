@@ -672,12 +672,12 @@ let boolNoteViewItemsAlreadySet = false,//pour ne permettre le référencement q
     labelNoteViewStep4Ref,
     labelNoteViewStep5Ref,
     labelNoteViewStep6Ref,
-    checkboxNoteViewStep1Ref,
-    checkboxNoteViewStep2Ref,
-    checkboxNoteViewStep3Ref,
-    checkboxNoteViewStep4Ref,
-    checkboxNoteViewStep5Ref,
-    checkboxNoteViewStep6Ref,
+    imgNoteViewCheckStep1Ref,
+    imgNoteViewCheckStep2Ref,
+    imgNoteViewCheckStep3Ref,
+    imgNoteViewCheckStep4Ref,
+    imgNoteViewCheckStep5Ref,
+    imgNoteViewCheckStep6Ref,
     noteViewDateInfoRef,
     pNoteViewDateCreatedRef,
     divNoteViewRef;
@@ -694,12 +694,12 @@ function onDisplayNote(e) {
         noteViewPriorityRef = document.getElementById("noteViewPriority");
         hnoteViewStatusRef = document.getElementById("hnoteViewStatus");
         pNoteViewDetailRef = document.getElementById("pNoteViewDetail");
-        checkboxNoteViewStep1Ref = document.getElementById("checkboxNoteViewStep1");
-        checkboxNoteViewStep2Ref = document.getElementById("checkboxNoteViewStep2");
-        checkboxNoteViewStep3Ref = document.getElementById("checkboxNoteViewStep3");
-        checkboxNoteViewStep4Ref = document.getElementById("checkboxNoteViewStep4");
-        checkboxNoteViewStep5Ref = document.getElementById("checkboxNoteViewStep5");
-        checkboxNoteViewStep6Ref = document.getElementById("checkboxNoteViewStep6");
+        imgNoteViewCheckStep1Ref = document.getElementById("imgNoteViewCheckStep1");
+        imgNoteViewCheckStep2Ref = document.getElementById("imgNoteViewCheckStep2");
+        imgNoteViewCheckStep3Ref = document.getElementById("imgNoteViewCheckStep3");
+        imgNoteViewCheckStep4Ref = document.getElementById("imgNoteViewCheckStep4");
+        imgNoteViewCheckStep5Ref = document.getElementById("imgNoteViewCheckStep5");
+        imgNoteViewCheckStep6Ref = document.getElementById("imgNoteViewCheckStep6");
         labelNoteViewStep1Ref = document.getElementById("labelNoteViewStep1");
         labelNoteViewStep2Ref = document.getElementById("labelNoteViewStep2");
         labelNoteViewStep3Ref = document.getElementById("labelNoteViewStep3");
@@ -727,12 +727,12 @@ function onDisplayNote(e) {
     noteViewPriorityRef.innerHTML = e.priority;
     hnoteViewStatusRef.innerHTML = e.status;
     pNoteViewDetailRef.innerHTML = e.detail;
-    checkboxNoteViewStep1Ref.checked = e.step1Checked;
-    checkboxNoteViewStep2Ref.checked = e.step2Checked;
-    checkboxNoteViewStep3Ref.checked = e.step3Checked; 
-    checkboxNoteViewStep4Ref.checked = e.step4Checked; 
-    checkboxNoteViewStep5Ref.checked = e.step5Checked;
-    checkboxNoteViewStep6Ref.checked = e.step6Checked; 
+    imgNoteViewCheckStep1Ref.src = e.step1Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
+    imgNoteViewCheckStep2Ref.src = e.step2Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
+    imgNoteViewCheckStep3Ref.src = e.step3Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
+    imgNoteViewCheckStep4Ref.src = e.step4Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
+    imgNoteViewCheckStep5Ref.src = e.step5Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
+    imgNoteViewCheckStep6Ref.src = e.step6Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
     labelNoteViewStep1Ref.innerHTML = e.step1;
     labelNoteViewStep2Ref.innerHTML = e.step2;
     labelNoteViewStep3Ref.innerHTML = e.step3;
@@ -755,12 +755,12 @@ function onClearNoteView() {
     noteViewPriorityRef.innerHTML = "";
     hnoteViewStatusRef.innerHTML = "";
     pNoteViewDetailRef.innerHTML = "";
-    checkboxNoteViewStep1Ref.checked = false;
-    checkboxNoteViewStep2Ref.checked = false;
-    checkboxNoteViewStep3Ref.checked = false; 
-    checkboxNoteViewStep4Ref.checked = false; 
-    checkboxNoteViewStep5Ref.checked = false;
-    checkboxNoteViewStep6Ref.checked = false; 
+    imgNoteViewCheckStep1Ref.src = "./images/iconBlank.png";
+    imgNoteViewCheckStep2Ref.src = "./images/iconBlank.png";
+    imgNoteViewCheckStep3Ref.src = "./images/iconBlank.png";
+    imgNoteViewCheckStep4Ref.src = "./images/iconBlank.png";
+    imgNoteViewCheckStep5Ref.src = "./images/iconBlank.png";
+    imgNoteViewCheckStep6Ref.src = "./images/iconBlank.png";
     labelNoteViewStep1Ref.innerHTML = "";
     labelNoteViewStep2Ref.innerHTML = "";
     labelNoteViewStep3Ref.innerHTML = "";
