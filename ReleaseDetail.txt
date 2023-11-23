@@ -39,5 +39,8 @@ Version fonctionnel
 0.7.1
     Evolution
         Remplacement du checkbox dans la visionneuse par des images.
-
+0.7.2
+    Evolution 
+        Remplacement de l'icone Valider par une icone "Save".
+        Confirmation lors de la suppression.
 

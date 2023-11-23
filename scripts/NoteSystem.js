@@ -251,6 +251,7 @@ function onClickNavNoteAFaireNext() {
 // Variabilisation des items
 
 let divNoteEditorRef = document.getElementById("divNoteEditor"),
+    divPopupDeleteRef = document.getElementById("divPopupDelete"),
     inputNoteTagRef = document.getElementById("inputNoteTag"),
     inputNoteTitleRef = document.getElementById("inputNoteTitle"),
     selectorNoteStatusRef = document.getElementById("selectorNoteStatus"),
@@ -775,6 +776,29 @@ function onClearNoteView() {
 
 
 // --------------------------------------------- SUPPRESSION D'UNE NOTE --------------------------------
+
+// popup de confirmation
+function onClickBtnDeleteNote() {
+    // Desactive les éléments et rends visible le popup de confirmation
+    onDisableMainPage(true);
+
+    divPopupDeleteRef.style.display = "block";
+}
+
+function onValidSuppression(){
+    // supprime la note active les pages et cache le popup
+    onDeleteNote()
+    onDisableMainPage(false);
+
+    divPopupDeleteRef.style.display = "none";
+}
+
+function onCancelSuppression() {
+    // active les pages et cache le popup
+    onDisableMainPage(false);
+    divPopupDeleteRef.style.display = "none";
+}
+
 
 
 function onDeleteNote() {

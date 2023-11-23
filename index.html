@@ -16,7 +16,7 @@
     <div class="divMain" id="divMain">
         <div class="dateVersion">
             <h1 id="h1DateDuJour"></h1>
-            <p>Release : 0.7.1</p>
+            <p>Release : 0.7.2</p>
             
         </div>
 
@@ -132,14 +132,14 @@
             <!-- Les boutons -->
             <p> 
                 <button class="basicBtn" onclick="onDisplayNoteEditor(false)"><img class="iconeMenu" src="./images/IconeEditer.png" alt="Editer"></button>
-                <button class="basicBtn" onclick="onDeleteNote()"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Supprimer" srcset=""></button>
+                <button class="basicBtn" onclick="onClickBtnDeleteNote()"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Supprimer" srcset=""></button>
                 <button class="basicBtn" onclick="onClickPrint()"><img class="iconeMenu" src="./images/Icone-imp.png" alt="Imprimer" srcset=""></button>
             </p>
         </div>
         <!-- ------------------ --------- FIN Visualisation d'une tache ------------------>
 
 
-    <!-- ----------------- Creation /modification d'une tache --------------------->
+        <!-- ----------------- Creation /modification d'une tache --------------------->
         <div id="divNoteEditor" class="divNoteEditor">
             <p>
                 <fieldset>
@@ -214,11 +214,23 @@
                 </fieldset>
             </p>
             <p class="pButtonEditor">
-                <button class="basicBtn" onclick="onClickBtnValidNoteEditor()"><img class="iconeMenu" src="./images/IconeTaskValider.png" alt="Valider" srcset=""></button>
+                <button class="basicBtn" onclick="onClickBtnValidNoteEditor()"><img class="iconeMenu" src="./images/IconeSave.png" alt="Valider" srcset=""></button>
                 <button class="basicBtn" onclick="onClickBtnAnnulNoteEditor()"><img class="iconeMenu" src="./images/IconeReturnCancel.png" alt="Retour-Annuler" srcset=""></button>    
             </p>
         </div>
         <!-- ----------------- FIN Creation /modification d'une tache --------------------->
+
+
+        <!-- ----------------- CONFIRMATION SUPPRESSION --------------------->
+        <div class="confirmSupr" id="divPopupDelete">
+            <p>Etes vous sur de vouloir supprimer cette tâche ?</p>
+            <button class="basicBtn" onclick="onValidSuppression()"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Retour-Annuler" srcset=""></button>
+            <button class="basicBtn" onclick="onCancelSuppression()"><img class="iconeMenu" src="./images/IconeReturnCancel.png" alt="Retour-Annuler" srcset=""></button>
+
+        </div>
+        <!-- ----------------- FIN CONFIRMATION SUPPRESSION --------------------->
+
+
     </div>
     <!-- --------------------------- FIN Div zone principale ------------------------------------- -->
 
