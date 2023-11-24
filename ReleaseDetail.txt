@@ -43,4 +43,7 @@ Version fonctionnel
     Evolution 
         Remplacement de l'icone Valider par une icone "Save".
         Confirmation lors de la suppression.
+0.7.3
+    Evolution
+        Zone detail : Appuyer sur la touche entrer fait passer à la ligne.
 

@@ -311,6 +311,15 @@ function onDisplayNoteEditor(boolModeCreation){
     }
 
 
+    // Met en attente l'action de la touche "entrer" pour passer à la ligne
+
+    textareaNoteDetailRef.addEventListener("keypress", function(event){
+        if (event.key ==="Enter") {
+            // event.preventDefault();
+            onInsertReturnLine();
+        }
+    })
+
 
 }
 
