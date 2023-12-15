@@ -256,23 +256,12 @@ let divNoteEditorRef = document.getElementById("divNoteEditor"),
     inputNoteTitleRef = document.getElementById("inputNoteTitle"),
     selectorNoteStatusRef = document.getElementById("selectorNoteStatus"),
     inputNoteDateStartRef = document.getElementById("inputNoteDateStart"),
-    inputNoteStep1Ref = document.getElementById("inputNoteStep1"),
-    inputNoteStep2Ref = document.getElementById("inputNoteStep2"),
-    inputNoteStep3Ref = document.getElementById("inputNoteStep3"),
-    inputNoteStep4Ref = document.getElementById("inputNoteStep4"),
-    inputNoteStep5Ref = document.getElementById("inputNoteStep5"),
-    inputNoteStep6Ref = document.getElementById("inputNoteStep6"),
     textareaNoteDetailRef = document.getElementById("textareaNoteDetail"),
     inputNoteDateEndRef = document.getElementById("inputNoteDateEnd"),
     selectorNotePriorityRef = document.getElementById("selectorNotePriority"),
-    checkboxNoteStep1Ref = document.getElementById("checkboxNoteStep1"),
-    checkboxNoteStep2Ref = document.getElementById("checkboxNoteStep2"),
-    checkboxNoteStep3Ref = document.getElementById("checkboxNoteStep3"),
-    checkboxNoteStep4Ref = document.getElementById("checkboxNoteStep4"),
-    checkboxNoteStep5Ref = document.getElementById("checkboxNoteStep5"),
-    checkboxNoteStep6Ref = document.getElementById("checkboxNoteStep6"),
-    legendNoteEditorRef = document.getElementById("legendNoteEditor");
-
+    legendNoteEditorRef = document.getElementById("legendNoteEditor"),
+    ulNoteEditorStepRef = document.getElementById("ulNoteEditorStep"),
+    currentNbreEditorStep = 0;
 
 
 
@@ -311,38 +300,8 @@ function onDisplayNoteEditor(boolModeCreation){
     }
 
 
-    // Met en attente l'action de la touche "entrer" pour passer à la ligne
-
-    textareaNoteDetailRef.addEventListener("keypress", function(event){
-        if (event.key ==="Enter") {
-            // event.preventDefault();
-            onInsertReturnLine();
-        }
-    })
-
 
 }
-
-
-
-
-// Bouton d'insertion d'éléments dans détail
-function onInsertReturnLine(){
-    // recupère le texte actuel
-    // ajoute le BR
-    // Insert le nouveau texte
-    let tempDetailEditor = textareaNoteDetailRef.value;
-    tempDetailEditor += "<br />"
-    textareaNoteDetailRef.value = tempDetailEditor;
-
-}
-
-
-
-
-
-
-
 
 
 
@@ -353,22 +312,11 @@ function onSetNoteEditor(e) {
     inputNoteTitleRef.value = e.title;
     selectorNoteStatusRef.value = e.status;
     inputNoteDateStartRef.value = e.dateStartUS;
-    inputNoteStep1Ref.value = e.step1;
-    inputNoteStep2Ref.value = e.step2;
-    inputNoteStep3Ref.value = e.step3;
-    inputNoteStep4Ref.value = e.step4;
-    inputNoteStep5Ref.value = e.step5;
-    inputNoteStep6Ref.value = e.step6;
     textareaNoteDetailRef.value = e.detail;
     inputNoteDateEndRef.value = e.dateEndUS;
     selectorNotePriorityRef.value = e.priority;
-    checkboxNoteStep1Ref.checked = e.step1Checked;
-    checkboxNoteStep2Ref.checked = e.step2Checked;
-    checkboxNoteStep3Ref.checked = e.step3Checked;
-    checkboxNoteStep4Ref.checked = e.step4Checked;
-    checkboxNoteStep5Ref.checked = e.step5Checked;
-    checkboxNoteStep6Ref.checked = e.step6Checked;
 
+    e.stepArray.forEach((i)=>onAddStep(true,i));
 
 }
 
@@ -381,28 +329,91 @@ function onClearNoteEditor() {
     inputNoteTagRef.value = "";
     inputNoteTitleRef.value = "";
     textareaNoteDetailRef.value = "";
-    inputNoteStep1Ref.value = "";
-    inputNoteStep2Ref.value = "";
-    inputNoteStep3Ref.value = "";
-    inputNoteStep4Ref.value = "";
-    inputNoteStep5Ref.value = "";
-    inputNoteStep6Ref.value = "";
     inputNoteDateStartRef.value = "";
     inputNoteDateEndRef.value = "";
     selectorNoteStatusRef.value = "A faire";
     selectorNotePriorityRef.value = "Routine";
-    checkboxNoteStep1Ref.checked = false;
-    checkboxNoteStep2Ref.checked = false;
-    checkboxNoteStep3Ref.checked = false;
-    checkboxNoteStep4Ref.checked = false;
-    checkboxNoteStep5Ref.checked = false;
-    checkboxNoteStep6Ref.checked = false;
+    ulNoteEditorStepRef.innerHTML = "";
+    currentNbreEditorStep = 0;
 };
 
 
 
 
+// Ajout d'une étape supplementaire
 
+// resultat Attendu : 
+
+    // <li>
+    //     
+    //         <input class="input-field" id="inputNoteStep1" type="text" placeholder="Etape 1" maxlength="80"/>
+    //         <input id="checkboxNoteStep1" type="checkbox">
+    //         <button class="blabla" onclick="onAddStep()">x</button>
+    // </li>
+
+
+function onAddStep(isNewStep,inputValue) {
+    
+
+    //création de l'ID 
+    let currentID = "liNoteStepRef" + currentNbreEditorStep;
+
+
+    // creation de la liste
+    let newLi = document.createElement("li");
+    newLi.id = currentID;
+
+    // Creation input texte
+    let newInput = document.createElement("input");
+    newInput.type = "text";
+    newInput.className ="input-field";
+    newInput.id = "inputNoteStep" + currentNbreEditorStep;
+    newInput.placeholder ="Nouvelle étape";
+    newInput.maxLength = "80";
+    newInput.name = "inputStepTAG";
+
+    // Creation input checkbox
+    let newCheckbox = document.createElement("input");
+    newCheckbox.type =  "checkbox";
+    newCheckbox.id = "checkboxNoteStep" + currentNbreEditorStep;
+    newCheckbox.name = "checkboxStepTAG";
+   
+
+    // Creation du bouton de suppression de l'etape
+    let newBtnDelete = document.createElement("button");
+    newBtnDelete.innerHTML = "x";
+    newBtnDelete.onclick = function () {
+        onDeleteStep(currentID);
+    }
+
+
+    // Filtre si des valeur à inserer dans le cas d'une réédition de note
+    if (isNewStep) {
+        newInput.value = inputValue.stepName;
+        newCheckbox.checked = inputValue.stepChecked;
+    };
+
+    // Insertion des nouveaux elements
+    newLi.appendChild(newInput);
+    newLi.appendChild(newCheckbox);
+    newLi.appendChild(newBtnDelete);
+    ulNoteEditorStepRef.appendChild(newLi);
+
+    // incremente le nbre de step
+    currentNbreEditorStep++;
+
+}
+
+
+
+
+
+// Suppression d'une étape
+function onDeleteStep(target) {
+    let deleteTarget = document.getElementById(target);
+    deleteTarget.remove();
+    currentNbreEditorStep--;
+}
 
 
 // Click sur le bouton de validation dans l'éditeur de note
@@ -430,8 +441,37 @@ function onFormatNote(){
      let tempDateStartUS = onFormatSelectedDateUS(inputNoteDateStartRef.value);
      let tempDateCreated = onFormatDateCreated();
 
+
+    // Recupere les ID des inputs pour les étapes (tagé "inputStepTAG")
+    let allInputStepArray = document.getElementsByName("inputStepTAG");
+    let allInputStepID =[];
+    allInputStepArray.forEach(e=>{
+        allInputStepID.push(e.id)
+    })
+
+    // Recupere les ID des checkbox
+    let allCheckBoxStepArray = document.getElementsByName("checkboxStepTAG");
+    let allCheckBoxStepID=[];
+    allCheckBoxStepArray.forEach(e=>{
+        allCheckBoxStepID.push(e.id);
+    })
+
+
+    // mise en tableau des étapes
+    let noteEditorStepArray = [];
+
+    for (let i = 0; i < allInputStepID.length; i++) {
+        let inputNoteStepRef = document.getElementById(allInputStepID[i]);
+        let checkboxNoteStepRef = document.getElementById(allCheckBoxStepID[i]);
+        noteEditorStepArray.push({stepName:inputNoteStepRef.value,stepChecked:checkboxNoteStepRef.checked});
+    }
+
     
-    
+
+
+
+
+
     // Mise en format variable
 
     let noteToInsert = {
@@ -441,18 +481,7 @@ function onFormatNote(){
         dateStartFR :tempDateStartFR,
         dateStartUS :tempDateStartUS,
         status : selectorNoteStatusRef.value,
-        step1 : inputNoteStep1Ref.value,
-        step1Checked : checkboxNoteStep1Ref.checked,
-        step2 : inputNoteStep2Ref.value,
-        step2Checked : checkboxNoteStep2Ref.checked,
-        step3 : inputNoteStep3Ref.value,
-        step3Checked : checkboxNoteStep3Ref.checked,
-        step4 : inputNoteStep4Ref.value,
-        step4Checked : checkboxNoteStep4Ref.checked,
-        step5 : inputNoteStep5Ref.value,
-        step5Checked : checkboxNoteStep5Ref.checked,
-        step6 : inputNoteStep6Ref.value,
-        step6Checked : checkboxNoteStep6Ref.checked,
+        stepArray : [],
         detail : textareaNoteDetailRef.value,
         dateEndFormated : tempDateEnd,
         dateEndFR : tempDateEndFR,
@@ -465,13 +494,8 @@ function onFormatNote(){
     noteToInsert.tag = onSetToUppercase(noteToInsert.tag);
     noteToInsert.title = onSetToUppercase(noteToInsert.title);
 
-    // Premiere lettre en majuscule
-    noteToInsert.step1 = onSetFirstLetterUppercase(noteToInsert.step1);
-    noteToInsert.step2 = onSetFirstLetterUppercase(noteToInsert.step2);
-    noteToInsert.step3 = onSetFirstLetterUppercase(noteToInsert.step3);
-    noteToInsert.step4 = onSetFirstLetterUppercase(noteToInsert.step4);
-    noteToInsert.step5 = onSetFirstLetterUppercase(noteToInsert.step5);
-    noteToInsert.step6 = onSetFirstLetterUppercase(noteToInsert.step6);
+    // Premiere lettre en majuscule pour les étapes et insertion du résultat dans le tableau
+    noteEditorStepArray.forEach(i=> noteToInsert.stepArray.push({stepName:onSetFirstLetterUppercase(i.stepName),stepChecked:i.stepChecked}));
 
     // traitement champ TAG VIDE
     if (noteToInsert.tag === "" || noteToInsert.tag === undefined) {
@@ -552,18 +576,7 @@ function onInsertModification(e) {
         modifiedData.detail = e.detail;
         modifiedData.priority = e.priority;
         modifiedData.status = e.status;
-        modifiedData.step1 = e.step1;
-        modifiedData.step2 = e.step2;
-        modifiedData.step3 = e.step3;
-        modifiedData.step4 = e.step4;
-        modifiedData.step5 = e.step5;
-        modifiedData.step6 = e.step6;
-        modifiedData.step1Checked = e.step1Checked;
-        modifiedData.step2Checked = e.step2Checked;
-        modifiedData.step3Checked = e.step3Checked;
-        modifiedData.step4Checked = e.step4Checked;
-        modifiedData.step5Checked = e.step5Checked;
-        modifiedData.step6Checked = e.step6Checked;
+        modifiedData.stepArray = e.stepArray;
         modifiedData.title = e.title;
 
 
@@ -676,20 +689,9 @@ let boolNoteViewItemsAlreadySet = false,//pour ne permettre le référencement q
     noteViewPriorityRef,
     hnoteViewStatusRef,
     pNoteViewDetailRef,
-    labelNoteViewStep1Ref,
-    labelNoteViewStep2Ref,
-    labelNoteViewStep3Ref,
-    labelNoteViewStep4Ref,
-    labelNoteViewStep5Ref,
-    labelNoteViewStep6Ref,
-    imgNoteViewCheckStep1Ref,
-    imgNoteViewCheckStep2Ref,
-    imgNoteViewCheckStep3Ref,
-    imgNoteViewCheckStep4Ref,
-    imgNoteViewCheckStep5Ref,
-    imgNoteViewCheckStep6Ref,
     noteViewDateInfoRef,
     pNoteViewDateCreatedRef,
+    ulNoteViewStepRef,
     divNoteViewRef;
 
 
@@ -704,21 +706,10 @@ function onDisplayNote(e) {
         noteViewPriorityRef = document.getElementById("noteViewPriority");
         hnoteViewStatusRef = document.getElementById("hnoteViewStatus");
         pNoteViewDetailRef = document.getElementById("pNoteViewDetail");
-        imgNoteViewCheckStep1Ref = document.getElementById("imgNoteViewCheckStep1");
-        imgNoteViewCheckStep2Ref = document.getElementById("imgNoteViewCheckStep2");
-        imgNoteViewCheckStep3Ref = document.getElementById("imgNoteViewCheckStep3");
-        imgNoteViewCheckStep4Ref = document.getElementById("imgNoteViewCheckStep4");
-        imgNoteViewCheckStep5Ref = document.getElementById("imgNoteViewCheckStep5");
-        imgNoteViewCheckStep6Ref = document.getElementById("imgNoteViewCheckStep6");
-        labelNoteViewStep1Ref = document.getElementById("labelNoteViewStep1");
-        labelNoteViewStep2Ref = document.getElementById("labelNoteViewStep2");
-        labelNoteViewStep3Ref = document.getElementById("labelNoteViewStep3");
-        labelNoteViewStep4Ref = document.getElementById("labelNoteViewStep4");
-        labelNoteViewStep5Ref = document.getElementById("labelNoteViewStep5");
-        labelNoteViewStep6Ref = document.getElementById("labelNoteViewStep6");
         noteViewDateInfoRef = document.getElementById("noteViewDateInfo");
         pNoteViewDateCreatedRef = document.getElementById("pNoteViewDateCreated");
         divNoteViewRef = document.getElementById("divNoteView");
+        ulNoteViewStepRef = document.getElementById("ulNoteViewStep");
 
         // les items ne sont référencés qu'une seule fois
         boolNoteViewItemsAlreadySet = true;
@@ -729,28 +720,60 @@ function onDisplayNote(e) {
     // Vide les élements prédédents
     onClearNoteView();
 
-
-
     // Set les nouveaux élements
     noteViewTagRef.innerHTML = "[ " + e.tag + " ]";
     noteViewTitleRef.innerHTML = e.title;
     noteViewPriorityRef.innerHTML = e.priority;
     hnoteViewStatusRef.innerHTML = e.status;
     pNoteViewDetailRef.innerHTML = e.detail;
-    imgNoteViewCheckStep1Ref.src = e.step1Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
-    imgNoteViewCheckStep2Ref.src = e.step2Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
-    imgNoteViewCheckStep3Ref.src = e.step3Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
-    imgNoteViewCheckStep4Ref.src = e.step4Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
-    imgNoteViewCheckStep5Ref.src = e.step5Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
-    imgNoteViewCheckStep6Ref.src = e.step6Checked ? "./images/IconeChecked.png" : "./images/iconBlank.png";
-    labelNoteViewStep1Ref.innerHTML = e.step1;
-    labelNoteViewStep2Ref.innerHTML = e.step2;
-    labelNoteViewStep3Ref.innerHTML = e.step3;
-    labelNoteViewStep4Ref.innerHTML = e.step4;
-    labelNoteViewStep5Ref.innerHTML = e.step5;
-    labelNoteViewStep6Ref.innerHTML = e.step6;
     noteViewDateInfoRef.innerHTML = "<b>Début : </b>" + e.dateStartFR +"   - - -   <b>Fin : </b>" + e.dateEndFR;
     pNoteViewDateCreatedRef.innerHTML = "<b>Note créée le : </b>" + e.dateCreated;
+
+
+    // génération des étapes en visualisation
+
+    // Resultat à atteindre
+    // <li>
+    //     <label id="labelNoteViewStep6">Etape 6</label>
+    //     <img id="imgNoteViewCheckStep6" class="iconeCheck" src="" alt="" srcset="">
+    //     <input type="checkbox" name="" id="" checked="true" disabled></input>
+    // </li>
+
+  
+
+    e.stepArray.forEach(i=>
+            {
+
+               
+                // Creation des éléments
+                let newLi = document.createElement("li");
+
+                let newLabel = document.createElement("label");
+                newLabel.innerHTML = i.stepName;
+
+
+                let newCheckbox = document.createElement("input");
+                newCheckbox.type ="checkbox";
+                if (i.stepChecked) {
+                    newCheckbox.setAttribute("checked",true);
+                }
+                newCheckbox.disabled = true;
+
+
+                // Insertion 
+
+                newLi.appendChild(newLabel);
+                newLi.appendChild(newCheckbox);
+
+                ulNoteViewStepRef.appendChild(newLi);
+
+
+            
+            }
+    )
+
+
+
 
     // Rend la visionneuse de note visible
     divNoteViewRef.style.display = "inline-block";
@@ -765,18 +788,7 @@ function onClearNoteView() {
     noteViewPriorityRef.innerHTML = "";
     hnoteViewStatusRef.innerHTML = "";
     pNoteViewDetailRef.innerHTML = "";
-    imgNoteViewCheckStep1Ref.src = "./images/iconBlank.png";
-    imgNoteViewCheckStep2Ref.src = "./images/iconBlank.png";
-    imgNoteViewCheckStep3Ref.src = "./images/iconBlank.png";
-    imgNoteViewCheckStep4Ref.src = "./images/iconBlank.png";
-    imgNoteViewCheckStep5Ref.src = "./images/iconBlank.png";
-    imgNoteViewCheckStep6Ref.src = "./images/iconBlank.png";
-    labelNoteViewStep1Ref.innerHTML = "";
-    labelNoteViewStep2Ref.innerHTML = "";
-    labelNoteViewStep3Ref.innerHTML = "";
-    labelNoteViewStep4Ref.innerHTML = "";
-    labelNoteViewStep5Ref.innerHTML = "";
-    labelNoteViewStep6Ref.innerHTML = "";
+    ulNoteViewStepRef.innerHTML = "";
     noteViewDateInfoRef.innerHTML = "";
     pNoteViewDateCreatedRef.innerHTML = "";
 }

@@ -95,6 +95,8 @@ label {
 
 .textarea-field{
 	display: inline-block;
+	white-space: pre-line;
+	white-space: pre-wrap;
     width: 400px;height: 220px;
     padding: 5px;
     border: 2px solid #3498db;
@@ -180,6 +182,8 @@ tr.viewNoteRowTitle p{
 
 /* Detail */
 tr.tableViewNoteRowDetail{
+	white-space: pre-line;
+	white-space: pre-wrap;
 	height: 180px;
 	background-color:#f0f0f0;
 }

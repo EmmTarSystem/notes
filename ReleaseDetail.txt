@@ -16,23 +16,23 @@ Version fonctionnel
     Optimisation code:
         modification system de formatage
     Evolution:
-        Champ TAG vide = DIVERS
-        Modification visuel bouton navigation note
+        Champ TAG vide = DIVERS.
+        Modification visuel bouton navigation note.
         ajout numéro release.
 
 0.6.0
     Optimisation code
-        Desactivation div par systeme d'array
+        Desactivation div par systeme d'array.
     Evolution
-        Modification visuel
-        Possibilité d'impression beta
-        Ajout d'un bouton retour Chariot pour "detail"
-        6 notes affichées par liste
-        ajout statut "Termine archive"
-        ajout background btn note avec image de priorité
-        correction des positionnements dans la liste des boutons
-        Mise en place des icônes
-        Correction date du jour Majuscule
+        Modification visuel.
+        Possibilité d'impression beta.
+        Ajout d'un bouton retour Chariot pour "detail".
+        6 notes affichées par liste.
+        ajout statut "Termine archive".
+        ajout background btn note avec image de priorité.
+        correction des positionnements dans la liste des boutons.
+        Mise en place des icônes.
+        Correction date du jour Majuscule.
 0.7.0
     Evolution
         Système d'impression fonctionnel
@@ -46,4 +46,11 @@ Version fonctionnel
 0.7.3
     Evolution
         Zone detail : Appuyer sur la touche entrer fait passer à la ligne.
+
+0.7.4
+    Correctif
+        Amelioration du systeme de saut de ligne dans les details.
+        Resolution du problème d'impression des checkbox d'étapes.
+    Evolution
+        Plus de limite des étapes.
 
