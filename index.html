@@ -16,8 +16,7 @@
     <div class="divMain" id="divMain">
         <div class="dateVersion">
             <h1 id="h1DateDuJour"></h1>
-            <p>Release : 0.7.4</p>
-            
+            <p>Release : 0.7.5</p>
         </div>
 
 
@@ -25,7 +24,7 @@
         <div class="mainMenu" id="divMainMenu">
             <p>
                 <button class="basicBtn"><img class="iconeMenu" src="./images/IconeSetting2.png" alt="Option"></button>
-                <button class="basicBtn" onclick="onDisplayNoteEditor(true)"><img class="iconeMenu" src="./images/IconeNewTask.png" alt="Nouvelle tâche" srcset=""></button>
+                <button class="basicBtn" onclick="onDisplayNoteEditor(true)" title="Nouvelle note"><img class="iconeMenu" src="./images/IconeNewTask.png" alt="Nouvelle tâche" srcset=""></button>
             </p>
         </div>
         
@@ -34,9 +33,19 @@
         <!-- ----------------- DIV Tableau d'affichage des boutons de notes--------------------------- -->
         <div class="listBtnNote" id="divListBtnNote">
             <h2>Mes tâches</h2>
+            <label class="labelTagFilter" for="tagFilter">Filtre : </label>
+            <select class="selectTag" name="" id="selectTagFilter" onchange="onSelectorTagChange()">
+                <!-- Injection des options -->
+            </select>
+            
             <table>
                 <tr class="rowTopLine">
-                    <th id="thTxtEnCours">En cours ( 0 )</th>
+                    <!-- <th id="thTxtEnCours">En cours ( 0 )</th> -->
+                    <th>
+                        <button class="btnPrevious" onclick="onClickNavNoteEnCoursPrevious()" id="btnNoteEnCoursPrevious" title="Précédent">&#60;</button>
+                        <p class="btnPreviousNext" id="pTxtEnCours">En cours ( 0 )</p>
+                        <button class="btnNext" onclick="onClickNavNoteEnCoursNext()" id="btnNoteEnCoursNext" title="Suivant">&#62;</button>
+                    </th>
                 </tr>
                 <tr>
                     <td class="tdListeNotes">
@@ -45,15 +54,13 @@
                         </div>
                     </td>
                 </tr>
-                <tr class="tableRowBtn">
-                    <!-- Navigation suivants/précédents liste de note -->
-                    <td>
-                        <button class="basicBtn" onclick="onClickNavNoteEnCoursPrevious()" id="btnNoteEnCoursPrevious"><img class="iconeNavigation" src="./images/IconePrevious.png" alt="Précédent" srcset=""></button>
-                        <button class="basicBtn" onclick="onClickNavNoteEnCoursNext()" id="btnNoteEnCoursNext"><img class="iconeNavigation" src="./images/IconeNext.png" alt="Suivant" srcset=""></button>
-                    </td>
-                </tr>
                 <tr class="rowTopLine">
-                    <th id="thTxtAFaire">A faire ( 0 )</th>
+                    <!-- <th id="thTxtAFaire">A faire ( 0 )</th> -->
+                    <th>
+                        <button class="btnPrevious" onclick="onClickNavNoteAFairePrevious()" id="btnNoteAFairePrevious" title="Précédent">&#60;</button>
+                        <p class="btnPreviousNext" id="pTxtAFaire">En cours ( 0 )</p>
+                        <button class="btnNext" onclick="onClickNavNoteAFaireNext()" id="btnNoteAFaireNext" title="Suivant">&#62;</button>
+                    </th>
                 </tr>
                 <tr>
                     <td class="tdListeNotes">
@@ -62,14 +69,6 @@
                         </div>
                     </td>
                 </tr>
-                <tr class="tableRowBtn">
-                    <!-- Navigation suivants/précédents liste de note -->
-                    <td>
-                        <button class="basicBtn" onclick="onClickNavNoteAFairePrevious()" id="btnNoteAFairePrevious"><img class="iconeNavigation" src="./images/IconePrevious.png" alt="Précédent" srcset=""></button>
-                        <button class="basicBtn" onclick="onClickNavNoteAFaireNext()" id="btnNoteAFaireNext"><img class="iconeNavigation" src="./images/IconeNext.png" alt="Suivant" srcset=""></button>
-                    </td>
-                </tr>
-                
             </table>
         </div>
         <!-- -----------------FIN DIV Tableau d'affichage des boutons de notes--------------------------- -->
@@ -90,7 +89,7 @@
                         <td colspan="3"><p id="noteViewTitle"> TITRE </p></td>
                     </tr>
                     <tr class="tableViewNoteRowDetail">
-                        <td colspan="3"><p id="pNoteViewDetail">Detail</p></td>
+                        <td colspan="3"><p id="pNoteViewDetail" class="noteViewDetail">Detail</p></td>
                     </tr>
                     <tr class="tableViewNoteRowStep">
                         <td colspan="3">
@@ -109,9 +108,9 @@
             </div>
             <!-- Les boutons -->
             <p> 
-                <button class="basicBtn" onclick="onDisplayNoteEditor(false)"><img class="iconeMenu" src="./images/IconeEditer.png" alt="Editer"></button>
-                <button class="basicBtn" onclick="onClickBtnDeleteNote()"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Supprimer" srcset=""></button>
-                <button class="basicBtn" onclick="onClickPrint()"><img class="iconeMenu" src="./images/Icone-imp.png" alt="Imprimer" srcset=""></button>
+                <button class="basicBtn" onclick="onDisplayNoteEditor(false)" title="Modifier"><img class="iconeMenu" src="./images/IconeEditer.png" alt="Editer"></button>
+                <button class="basicBtn" onclick="onClickBtnDeleteNote()" title="Supprimer"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Supprimer" srcset=""></button>
+                <button class="basicBtn" onclick="onClickPrint()" title="Imprimer"><img class="iconeMenu" src="./images/Icone-imp.png" alt="Imprimer" srcset=""></button>
             </p>
         </div>
         <!-- ------------------ --------- FIN Visualisation d'une tache ------------------>
@@ -143,7 +142,6 @@
                             <select name="" id="selectorNoteStatus">
                                 <option value="A faire">A faire</option>
                                 <option value="En cours">En cours</option>
-                                <option value="Termine archive">Archive</option>
                                 <option value="A supprimer">A supprimer</option>
                             </select>
                         </li>
@@ -155,7 +153,7 @@
                     <ul id="ulNoteEditorStep">
                         <!-- Injection des étapes -->
                     </ul>
-                    <button onclick="onAddStep()">add step</button>
+                    <button class="btnAddStep" onclick="onAddStep()">Ajouter une étape</button>
                     <ul>
                         <li>
                             <label for="inputNoteDateStart">Date début</label>
@@ -168,8 +166,8 @@
                 </fieldset>
             </p>
             <p class="pButtonEditor">
-                <button class="basicBtn" onclick="onClickBtnValidNoteEditor()"><img class="iconeMenu" src="./images/IconeSave.png" alt="Valider" srcset=""></button>
-                <button class="basicBtn" onclick="onClickBtnAnnulNoteEditor()"><img class="iconeMenu" src="./images/IconeReturnCancel.png" alt="Retour-Annuler" srcset=""></button>    
+                <button class="basicBtn" onclick="onClickBtnValidNoteEditor()" title="Sauvegarder"><img class="iconeMenu" src="./images/IconeSave.png" alt="Valider" srcset=""></button>
+                <button class="basicBtn" onclick="onClickBtnAnnulNoteEditor()" title="Retour"><img class="iconeMenu" src="./images/IconeReturnCancel.png" alt="Retour-Annuler" srcset=""></button>    
             </p>
         </div>
         <!-- ----------------- FIN Creation /modification d'une tache --------------------->
@@ -189,11 +187,11 @@
     <!-- --------------------------- FIN Div zone principale ------------------------------------- -->
 
 
-
     
 
     <script src="./scripts/App.js"></script>
     <script src="./scripts/NoteSystem.js"></script>
+    <script src="./scripts/FilterSystem.js"></script>
     <script src="./scripts/print.js"></script>
 </body>
 </html>

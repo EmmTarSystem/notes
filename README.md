@@ -27,7 +27,7 @@ Remarque : IndexedDB Exporter ne modifie ni ne supprime aucune donnée dans les
 
 ## Versions
 
-**Dernière version stable :** 0.7.2
+**Dernière version stable :** 0.7.4
 **Dernière version :** 0.7.4
 
 

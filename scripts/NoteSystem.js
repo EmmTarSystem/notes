@@ -32,7 +32,7 @@ let notesEnCoursArray= [],//les notes en cours
 
 
 
-function onUpdatePage() {
+function onUpdatePage(isUpdateTagListRequired) {
     console.log("update Page");
     // Clear la page
     // Reset les array
@@ -59,9 +59,17 @@ function onUpdatePage() {
         let arrayResult = request.result;
         
 
-        // fonction de trie
-        onSortItem(arrayResult)
-        // Referme l'accès base
+        // Filtre se mise à jour du selecteur de tag
+        if (isUpdateTagListRequired) {
+            // TEST FILTRE  PAR TAG
+            onListTAG(arrayResult);
+        }else{
+            // fonction de trie
+            onSortItem(arrayResult);
+        }
+
+        
+
         
     }
     request.error = function (){
@@ -71,14 +79,24 @@ function onUpdatePage() {
 
 
 
+
+
 // Trie et stock dans les variables avec uniquement key/titre/priorité/tag
 function onSortItem(arrayResult) {
     
 
-    //Filtre sur les notes en cours
+    
+    //Filtre sur les notes en cours avec le filtre du tag
     console.log("Trie des éléments 'En cours'");
     let tempNoteEnCoursArray = arrayResult.filter((item) =>{
-        return item.status === "En cours";
+
+        if (currentTagFilter === genericTAG) {
+            return item.status === "En cours";
+        }else{
+            return item.status === "En cours" && item.tag === currentTagFilter;
+            
+        }
+        
     })
 
     // Ne recupère que les valeurs nécessaires
@@ -88,10 +106,17 @@ function onSortItem(arrayResult) {
 
 
 
-    //Filtre sur les notes A FAIRE
+    //Filtre sur les notes A FAIRE avec le filtre du tag
     console.log("Trie des éléments 'A faire'");
     let tempNoteAFaireArray = arrayResult.filter((item) =>{
-        return item.status === "A faire";
+
+        if (currentTagFilter === genericTAG) {
+            return item.status === "A faire";
+        }else{
+            return item.status === "A faire" && item.tag === currentTagFilter;
+            
+        }
+        
     })
 
     // Ne recupère que les valeurs nécessaires
@@ -102,8 +127,8 @@ function onSortItem(arrayResult) {
 
     
     // Creation des liste de notes par catégories
-    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"thTxtEnCours","En cours");
-    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"thTxtAFaire","A Faire");
+    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"pTxtEnCours","En cours");
+    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"pTxtAFaire","A Faire");
 }
 
 
@@ -215,23 +240,23 @@ function onSetBtnNavNotesVisibility() {
 // Notes en cours
 function onClickNavNoteEnCoursPrevious() {
     noteEnCoursIndexToStart -= maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"thTxtEnCours","En cours");
+    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"pTxtEnCours","En cours");
 }
 
 function onClickNavNoteEnCoursNext() {
     noteEnCoursIndexToStart += maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"thTxtEnCours","En cours");
+    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"pTxtEnCours","En cours");
 }
 
 // Notes à faire
 function onClickNavNoteAFairePrevious() {
     noteAFaireIndexToStart -= maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"thTxtAFaire","A Faire");
+    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"pTxtAFaire","A Faire");
 }
 
 function onClickNavNoteAFaireNext() {
     noteAFaireIndexToStart += maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"thTxtAFaire","A Faire");
+    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"pTxtAFaire","A Faire");
 }
 
 
@@ -348,7 +373,7 @@ function onClearNoteEditor() {
     //     
     //         <input class="input-field" id="inputNoteStep1" type="text" placeholder="Etape 1" maxlength="80"/>
     //         <input id="checkboxNoteStep1" type="checkbox">
-    //         <button class="blabla" onclick="onAddStep()">x</button>
+    //         <button class="blabla" onclick="onDeleteStep()">x</button>
     // </li>
 
 
@@ -379,10 +404,11 @@ function onAddStep(isNewStep,inputValue) {
     newCheckbox.name = "checkboxStepTAG";
    
 
-    // Creation du bouton de suppression de l'etape
-    let newBtnDelete = document.createElement("button");
-    newBtnDelete.innerHTML = "x";
-    newBtnDelete.onclick = function () {
+    // Creation du bouton de suppression de l'etape (image)
+    let newImg = document.createElement("img");
+    newImg.className = "supprStepIcon";
+    newImg.src = "./images/IconesDelete.png";
+    newImg.onclick = function () {
         onDeleteStep(currentID);
     }
 
@@ -396,7 +422,7 @@ function onAddStep(isNewStep,inputValue) {
     // Insertion des nouveaux elements
     newLi.appendChild(newInput);
     newLi.appendChild(newCheckbox);
-    newLi.appendChild(newBtnDelete);
+    newLi.appendChild(newImg);
     ulNoteEditorStepRef.appendChild(newLi);
 
     // incremente le nbre de step
@@ -512,7 +538,7 @@ function onFormatNote(){
         console.log(noteToInsert);
         // Insertion des datas dans la base
         onInsertData(noteToInsert);
-        onUpdatePage();
+        onUpdatePage(true);
     }else{
         onInsertModification(noteToInsert);
         console.log("mode modification de note");
@@ -586,7 +612,7 @@ function onInsertModification(e) {
             console.log("insertModifiedData = success");
 
             // Actualisation de la page
-            onUpdatePage();
+            onUpdatePage(true);
         }
 
         insertModifiedData.onerror = function (){
@@ -735,7 +761,6 @@ function onDisplayNote(e) {
     // Resultat à atteindre
     // <li>
     //     <label id="labelNoteViewStep6">Etape 6</label>
-    //     <img id="imgNoteViewCheckStep6" class="iconeCheck" src="" alt="" srcset="">
     //     <input type="checkbox" name="" id="" checked="true" disabled></input>
     // </li>
 
@@ -758,6 +783,10 @@ function onDisplayNote(e) {
                     newCheckbox.setAttribute("checked",true);
                 }
                 newCheckbox.disabled = true;
+
+
+
+                
 
 
                 // Insertion 
@@ -833,14 +862,12 @@ function onDeleteNote() {
     request.onsuccess = function (){
         console.log("Requete de suppression réussit");
         
-        onUpdatePage();
+        onUpdatePage(true);
     };
 
     request.onerror = function (){
         console.log("Erreur lors de la requete de suppression");
-        
-
-        
+                
     };
 
     // Clear le visualiseur de note

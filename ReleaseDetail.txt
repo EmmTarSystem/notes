@@ -53,4 +53,10 @@ Version fonctionnel
         Resolution du problème d'impression des checkbox d'étapes.
     Evolution
         Plus de limite des étapes.
-
+0.7.5
+    Correctif
+        Modification des icones de suppression des étapes.
+        Modification emplacement bouton next previous.
+    Evolution
+        Ajout des infos bulles.
+        Ajout de la possibilité de filtrer par TAG.

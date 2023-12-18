@@ -80,7 +80,7 @@ function onStartDataBase() {
         console.log("Data Base ready");
 
         // Premiere actualisation de la page
-        onUpdatePage();
+        onUpdatePage(true);
     };
 
 

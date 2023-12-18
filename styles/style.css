@@ -67,7 +67,7 @@ img.iconeCheck{
 	position: absolute;
 	left: 55%;top: 15px;
 	display: none;
-    width: var(--div-note-width);
+    width: 500px;
 	background: var(--gradient-blue);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -79,14 +79,14 @@ img.iconeCheck{
 label {
     display: inline-block;
     margin-bottom: 5px;
-    font-size: 16px;
+    font-size: 12px;
     color: #ffffff;
 }
   
   /* Style des champs de texte */
 .input-field{
     display: inline-block;
-    width: 450px;
+    width: 370px;
     padding: 5px;
     border: 2px solid #3498db;
     border-radius: 5px;
@@ -97,7 +97,7 @@ label {
 	display: inline-block;
 	white-space: pre-line;
 	white-space: pre-wrap;
-    width: 400px;height: 220px;
+    width: 90%;height: 150px;
     padding: 5px;
     border: 2px solid #3498db;
     border-radius: 5px;
@@ -135,6 +135,45 @@ p.pButtonEditor{
 .btnDetailEditor:hover{
 	transform: scale(1.05);
 }
+
+
+
+
+/* les etapes */
+
+/* Icone de suppression des étapes */
+img.supprStepIcon{
+	width: 18px;
+}
+img.supprStepIcon:hover{
+	transform: scale(1.1);
+}
+
+label.labelTagFilter{
+	color: black;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+button.btnAddStep{
+	border: 1px solid #999;
+    font-size: 14px;
+    color: #1c87c9;
+    background-color: #eee;
+    border-radius: 5px;
+	text-align: center;
+	cursor: pointer;
+  	transition: background 0.3s, transform 0.2s;
+
+}
+
+
+button.btnAddStep:hover{
+	transform: scale(1.05);
+	background: var(--gradient-blue);
+	color: white;
+}
+
 /* ------------------------------------------  Visualisation des notes ------------------------------*/
 
 div.divNoteView{
@@ -145,7 +184,7 @@ div.divNoteView{
   	padding: 20px;
   	border-radius: 10px;
   	box-shadow: 0 0 10px rgba(3, 110, 241, 0.1); /* Ombre portée */
-	width: var(--div-note-width);height: 600px;
+	width: 500px;height: 600px;
 	text-align: center;
 	display: none;
 }
@@ -176,7 +215,7 @@ tr.viewNoteRowTitle {
 }
 tr.viewNoteRowTitle p{
 	color: black;
-	font-size: 2.5ch;
+	font-size: 2.2ch;
 	font-weight: bold;
 }
 
@@ -184,7 +223,7 @@ tr.viewNoteRowTitle p{
 tr.tableViewNoteRowDetail{
 	white-space: pre-line;
 	white-space: pre-wrap;
-	height: 180px;
+	height: 150px;
 	background-color:#f0f0f0;
 }
 
@@ -193,6 +232,7 @@ tr.tableViewNoteRowDetail p{
 	font-size: 1.8ch;
 	color: black;
 	text-align: justify;
+	font-size: 12px;
 }
 
 /* Step */
@@ -254,6 +294,19 @@ div.mainMenu{
 
 /* -------------------------------- Liste des notes----------------------------------- */
 
+/* Style du selecteur de tag */
+select.selectTag{
+	width: 180px;
+    border: 1px solid #999;
+    font-size: 14px;
+    color: #1c87c9;
+    background-color: #eee;
+    border-radius: 5px;
+	text-align: center;
+	cursor: pointer;
+}
+
+
 
 
 /* la div de la liste des notes */
@@ -269,10 +322,62 @@ div.listBtnNote{
 /* Ligne entre les status de notes */
 tr.rowTopLine{
 	background: var(--gradient-blue);
-	color: white;
+	/* color: white; */
+}
+
+button.btnPrevious{
+	display: inline-block;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	background-color: white;
+	color: blue;
+	border-radius: 10px 0px 0px 10px;
+	border: none;
+	font-weight: bolder;
+	cursor: pointer;
 }
 
 
+
+button.btnPrevious:disabled{
+	background-color: #cccccc;
+	color: #666666;
+	font-weight: lighter;
+	cursor:default;
+}
+
+button.btnNext{
+	display: inline-block;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	background-color: white;
+	color: blue;
+	border-radius: 0px 10px 10px 0px;
+	border: none;
+	font-weight: bolder;
+	cursor: pointer;
+}
+
+
+
+button.btnNext:disabled{
+	background-color: #cccccc;
+	color: #666666;
+	font-weight: lighter;
+	cursor:default;
+}
+
+
+
+
+
+p.btnPreviousNext{
+	display: inline-block;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	color: white;
+	font-size: 16px;
+}
 
 td.tdListeNotes{
 	height: 200px;

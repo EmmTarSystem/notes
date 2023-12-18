@@ -1,13 +1,12 @@
 function onClickPrint() {
     // Récupère le contenu de la div
-    let contentToPrint = document.getElementById('printArea').innerHTML;
-
+    const contentToPrint = document.getElementById('printArea').innerHTML;
 
 
     // Creation fenetre et insertion des éléments à imprimer
     let pageToPrint = window.open('', '', 'width=600,height=600');
     pageToPrint.document.open();
-    pageToPrint.document.write('<html><head><title>Tâches</title>');
+    pageToPrint.document.write('<html><head><title>Tâche</title>');
     // Style
     pageToPrint.document.write('<style>');
     pageToPrint.document.write('table, th, td{width: 800px;text-align: center;}');
