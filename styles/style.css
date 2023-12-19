@@ -18,7 +18,7 @@ body {
 
 /* position interface global */
 
-div.divMain{
+div.divAccueil{
 	margin-left: auto;
 	margin-right: auto;
 	width: 1500px;height: 700px;
@@ -32,7 +32,7 @@ div.divMain{
 
 div.dateVersion{
 	position: absolute;
-	margin-left: 5%;
+	margin-left: 120px;
 	width: 500px;
 }
 
@@ -60,12 +60,35 @@ img.iconeNavigation{
 img.iconeCheck{
 	width: 10px;
 }
+
+/* -------------------------------       NAVIGATION BAR           --------------------------------*/
+
+div.navBar{
+	position: absolute;
+	width: 100px;height: 100%;
+	background: var(--gradient-blue);
+	text-align: center;
+}
+
+
+
+img.iconMainMenu{
+	width: 50px;
+}
+
+p.release{
+	color: white;
+}
+
+
+
+
 /* ---------------------------------------------- EDITION de NOTES ------------------------------ */
 
 /* Style de l'éditeur de note */
 .divNoteEditor {
 	position: absolute;
-	left: 55%;top: 15px;
+	left: 60%;top: 15px;
 	display: none;
     width: 500px;
 	background: var(--gradient-blue);
@@ -178,7 +201,7 @@ button.btnAddStep:hover{
 
 div.divNoteView{
 	position: absolute;
-	left: 55%;top: 15px;
+	left: 60%;top: 15px;
 	background: var(--gradient-blue);
   	color: #333; /* Couleur du texte */
   	padding: 20px;
@@ -313,7 +336,7 @@ select.selectTag{
 div.listBtnNote{
 	position: relative;
 	text-align: center;
-	top: 15%;left: 2%;
+	top: 15%;left: 10%;
 	width: 700px;
 }
 
@@ -340,9 +363,6 @@ button.btnPrevious{
 
 
 button.btnPrevious:disabled{
-	background-color: #cccccc;
-	color: #666666;
-	font-weight: lighter;
 	cursor:default;
 }
 
@@ -361,9 +381,6 @@ button.btnNext{
 
 
 button.btnNext:disabled{
-	background-color: #cccccc;
-	color: #666666;
-	font-weight: lighter;
 	cursor:default;
 }
 

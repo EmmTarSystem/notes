@@ -51,7 +51,7 @@ function onUpdatePage(isUpdateTagListRequired) {
     let indexStore = objectStore.index("title");
     let request = indexStore.getAll();
 
-   request.onsuccess = function (){
+    request.onsuccess = function (){
         console.log("Les éléments ont été récupéré dans la base");
         console.log("stockage dans le tableau temporaire");
 
@@ -84,6 +84,18 @@ function onUpdatePage(isUpdateTagListRequired) {
 // Trie et stock dans les variables avec uniquement key/titre/priorité/tag
 function onSortItem(arrayResult) {
     
+    // Traitement des items "TERMINER"
+    // Filtre sur le status
+    let tempNoteTerminer = arrayResult.filter(item=>{
+        return item.status === "Terminer";
+    })
+
+    console.log("Valeur de tempNoteTerminer = ")
+    console.log(tempNoteTerminer);
+    // Traite chaque note filtrée
+    tempNoteTerminer.forEach(e=>{
+        onDeleteNoteTerminer(e)
+    })
 
     
     //Filtre sur les notes en cours avec le filtre du tag
@@ -217,24 +229,33 @@ function onSetBtnNavNotesVisibility() {
     // Bouton note A faire "suivant"
     if (noteAFaireIndexToStart + maxBtnNoteToDisplay >= notesAFaireArray.length) {
         btnNoteAFaireNextRef.disabled = "disabled";
+        btnNoteAFaireNextRef.style.opacity = "0";
     }else{
         btnNoteAFaireNextRef.disabled = "";
+        btnNoteAFaireNextRef.style.opacity = "1";
     }
 
     // Bouton note A faire "précédent"
     btnNoteAFairePreviousRef.disabled = noteAFaireIndexToStart === 0 ? "disabled": "";
+    btnNoteAFairePreviousRef.style.opacity = noteAFaireIndexToStart === 0 ? "0": "1";
 
-    // Bouton note A faire "suivant"
+
+    // Bouton note En cours "suivant"
     if (noteEnCoursIndexToStart + maxBtnNoteToDisplay >= notesEnCoursArray.length) {
         btnNoteEnCoursNextRef.disabled = "disabled";
+        btnNoteEnCoursNextRef.style.opacity = "0";
     }else{
         btnNoteEnCoursNextRef.disabled = "";
+        btnNoteEnCoursNextRef.style.opacity = "1";
     }
 
-    // Bouton note A faire "précédent"
+    // Bouton note En cours "précédent"
     btnNoteEnCoursPreviousRef.disabled = noteEnCoursIndexToStart === 0 ? "disabled": "";
-    
+    btnNoteEnCoursPreviousRef.style.opacity = noteEnCoursIndexToStart === 0 ? "0": "1";
 }
+
+
+
 
 // Navigation dans les boutons de notes
 // Notes en cours
@@ -495,9 +516,7 @@ function onFormatNote(){
     
 
 
-
-
-
+    
     // Mise en format variable
 
     let noteToInsert = {
@@ -513,8 +532,14 @@ function onFormatNote(){
         dateEndFR : tempDateEndFR,
         dateEndUS : tempDateEndUS,
         dateCreated : tempDateCreated,
-        priority : selectorNotePriorityRef.value
+        priority : selectorNotePriorityRef.value,
+        dateToDelete :0
     }
+
+    // DETECTION demande de suppression enregistre la date du jour en milliseconde (à laquelle viendra s'ajouter le delay avant suppression)
+    if (selectorNoteStatusRef.value === "Terminer") {
+        noteToInsert.dateToDelete = Date.now();
+    };
 
     //Formatage en full majuscule titre/TAG
     noteToInsert.tag = onSetToUppercase(noteToInsert.tag);
@@ -604,7 +629,7 @@ function onInsertModification(e) {
         modifiedData.status = e.status;
         modifiedData.stepArray = e.stepArray;
         modifiedData.title = e.title;
-
+        modifiedData.dateToDelete = e.dateToDelete;
 
         let insertModifiedData = store.put(modifiedData);
 

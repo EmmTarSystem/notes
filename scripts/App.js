@@ -143,7 +143,6 @@ function onFormatSelectedDateUS(e) {
 
 // Desactivation de la page principale
 let allDivToDisable = [];
-    allDivToDisable.push(document.getElementById("divMainMenu"));
     allDivToDisable.push(document.getElementById("divListBtnNote"));
     allDivToDisable.push(document.getElementById("divNoteView"));
 
@@ -168,6 +167,12 @@ function onSetFirstLetterUppercase(e) {
     let firstLetterUpperCase = e.charAt(0).toUpperCase() + e.slice(1);
     return firstLetterUpperCase;
 }
+
+
+
+
+
+
 
 
 

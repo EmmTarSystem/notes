@@ -11,33 +11,33 @@
        
 
     <!-- ---------------------------  Div zone principale ------------------------------------- -->
+    <div class="navBar">
+        <img class="iconMainMenu" src="./images/IconeHome.png" alt="" srcset="">
+        <img class="iconMainMenu" src="./images/IconeDashboard.png" alt="" srcset="">
+        <img class="iconMainMenu" src="./images/IconeSetting.png" alt="" srcset="">
+        <img class="iconMainMenu" src="./images/IconeAbout.png" alt="" srcset="">
+        <p class="release">Release 0.7.6</p>
+    </div>
+    <div class="dateVersion">
+        <h1 id="h1DateDuJour"></h1>
+    </div>
 
-    
-    <div class="divMain" id="divMain">
-        <div class="dateVersion">
-            <h1 id="h1DateDuJour"></h1>
-            <p>Release : 0.7.5</p>
-        </div>
 
-
-
-        <div class="mainMenu" id="divMainMenu">
-            <p>
-                <button class="basicBtn"><img class="iconeMenu" src="./images/IconeSetting2.png" alt="Option"></button>
-                <button class="basicBtn" onclick="onDisplayNoteEditor(true)" title="Nouvelle note"><img class="iconeMenu" src="./images/IconeNewTask.png" alt="Nouvelle tâche" srcset=""></button>
-            </p>
-        </div>
-        
-        
+    <div class="divAccueil" id="divAccueil">        
 
         <!-- ----------------- DIV Tableau d'affichage des boutons de notes--------------------------- -->
         <div class="listBtnNote" id="divListBtnNote">
             <h2>Mes tâches</h2>
+            
             <label class="labelTagFilter" for="tagFilter">Filtre : </label>
             <select class="selectTag" name="" id="selectTagFilter" onchange="onSelectorTagChange()">
                 <!-- Injection des options -->
             </select>
-            
+
+            <button class="basicBtn" onclick="onDisplayNoteEditor(true)" title="Nouvelle note">
+                <img class="iconeMenu" src="./images/IconeNewTask.png" alt="Nouvelle tâche" srcset="">
+            </button>
+
             <table>
                 <tr class="rowTopLine">
                     <!-- <th id="thTxtEnCours">En cours ( 0 )</th> -->
@@ -142,7 +142,7 @@
                             <select name="" id="selectorNoteStatus">
                                 <option value="A faire">A faire</option>
                                 <option value="En cours">En cours</option>
-                                <option value="A supprimer">A supprimer</option>
+                                <option value="Terminer">Terminer</option>
                             </select>
                         </li>
                         <li>
@@ -191,7 +191,8 @@
 
     <script src="./scripts/App.js"></script>
     <script src="./scripts/NoteSystem.js"></script>
-    <script src="./scripts/FilterSystem.js"></script>
+    <script src="./scripts/TagFilterSystem.js"></script>
+    <script src="./scripts/autoDeleteSystem.js"></script>
     <script src="./scripts/print.js"></script>
 </body>
 </html>
