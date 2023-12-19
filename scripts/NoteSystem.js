@@ -3,27 +3,23 @@
 
 
 
-let notesEnCoursArray= [],//les notes en cours
-    notesAFaireArray =[],//les notes à faire
+let noteStatus1Array= [],//les notes en cours
+    notesStatus0Array =[],//les notes à faire
     currentKeyNoteInView,//la key de la note en cours de visualisation
     currentNoteInView,//le contenu de la note en cours de visualisation
     boolEditNoteCreation,//mode d'ouverture de l'editeur de note en mode création ou modification
-    noteEnCoursIndexToStart,//pour l'affichage des notes avec les boutons next et previous
-    noteAFaireIndexToStart,//pour l'affichage des notes avec les boutons next et previous
+    noteStatus1IndexToStart,//pour l'affichage des notes avec les boutons next et previous
+    noteStatus0IndexToStart,//pour l'affichage des notes avec les boutons next et previous
     maxBtnNoteToDisplay = 6,//nbre de bouton maximum qui sont affiché dans la liste
-    btnNoteEnCoursPreviousRef = document.getElementById("btnNoteEnCoursPrevious"),//les boutons de navigation des notes
-    btnNoteEnCoursNextRef = document.getElementById("btnNoteEnCoursNext"),//les boutons de navigation des notes
-    btnNoteAFairePreviousRef = document.getElementById("btnNoteAFairePrevious"),//les boutons de navigation des notes
-    btnNoteAFaireNextRef = document.getElementById("btnNoteAFaireNext");//les boutons de navigation des notes
+    btnNoteStatus1PreviousRef = document.getElementById("btnNoteStatus1Previous"),//les boutons de navigation des notes
+    btnNoteStatus1NextRef = document.getElementById("btnNoteStatus1Next"),//les boutons de navigation des notes
+    btnNoteStatus0PreviousRef = document.getElementById("btnNoteStatus0Previous"),//les boutons de navigation des notes
+    btnNoteStatus0NextRef = document.getElementById("btnNoteStatus0Next");//les boutons de navigation des notes
 
 
-
-
-
-
-
-
-
+let statusArray = ["A faire","En cours","Terminer"];
+let priorityArray = ["Routine","Urgent","Flash"];
+    
 
 
 
@@ -36,10 +32,10 @@ function onUpdatePage(isUpdateTagListRequired) {
     console.log("update Page");
     // Clear la page
     // Reset les array
-    notesEnCoursArray = [];
-    notesAFaireArray = [];
-    noteEnCoursIndexToStart = 0;
-    noteAFaireIndexToStart = 0;
+    noteStatus1Array = [];
+    notesStatus0Array = [];
+    noteStatus1IndexToStart = 0;
+    noteStatus0IndexToStart = 0;
     
 
 
@@ -64,10 +60,12 @@ function onUpdatePage(isUpdateTagListRequired) {
             // TEST FILTRE  PAR TAG
             onListTAG(arrayResult);
         }else{
-            // fonction de trie
+            // fonction de trie 
             onSortItem(arrayResult);
+            
         }
-
+        // check item à supprimer la premiere fois
+        if (!isDeleteAllReadyChecked) {onCheckItemToDelete(arrayResult);}
         
 
         
@@ -81,66 +79,54 @@ function onUpdatePage(isUpdateTagListRequired) {
 
 
 
+
 // Trie et stock dans les variables avec uniquement key/titre/priorité/tag
 function onSortItem(arrayResult) {
     
-    // Traitement des items "TERMINER"
-    // Filtre sur le status
-    let tempNoteTerminer = arrayResult.filter(item=>{
-        return item.status === "Terminer";
-    })
-
-    console.log("Valeur de tempNoteTerminer = ")
-    console.log(tempNoteTerminer);
-    // Traite chaque note filtrée
-    tempNoteTerminer.forEach(e=>{
-        onDeleteNoteTerminer(e)
-    })
-
     
     //Filtre sur les notes en cours avec le filtre du tag
-    console.log("Trie des éléments 'En cours'");
-    let tempNoteEnCoursArray = arrayResult.filter((item) =>{
+    console.log("Trie des éléments " + statusArray[1]);
+    let tempNoteStatus1Array = arrayResult.filter((item) =>{
 
         if (currentTagFilter === genericTAG) {
-            return item.status === "En cours";
+            return item.status === statusArray[1];
         }else{
-            return item.status === "En cours" && item.tag === currentTagFilter;
+            return item.status === statusArray[1] && item.tag === currentTagFilter;
             
         }
         
     })
 
     // Ne recupère que les valeurs nécessaires
-    tempNoteEnCoursArray.forEach(e=>{
-        notesEnCoursArray.push({key:e.key,title:e.title,priority:e.priority,tag:e.tag})
+    tempNoteStatus1Array.forEach(e=>{
+        noteStatus1Array.push({key:e.key,title:e.title,priority:e.priority,tag:e.tag})
     })
 
 
 
     //Filtre sur les notes A FAIRE avec le filtre du tag
-    console.log("Trie des éléments 'A faire'");
-    let tempNoteAFaireArray = arrayResult.filter((item) =>{
+    console.log("Trie des éléments " + statusArray[0]);
+    let tempNoteStatus0Array = arrayResult.filter((item) =>{
 
         if (currentTagFilter === genericTAG) {
-            return item.status === "A faire";
+            return item.status === statusArray[0];
         }else{
-            return item.status === "A faire" && item.tag === currentTagFilter;
+            return item.status === statusArray[0] && item.tag === currentTagFilter;
             
         }
         
     })
 
     // Ne recupère que les valeurs nécessaires
-    tempNoteAFaireArray.forEach(e=>{
-       notesAFaireArray.push({key:e.key,title:e.title,priority:e.priority,tag:e.tag})
+    tempNoteStatus0Array.forEach(e=>{
+       notesStatus0Array.push({key:e.key,title:e.title,priority:e.priority,tag:e.tag})
     })
 
 
     
     // Creation des liste de notes par catégories
-    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"pTxtEnCours","En cours");
-    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"pTxtAFaire","A Faire");
+    onSetListNotes("divBtnNoteStatus1",noteStatus1Array,noteStatus1IndexToStart,"pTxtStatus1",statusArray[1]);
+    onSetListNotes("divBtnNoteStatus0",notesStatus0Array,noteStatus0IndexToStart,"pTxtStatus0",statusArray[0]);
 }
 
 
@@ -175,9 +161,9 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,textToDisp
             
 
             // Set la class de la divbouton selon l'urgence
-            if (e.priority === "Routine") { div.className ="divBtnListNote divBtnListNoteRoutine" };
-            if (e.priority === "Urgent") { div.className ="divBtnListNote divBtnListNoteUrgent" };
-            if (e.priority === "Flash") { div.className ="divBtnListNote divBtnListNoteFlash" };
+            if (e.priority === priorityArray[0]) { div.className ="divBtnListNote divBtnListNotePriority0" };
+            if (e.priority === priorityArray[1]) { div.className ="divBtnListNote divBtnListNotePriority1" };
+            if (e.priority === priorityArray[2]) { div.className ="divBtnListNote divBtnListNotePriority2" };
 
             // Creation du tag dans la div
             let tag = document.createElement("p");
@@ -227,31 +213,31 @@ function onClearDIV(divID) {
 function onSetBtnNavNotesVisibility() {
     
     // Bouton note A faire "suivant"
-    if (noteAFaireIndexToStart + maxBtnNoteToDisplay >= notesAFaireArray.length) {
-        btnNoteAFaireNextRef.disabled = "disabled";
-        btnNoteAFaireNextRef.style.opacity = "0";
+    if (noteStatus0IndexToStart + maxBtnNoteToDisplay >= notesStatus0Array.length) {
+        btnNoteStatus0NextRef.disabled = "disabled";
+        btnNoteStatus0NextRef.style.opacity = "0";
     }else{
-        btnNoteAFaireNextRef.disabled = "";
-        btnNoteAFaireNextRef.style.opacity = "1";
+        btnNoteStatus0NextRef.disabled = "";
+        btnNoteStatus0NextRef.style.opacity = "1";
     }
 
     // Bouton note A faire "précédent"
-    btnNoteAFairePreviousRef.disabled = noteAFaireIndexToStart === 0 ? "disabled": "";
-    btnNoteAFairePreviousRef.style.opacity = noteAFaireIndexToStart === 0 ? "0": "1";
+    btnNoteStatus0PreviousRef.disabled = noteStatus0IndexToStart === 0 ? "disabled": "";
+    btnNoteStatus0PreviousRef.style.opacity = noteStatus0IndexToStart === 0 ? "0": "1";
 
 
     // Bouton note En cours "suivant"
-    if (noteEnCoursIndexToStart + maxBtnNoteToDisplay >= notesEnCoursArray.length) {
-        btnNoteEnCoursNextRef.disabled = "disabled";
-        btnNoteEnCoursNextRef.style.opacity = "0";
+    if (noteStatus1IndexToStart + maxBtnNoteToDisplay >= noteStatus1Array.length) {
+        btnNoteStatus1NextRef.disabled = "disabled";
+        btnNoteStatus1NextRef.style.opacity = "0";
     }else{
-        btnNoteEnCoursNextRef.disabled = "";
-        btnNoteEnCoursNextRef.style.opacity = "1";
+        btnNoteStatus1NextRef.disabled = "";
+        btnNoteStatus1NextRef.style.opacity = "1";
     }
 
     // Bouton note En cours "précédent"
-    btnNoteEnCoursPreviousRef.disabled = noteEnCoursIndexToStart === 0 ? "disabled": "";
-    btnNoteEnCoursPreviousRef.style.opacity = noteEnCoursIndexToStart === 0 ? "0": "1";
+    btnNoteStatus1PreviousRef.disabled = noteStatus1IndexToStart === 0 ? "disabled": "";
+    btnNoteStatus1PreviousRef.style.opacity = noteStatus1IndexToStart === 0 ? "0": "1";
 }
 
 
@@ -259,25 +245,25 @@ function onSetBtnNavNotesVisibility() {
 
 // Navigation dans les boutons de notes
 // Notes en cours
-function onClickNavNoteEnCoursPrevious() {
-    noteEnCoursIndexToStart -= maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"pTxtEnCours","En cours");
+function onClickNavNoteStatus1Previous() {
+    noteStatus1IndexToStart -= maxBtnNoteToDisplay;
+    onSetListNotes("divBtnNoteStatus1",noteStatus1Array,noteStatus1IndexToStart,"pTxtStatus1",statusArray[1]);
 }
 
-function onClickNavNoteEnCoursNext() {
-    noteEnCoursIndexToStart += maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesEnCours",notesEnCoursArray,noteEnCoursIndexToStart,"pTxtEnCours","En cours");
+function onClickNavNoteStatus1Next() {
+    noteStatus1IndexToStart += maxBtnNoteToDisplay;
+    onSetListNotes("divBtnNoteStatus1",noteStatus1Array,noteStatus1IndexToStart,"pTxtStatus1",statusArray[1]);
 }
 
 // Notes à faire
-function onClickNavNoteAFairePrevious() {
-    noteAFaireIndexToStart -= maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"pTxtAFaire","A Faire");
+function onClickNavNoteStatus0Previous() {
+    noteStatus0IndexToStart -= maxBtnNoteToDisplay;
+    onSetListNotes("divBtnNoteStatus0",notesStatus0Array,noteStatus0IndexToStart,"pTxtStatus0",statusArray[0]);
 }
 
-function onClickNavNoteAFaireNext() {
-    noteAFaireIndexToStart += maxBtnNoteToDisplay;
-    onSetListNotes("divBtnNotesAFaire",notesAFaireArray,noteAFaireIndexToStart,"pTxtAFaire","A Faire");
+function onClickNavNoteStatus0Next() {
+    noteStatus0IndexToStart += maxBtnNoteToDisplay;
+    onSetListNotes("divBtnNoteStatus0",notesStatus0Array,noteStatus0IndexToStart,"pTxtStatus0",statusArray[0]);
 }
 
 
@@ -300,16 +286,34 @@ let divNoteEditorRef = document.getElementById("divNoteEditor"),
     divPopupDeleteRef = document.getElementById("divPopupDelete"),
     inputNoteTagRef = document.getElementById("inputNoteTag"),
     inputNoteTitleRef = document.getElementById("inputNoteTitle"),
-    selectorNoteStatusRef = document.getElementById("selectorNoteStatus"),
     inputNoteDateStartRef = document.getElementById("inputNoteDateStart"),
     textareaNoteDetailRef = document.getElementById("textareaNoteDetail"),
-    inputNoteDateEndRef = document.getElementById("inputNoteDateEnd"),
     selectorNotePriorityRef = document.getElementById("selectorNotePriority"),
+    selectorNoteStatusRef = document.getElementById("selectorNoteStatus"),
+    inputNoteDateEndRef = document.getElementById("inputNoteDateEnd"),
     legendNoteEditorRef = document.getElementById("legendNoteEditor"),
     ulNoteEditorStepRef = document.getElementById("ulNoteEditorStep"),
     currentNbreEditorStep = 0;
 
 
+// Generation des options de l'editeur de note
+    
+priorityArray.forEach(e=>{
+    let newOption = document.createElement("option");
+    newOption.value = e;
+    newOption.innerHTML =e;
+    
+    selectorNotePriorityRef.appendChild(newOption);
+})
+    
+statusArray.forEach(e=>{
+    let newOption = document.createElement("option");
+    newOption.value = e;
+    newOption.innerHTML =e;
+    
+    selectorNoteStatusRef.appendChild(newOption);
+})    
+    
 
 
 function onDisplayNoteEditor(boolModeCreation){
@@ -377,8 +381,8 @@ function onClearNoteEditor() {
     textareaNoteDetailRef.value = "";
     inputNoteDateStartRef.value = "";
     inputNoteDateEndRef.value = "";
-    selectorNoteStatusRef.value = "A faire";
-    selectorNotePriorityRef.value = "Routine";
+    selectorNoteStatusRef.value = statusArray[0];
+    selectorNotePriorityRef.value = priorityArray[0];
     ulNoteEditorStepRef.innerHTML = "";
     currentNbreEditorStep = 0;
 };
@@ -537,7 +541,7 @@ function onFormatNote(){
     }
 
     // DETECTION demande de suppression enregistre la date du jour en milliseconde (à laquelle viendra s'ajouter le delay avant suppression)
-    if (selectorNoteStatusRef.value === "Terminer") {
+    if (selectorNoteStatusRef.value === statusArray[2]) {
         noteToInsert.dateToDelete = Date.now();
     };
 

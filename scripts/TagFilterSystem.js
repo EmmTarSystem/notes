@@ -6,8 +6,17 @@ let genericTAG = "TOUTES LES TACHES";
 
 let currentTagFilter = genericTAG;
 
-// Recupère les TAG existants
-function onListTAG(dataToFilter) {
+// Recupère les TAG existants uniquement pour les status0 et status1;
+function onListTAG(arrayResult) {
+    console.log("Valeur arrayResult dans onListTAG = ");
+    console.log(arrayResult);
+
+    let dataToFilter = arrayResult.filter(item=>{
+        return item.status === statusArray[0] || item.status === statusArray[1];
+    })
+
+
+    console.log("valeur de dateToFilter = ");
     console.log(dataToFilter);
     let tempTagList = [];
 
@@ -22,7 +31,7 @@ function onListTAG(dataToFilter) {
     console.log("tempTagList = ");
     console.log(tempTagList);
 
-    onUpdateTagList(tempTagList,dataToFilter);
+    onUpdateTagList(tempTagList,arrayResult);
 }
 
 
@@ -87,12 +96,6 @@ function onSetSelectTagList(TagToAdd,arrayResult) {
     // Vide le selecteur
     selectTagFilterRef.innerHTML ="";
 
-    // Ajoute le TAG par défaut :
-    let defaultOption = document.createElement("option");
-        defaultOption.value = genericTAG;
-        defaultOption.innerHTML = genericTAG;
-
-        selectTagFilterRef.appendChild(defaultOption);
 
     // Set les nouveaux tag
     TagToAdd.forEach(e=>{

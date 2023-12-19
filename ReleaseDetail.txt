@@ -60,4 +60,10 @@ Version fonctionnel
         Ajout des infos bulles.
         Ajout de la possibilité de filtrer par TAG.
 0.7.6
+    Correctif
+        Les TAG des item "Terminer" n'apparaissent plus dans le filtre.
+    Optimisation
+        Passage en mode dynamique pour les statuts et priorité des tâches.
+    Evolution
+        Mise en place d'une navigation principale.
 

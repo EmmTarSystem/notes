@@ -421,17 +421,15 @@ div.divBtnListNote{
 
 /* bouton individuel liste note URGENT FLASH ROUTINE*/
 
-div.divBtnListNoteFlash{
-	background-image: url(../images/BtnNoteBackground_Flash.png);
-
+div.divBtnListNotePriority0{
+	background-image: url(../images/BtnNoteBackground_Routine.png);
 }
-
-div.divBtnListNoteUrgent{
+div.divBtnListNotePriority1{
 	background-image: url(../images/BtnNoteBackground_Urgent.png);
 }
+div.divBtnListNotePriority2{
+	background-image: url(../images/BtnNoteBackground_Flash.png);
 
-div.divBtnListNoteRoutine{
-	background-image: url(../images/BtnNoteBackground_Routine.png);
 }
 
 

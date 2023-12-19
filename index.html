@@ -10,7 +10,7 @@
 <body>
        
 
-    <!-- ---------------------------  Div zone principale ------------------------------------- -->
+    
     <div class="navBar">
         <img class="iconMainMenu" src="./images/IconeHome.png" alt="" srcset="">
         <img class="iconMainMenu" src="./images/IconeDashboard.png" alt="" srcset="">
@@ -22,7 +22,7 @@
         <h1 id="h1DateDuJour"></h1>
     </div>
 
-
+    <!-- ---------------------------  Div Accueil ------------------------------------- -->
     <div class="divAccueil" id="divAccueil">        
 
         <!-- ----------------- DIV Tableau d'affichage des boutons de notes--------------------------- -->
@@ -42,14 +42,14 @@
                 <tr class="rowTopLine">
                     <!-- <th id="thTxtEnCours">En cours ( 0 )</th> -->
                     <th>
-                        <button class="btnPrevious" onclick="onClickNavNoteEnCoursPrevious()" id="btnNoteEnCoursPrevious" title="Précédent">&#60;</button>
-                        <p class="btnPreviousNext" id="pTxtEnCours">En cours ( 0 )</p>
-                        <button class="btnNext" onclick="onClickNavNoteEnCoursNext()" id="btnNoteEnCoursNext" title="Suivant">&#62;</button>
+                        <button class="btnPrevious" onclick="onClickNavNoteStatus1Previous()" id="btnNoteStatus1Previous" title="Précédent">&#60;</button>
+                        <p class="btnPreviousNext" id="pTxtStatus1">En cours ( 0 )</p>
+                        <button class="btnNext" onclick="onClickNavNoteStatus1Next()" id="btnNoteStatus1Next" title="Suivant">&#62;</button>
                     </th>
                 </tr>
                 <tr>
                     <td class="tdListeNotes">
-                        <div id="divBtnNotesEnCours">
+                        <div id="divBtnNoteStatus1">
                             <!-- Injection des boutons -->
                         </div>
                     </td>
@@ -57,14 +57,14 @@
                 <tr class="rowTopLine">
                     <!-- <th id="thTxtAFaire">A faire ( 0 )</th> -->
                     <th>
-                        <button class="btnPrevious" onclick="onClickNavNoteAFairePrevious()" id="btnNoteAFairePrevious" title="Précédent">&#60;</button>
-                        <p class="btnPreviousNext" id="pTxtAFaire">En cours ( 0 )</p>
-                        <button class="btnNext" onclick="onClickNavNoteAFaireNext()" id="btnNoteAFaireNext" title="Suivant">&#62;</button>
+                        <button class="btnPrevious" onclick="onClickNavNoteStatus0Previous()" id="btnNoteStatus0Previous" title="Précédent">&#60;</button>
+                        <p class="btnPreviousNext" id="pTxtStatus0">A faire ( 0 )</p>
+                        <button class="btnNext" onclick="onClickNavNoteStatus0Next()" id="btnNoteStatus0Next" title="Suivant">&#62;</button>
                     </th>
                 </tr>
                 <tr>
                     <td class="tdListeNotes">
-                        <div id="divBtnNotesAFaire">
+                        <div id="divBtnNoteStatus0">
                             <!-- Injection des boutons -->
                         </div>
                     </td>
@@ -134,15 +134,11 @@
                         <li>
                             <label for="selectorNotePriority">Priorité : </label>
                             <select name="" id="selectorNotePriority">
-                                <option value="Routine">Routine</option>
-                                <option value="Urgent">Urgent</option>
-                                <option value="Flash">Flash</option>
+                                <!-- Injection des options-->
                             </select>
                             <label for="selectorNoteStatus">Statut : </label>
                             <select name="" id="selectorNoteStatus">
-                                <option value="A faire">A faire</option>
-                                <option value="En cours">En cours</option>
-                                <option value="Terminer">Terminer</option>
+                                <!-- Injection des options-->
                             </select>
                         </li>
                         <li>
@@ -184,9 +180,15 @@
 
 
     </div>
-    <!-- --------------------------- FIN Div zone principale ------------------------------------- -->
+    <!-- --------------------------- FIN Div Accueil ------------------------------------- -->
 
 
+
+    <!-- -------------------------   div Dashboard----------------------------------- -->
+    <div class="divDashboard" id="divDashboard">
+
+    </div>
+    <!-- -------------------------  FIN div Dashboard----------------------------------- -->
     
 
     <script src="./scripts/App.js"></script>
