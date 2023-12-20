@@ -66,4 +66,5 @@ Version fonctionnel
         Passage en mode dynamique pour les statuts et priorité des tâches.
     Evolution
         Mise en place d'une navigation principale.
+        Changement du system de validation des étapes : Mise en place d'un système "barré".
 

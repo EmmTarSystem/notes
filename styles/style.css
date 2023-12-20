@@ -42,11 +42,6 @@ h1 {
 }
 
 /* Style du paragraphe */
-p {
-	font-size: 18px;
-	color: #777; /* Couleur du texte du paragraphe */
-}
-
 
 img.iconeMenu{
 	width: 25px;
@@ -109,6 +104,18 @@ label {
   /* Style des champs de texte */
 .input-field{
     display: inline-block;
+    width: 370px;
+    padding: 5px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+
+  /* Style des champs de texte barré */
+  .input-field-strike{
+    display: inline-block;
+	text-decoration: line-through;
     width: 370px;
     padding: 5px;
     border: 2px solid #3498db;
@@ -251,17 +258,16 @@ tr.tableViewNoteRowDetail{
 }
 
 tr.tableViewNoteRowDetail p{
-	text-align: left;
-	font-size: 1.8ch;
 	color: black;
 	text-align: justify;
-	font-size: 12px;
+	font-size: 14px;
 }
 
 /* Step */
 tr.tableViewNoteRowStep{
 	height: 180px;
 	background-color:#f0f0f0;
+	font-size: 14px;
 }
 
 tr.tableViewNoteRowStep label{

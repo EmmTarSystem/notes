@@ -402,22 +402,22 @@ function onClearNoteEditor() {
     // </li>
 
 
-function onAddStep(isNewStep,inputValue) {
+function onAddStep(isStepToSet,inputValue) {
     
 
     //création de l'ID 
-    let currentID = "liNoteStepRef" + currentNbreEditorStep;
-
+    let currentListID = "liNoteStepRef" + currentNbreEditorStep;
+    let currentInputStepID = "inputNoteStep" + currentNbreEditorStep;
 
     // creation de la liste
     let newLi = document.createElement("li");
-    newLi.id = currentID;
+    newLi.id = currentListID;
 
     // Creation input texte
     let newInput = document.createElement("input");
     newInput.type = "text";
     newInput.className ="input-field";
-    newInput.id = "inputNoteStep" + currentNbreEditorStep;
+    newInput.id = currentInputStepID;
     newInput.placeholder ="Nouvelle étape";
     newInput.maxLength = "80";
     newInput.name = "inputStepTAG";
@@ -427,6 +427,11 @@ function onAddStep(isNewStep,inputValue) {
     newCheckbox.type =  "checkbox";
     newCheckbox.id = "checkboxNoteStep" + currentNbreEditorStep;
     newCheckbox.name = "checkboxStepTAG";
+    // fonction pour modifier l'input (barré ou non) en fonction de la checkbox
+    newCheckbox.onchange = function (){
+        console.log(this.checked);
+        onChangeStepStatus(currentInputStepID,this.checked)
+    }
    
 
     // Creation du bouton de suppression de l'etape (image)
@@ -434,14 +439,18 @@ function onAddStep(isNewStep,inputValue) {
     newImg.className = "supprStepIcon";
     newImg.src = "./images/IconesDelete.png";
     newImg.onclick = function () {
-        onDeleteStep(currentID);
+        onDeleteStep(currentListID);
     }
 
 
     // Filtre si des valeur à inserer dans le cas d'une réédition de note
-    if (isNewStep) {
+    if (isStepToSet) {
         newInput.value = inputValue.stepName;
         newCheckbox.checked = inputValue.stepChecked;
+        // si c'est coché, change la classe pour barrer le texte
+        if (inputValue.stepChecked) {newInput.className ="input-field-strike";}
+        
+
     };
 
     // Insertion des nouveaux elements
@@ -456,6 +465,10 @@ function onAddStep(isNewStep,inputValue) {
 }
 
 
+function onChangeStepStatus(target,isStrike) {
+    let inputTarget = document.getElementById(target);
+    inputTarget.className = isStrike ? "input-field-strike" : "input-field" ;
+}
 
 
 
@@ -682,7 +695,8 @@ function onClickBtnAnnulNoteEditor() {
     onDisableMainPage(false);
     // Cacle la div edition
     divNoteEditorRef.style.display = "none";
-    divNoteViewRef.style.display = "inline-block";
+    divNoteViewRef.style.display = "block";
+
 
     // Filtre si création ou modification de note
     if (boolEditNoteCreation) {
@@ -803,25 +817,21 @@ function onDisplayNote(e) {
                 let newLi = document.createElement("li");
 
                 let newLabel = document.createElement("label");
-                newLabel.innerHTML = i.stepName;
-
-
-                let newCheckbox = document.createElement("input");
-                newCheckbox.type ="checkbox";
                 if (i.stepChecked) {
-                    newCheckbox.setAttribute("checked",true);
+                    // Texte rayé
+                    newLabel.innerHTML = "<del>" + i.stepName + "</del>";
+                }else{
+                    
+                    newLabel.innerHTML = i.stepName;
                 }
-                newCheckbox.disabled = true;
-
-
-
                 
+               
 
 
                 // Insertion 
 
                 newLi.appendChild(newLabel);
-                newLi.appendChild(newCheckbox);
+
 
                 ulNoteViewStepRef.appendChild(newLi);
 
@@ -834,7 +844,7 @@ function onDisplayNote(e) {
 
 
     // Rend la visionneuse de note visible
-    divNoteViewRef.style.display = "inline-block";
+    divNoteViewRef.style.display = "block";
 
 }
 
