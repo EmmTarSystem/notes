@@ -213,34 +213,18 @@ function onClearDIV(divID) {
 function onSetBtnNavNotesVisibility() {
     
     // Bouton note A faire "suivant"
-    if (noteStatus0IndexToStart + maxBtnNoteToDisplay >= notesStatus0Array.length) {
-        btnNoteStatus0NextRef.disabled = "disabled";
-        btnNoteStatus0NextRef.style.opacity = "0";
-    }else{
-        btnNoteStatus0NextRef.disabled = "";
-        btnNoteStatus0NextRef.style.opacity = "1";
-    }
-
+    btnNoteStatus0NextRef.style.visibility = (noteStatus0IndexToStart + maxBtnNoteToDisplay >= notesStatus0Array.length) ? "hidden" : "visible";
+    
     // Bouton note A faire "précédent"
-    btnNoteStatus0PreviousRef.disabled = noteStatus0IndexToStart === 0 ? "disabled": "";
-    btnNoteStatus0PreviousRef.style.opacity = noteStatus0IndexToStart === 0 ? "0": "1";
-
+    btnNoteStatus0PreviousRef.style.visibility = noteStatus0IndexToStart === 0 ? "hidden" : "visible";
 
     // Bouton note En cours "suivant"
-    if (noteStatus1IndexToStart + maxBtnNoteToDisplay >= noteStatus1Array.length) {
-        btnNoteStatus1NextRef.disabled = "disabled";
-        btnNoteStatus1NextRef.style.opacity = "0";
-    }else{
-        btnNoteStatus1NextRef.disabled = "";
-        btnNoteStatus1NextRef.style.opacity = "1";
-    }
-
+    btnNoteStatus1NextRef.style.visibility = (noteStatus1IndexToStart + maxBtnNoteToDisplay >= noteStatus1Array.length) ? "hidden" : "visible";
+    
     // Bouton note En cours "précédent"
-    btnNoteStatus1PreviousRef.disabled = noteStatus1IndexToStart === 0 ? "disabled": "";
-    btnNoteStatus1PreviousRef.style.opacity = noteStatus1IndexToStart === 0 ? "0": "1";
+    btnNoteStatus1PreviousRef.style.visibility = noteStatus1IndexToStart === 0 ? "hidden" : "visible";
+
 }
-
-
 
 
 // Navigation dans les boutons de notes
@@ -601,6 +585,8 @@ function onInsertData(e) {
 
     insertRequest.onsuccess = function () {
         console.log(e.title + "a été ajouté à la base");
+        // evenement de notification
+        eventNotify(e.title);
 
         // Clear l'editeur de note
         onClearNoteEditor();

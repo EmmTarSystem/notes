@@ -170,7 +170,25 @@ function onSetFirstLetterUppercase(e) {
 
 
 
+//  --------------------------  Animation notification -------------------------------------
 
+function eventNotify(textToSet) {
+    let pNotifyTextRef = document.getElementById("pNotifyText");
+    let divNotifyRef = document.getElementById("divNotify");
+    pNotifyTextRef.innerHTML = "La tache '" + textToSet + "' a été ajouté !";
+    
+
+    // Affiche la div
+    divNotifyRef.style.visibility = "visible";
+
+
+    // Cache la div apres un delay
+    setTimeout(() => {
+        divNotifyRef.style.visibility = "hidden";
+    }, 2000);
+
+
+}
 
 
 

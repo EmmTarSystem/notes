@@ -474,10 +474,30 @@ div.confirmSupr{
 	background-color: gainsboro;
 	text-align: center;
 	border-radius: 10px 0px;
-	border: solid 1px gainsboro;
+	border: solid 1px #3498db;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre portée */
 	position: relative;
 	margin-left: auto;
     margin-right: auto;
 	top: -400px;
 }
+
+
+/* -------------------------------- POPUP NOTIFY ----------------------------------- */
+
+div.notify{
+	z-index: 2;
+	visibility: hidden;
+	width: 500px;
+	height: 60px;
+	background-color: gainsboro;
+	text-align: center;
+	border-radius: 10px 0px;
+	border: solid 1px #3498db;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre portée */
+	position: fixed;
+	margin-left: 40%;
+    top: 30px;
+
+}
+

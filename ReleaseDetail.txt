@@ -67,4 +67,8 @@ Version fonctionnel
     Evolution
         Mise en place d'une navigation principale.
         Changement du system de validation des étapes : Mise en place d'un système "barré".
-
+0.7.7
+    Optimisation
+        Remplacement du systeme de visibilité des boutons de navigation next/previous pour les notes par une concept amélioré (display => visibility).
+    Evolution
+        Mise en place d'un system de notification.
