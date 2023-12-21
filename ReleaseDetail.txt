@@ -72,3 +72,4 @@ Version fonctionnel
         Remplacement du systeme de visibilité des boutons de navigation next/previous pour les notes par une concept amélioré (display => visibility).
     Evolution
         Mise en place d'un system de notification.
+0.7.8
