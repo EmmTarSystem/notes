@@ -12,11 +12,11 @@
 
     
     <div class="navBar">
-        <img class="iconMainMenu" src="./images/IconeHome.png" alt="" srcset="">
-        <!-- <img class="iconMainMenu" src="./images/IconeDashboard.png" alt="" srcset="">
-        <img class="iconMainMenu" src="./images/IconeSetting.png" alt="" srcset="">
-        <img class="iconMainMenu" src="./images/IconeAbout.png" alt="" srcset=""> -->
-        <p class="release">Release 0.7.7</p>
+        <img onclick="onClickMenuAccueil()" class="iconMainMenu" src="./images/IconeHome.png" alt="" srcset="">
+        <img onclick="onClickMenuDashboard()" class="iconMainMenu" src="./images/IconeDashboard.png" alt="" srcset="">
+        <img onclick="onClickMenuSetting()" class="iconMainMenu" src="./images/IconeSetting.png" alt="" srcset="">
+        <img onclick="onClickMenuInfo()" class="iconMainMenu" src="./images/IconeAbout.png" alt="" srcset="">
+        <p class="release">Release 0.7.8</p>
     </div>
     <div class="dateVersion">
         <h1 id="h1DateDuJour"></h1>
@@ -192,15 +192,29 @@
 
     <!-- -------------------------   div Dashboard----------------------------------- -->
     <div class="divDashboard" id="divDashboard">
-
+        <h2>DASHBOARD</h2>
     </div>
     <!-- -------------------------  FIN div Dashboard----------------------------------- -->
 
+    <!-- -------------------------   div Setting ----------------------------------- -->
+    <div class="divSetting" id="divSetting">
+        <h2>SETTING</h2>
+    </div>
+    <!-- -------------------------  FIN div Setting----------------------------------- -->
 
-    <script src="./scripts/App.js"></script>
+    <!-- -------------------------   div Info ----------------------------------- -->
+    <div class="divInfo" id="divInfo">
+        <h2>INFO</h2>
+    </div>
+    <!-- -------------------------  FIN div Info----------------------------------- -->
+
+
+    
     <script src="./scripts/NoteSystem.js"></script>
     <script src="./scripts/TagFilterSystem.js"></script>
     <script src="./scripts/autoDeleteSystem.js"></script>
     <script src="./scripts/print.js"></script>
+    <script src="./scripts/TagCompletion.js"></script>
+    <script src="./scripts/App.js"></script>
 </body>
 </html>

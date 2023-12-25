@@ -73,3 +73,6 @@ Version fonctionnel
     Evolution
         Mise en place d'un system de notification.
 0.7.8
+    Evolution
+        Amélioration de l'affichage du nombre de tache en cours dans la navigation.
+        Le tag s'affiche désormais en italique.

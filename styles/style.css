@@ -5,6 +5,11 @@
 	--div-note-width: 600px;
 }
 
+div.navBar, .divNoteEditor, div.divNoteView {
+	background: var(--gradient-blue);
+  }
+
+
 body {
 	font-family: Arial, sans-serif; /* Police de caractères */
   	background: #f0f0f0; /* Couleur de l'arrière-plan */
@@ -56,12 +61,11 @@ img.iconeCheck{
 	width: 10px;
 }
 
-/* -------------------------------       NAVIGATION BAR           --------------------------------*/
+/* -------------------------------       NAVIGATION MAIN MENU BAR           --------------------------------*/
 
 div.navBar{
 	position: absolute;
 	width: 100px;height: 100%;
-	background: var(--gradient-blue);
 	text-align: center;
 }
 
@@ -69,6 +73,11 @@ div.navBar{
 
 img.iconMainMenu{
 	width: 50px;
+	cursor: pointer;
+}
+
+img.iconMainMenu:hover{
+	transform: scale(1.1);
 }
 
 p.release{
@@ -86,7 +95,6 @@ p.release{
 	left: 60%;top: 15px;
 	display: none;
     width: 500px;
-	background: var(--gradient-blue);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -155,19 +163,6 @@ p.pButtonEditor{
 }
 
 
-/* Les petits bouton pour editer les detail */
-.btnDetailEditor{
-	background-color: white;
-	border-radius: 5px;
-	border: none;
-	transition: background 0.3s, transform 0.2s;
-}
-.btnDetailEditor:hover{
-	transform: scale(1.05);
-}
-
-
-
 
 /* les etapes */
 
@@ -209,7 +204,6 @@ button.btnAddStep:hover{
 div.divNoteView{
 	position: absolute;
 	left: 60%;top: 15px;
-	background: var(--gradient-blue);
   	color: #333; /* Couleur du texte */
   	padding: 20px;
   	border-radius: 10px;
@@ -354,45 +348,40 @@ tr.rowTopLine{
 	/* color: white; */
 }
 
-button.btnPrevious{
+
+
+
+
+
+/*-----------------------  Les boutons de navigations gauches droits -----------------------*/
+
+
+
+
+
+
+button.btnPrevious, button.btnNext {
 	display: inline-block;
 	margin-top: 1px;
 	margin-bottom: 1px;
 	background-color: white;
 	color: blue;
-	border-radius: 10px 0px 0px 10px;
 	border: none;
 	font-weight: bolder;
 	cursor: pointer;
 }
-
-
-
-button.btnPrevious:disabled{
-	cursor:default;
+  
+button.btnPrevious:disabled, button.btnNext:disabled {
+	cursor: default;
+}
+  
+button.btnPrevious{
+	border-radius:  10px 0px 0px 10px;
 }
 
 button.btnNext{
-	display: inline-block;
-	margin-top: 1px;
-	margin-bottom: 1px;
-	background-color: white;
-	color: blue;
 	border-radius: 0px 10px 10px 0px;
-	border: none;
-	font-weight: bolder;
-	cursor: pointer;
 }
-
-
-
-button.btnNext:disabled{
-	cursor:default;
-}
-
-
-
-
 
 p.btnPreviousNext{
 	display: inline-block;
@@ -401,6 +390,7 @@ p.btnPreviousNext{
 	color: white;
 	font-size: 16px;
 }
+
 
 td.tdListeNotes{
 	height: 200px;
@@ -439,18 +429,9 @@ div.divBtnListNotePriority2{
 }
 
 
-/* tag */
-p.listNoteTAG{
-	color: white;
-	font-size: 10px;
-	overflow: hidden; /* Cache le texte qui dépasse */
-  	text-overflow: ellipsis; /* Ajoute des points de suspension (...) pour indiquer que du texte est masqué */
-  	white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
-}
-
-
 /* titre */
-div.divBtnListNote p {
+
+p.listNoteTitle{
 	color: white;
 	font-size: 12px;
 	overflow: hidden; /* Cache le texte qui dépasse */
@@ -458,6 +439,17 @@ div.divBtnListNote p {
   	white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
 }
 
+
+/* tag */
+p.listNoteTAG{
+	color: white;
+	font-size: 10px;
+	font-style: italic;
+	overflow: hidden; /* Cache le texte qui dépasse */
+  	text-overflow: ellipsis; /* Ajoute des points de suspension (...) pour indiquer que du texte est masqué */
+  	white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
+	
+}
 
 div.divBtnListNote:hover{
 	cursor: pointer;

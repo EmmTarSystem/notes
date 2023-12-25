@@ -39,7 +39,8 @@ onSetDateDuJour();
 
 let db,
     dbName = "MyDataBase",
-    objectStoreName = "TaskList",
+    taskStoreName = "TaskList",
+    tagStoreName = "TAGList",
     version = 1;
 
 
@@ -56,10 +57,10 @@ function onStartDataBase() {
         console.log("Initialisation de la base de donnée");
 
         db = openRequest.result;
-        if(!db.objectStoreNames.contains(objectStoreName)){
+        if(!db.objectStoreNames.contains(taskStoreName)){
             // si le l'object store n'existe pas
-            let noteStore = db.createObjectStore(objectStoreName, {keyPath:'key', autoIncrement: true});
-            console.log("creation du magasin " + objectStoreName);
+            let noteStore = db.createObjectStore(taskStoreName, {keyPath:'key', autoIncrement: true});
+            console.log("creation du magasin " + taskStoreName);
 
             noteStore.createIndex('title','title',{unique:true});
             noteStore.createIndex('dateStart','dateStart',{unique:false});
@@ -68,6 +69,14 @@ function onStartDataBase() {
             noteStore.createIndex('dateEndFormated','dateEndFormated',{unique:false});
             noteStore.createIndex('status','status',{unique:false});
             noteStore.createIndex('tag','tag',{unique:false});
+        }
+
+        // Creation du store pour les TAG d'autocomplétion
+        if (!db.objectStoreNames.contains(tagStoreName)) {
+            let tagStore = db.createObjectStore(tagStoreName, {keyPath:'key', autoIncrement: true});
+            console.log("creation du magasin "+  tagStoreName);
+
+            tagStore.createIndex('tag','tag',{unique:true});
         }
     };
 
@@ -191,11 +200,50 @@ function eventNotify(textToSet) {
 }
 
 
+// ------------------------------- NAVIGATION MENU PRINCIPAL- -------------------------------------------------
 
 
 
+// Menu Accueil
+function onClickMenuAccueil() {
+    onSetDivVisibility("divAccueil");
+}
+
+
+// Menu Dashboard
+function onClickMenuDashboard() {
+    onSetDivVisibility("divDashboard");
+}
+
+
+// Menu Setting
+function onClickMenuSetting() {
+    onSetDivVisibility("divSetting");
+}
+
+
+// Menu Info
+function onClickMenuInfo() {
+    onSetDivVisibility("divInfo");
+}
+
+// Affiche la div du menu en cours et cache les autres
+function onSetDivVisibility(divTarget) {
+    let allMainDiv = ["divAccueil","divDashboard","divSetting","divInfo"];
+
+    allMainDiv.forEach(e=>{
+        let divRef = document.getElementById(e);
+        divRef.style.display = e === divTarget ? "block": "none";
+    })
+
+}
 
 
 
 // Lancement de la database
 onStartDataBase();
+
+
+
+
+

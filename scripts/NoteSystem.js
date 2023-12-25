@@ -42,8 +42,8 @@ function onUpdatePage(isUpdateTagListRequired) {
 
     // recupere les éléments dans la base et les stock dans une grosse variable temporaire
     
-    let transaction = db.transaction(objectStoreName);//readonly
-    let objectStore = transaction.objectStore(objectStoreName);
+    let transaction = db.transaction(taskStoreName);//readonly
+    let objectStore = transaction.objectStore(taskStoreName);
     let indexStore = objectStore.index("title");
     let request = indexStore.getAll();
 
@@ -133,9 +133,8 @@ function onSortItem(arrayResult) {
 
 // Crée les boutons des notes selon la catégorie
 function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,textToDisplay) {
-    // set le nombre de tache 
+    // Reference pour le nombre de tache 
     let currentThRef = document.getElementById(thIDRef);
-    currentThRef.innerHTML = textToDisplay + " ( " + noteArray.length + " )";
 
     // Vide la div de note
     onClearDIV(divNotesTarget);
@@ -167,7 +166,7 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,textToDisp
 
             // Creation du tag dans la div
             let tag = document.createElement("p");
-            tag.innerHTML = "[ " + e.tag + " ]";
+            tag.innerHTML = `[ ${e.tag} ]`;
             tag.className = "listNoteTAG";
             
 
@@ -188,11 +187,18 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,textToDisp
             if ( nbreIteration === maxBtnNoteToDisplay) {
                 break;
             }
+            
         }
+        console.log("Je compte le nombre d'itération " + nbreIteration);
+        
+        // Set le nombre de tâche
+        currentThRef.innerHTML = `${textToDisplay} ( ${noteArray.length} )   <i>${indexToStart + 1} - ${indexToStart + nbreIteration}</i>`;     
 
     }else{
         console.log("Aucune note pour " + divNotesTarget);
         CurrentDivNotesRef.innerHTML = "Aucune note";
+        // Set le nombre de tâche à zero
+        currentThRef.innerHTML = `${textToDisplay} ( 0 )   <i> 0 - 0 </i>`;
     }
 
     // Gestion de visibilité des boutons de notes
@@ -558,7 +564,7 @@ function onFormatNote(){
 
 
 
-// Filtre selon création ou modification des données
+    // Filtre selon création ou modification des données
     if (boolEditNoteCreation) {
         console.log("mode création de note");
         console.log(noteToInsert);
@@ -578,8 +584,8 @@ function onFormatNote(){
 
 // Insertion d'un nouvelle note
 function onInsertData(e) {
-    let transaction = db.transaction(objectStoreName,"readwrite");
-    let store = transaction.objectStore(objectStoreName);
+    let transaction = db.transaction(taskStoreName,"readwrite");
+    let store = transaction.objectStore(taskStoreName);
 
     let insertRequest = store.add(e);
 
@@ -587,6 +593,9 @@ function onInsertData(e) {
         console.log(e.title + "a été ajouté à la base");
         // evenement de notification
         eventNotify(e.title);
+
+
+        
 
         // Clear l'editeur de note
         onClearNoteEditor();
@@ -608,8 +617,8 @@ function onInsertData(e) {
 function onInsertModification(e) {
     console.log("fonction d'insertion de la donnée modifié");
 
-    let transaction = db.transaction(objectStoreName,"readwrite");
-    let store = transaction.objectStore(objectStoreName);
+    let transaction = db.transaction(taskStoreName,"readwrite");
+    let store = transaction.objectStore(taskStoreName);
     let modifyRequest = store.getAll(IDBKeyRange.only(currentKeyNoteInView));
 
     
@@ -638,6 +647,9 @@ function onInsertModification(e) {
 
         insertModifiedData.onsuccess = function (){
             console.log("insertModifiedData = success");
+
+          
+
 
             // Actualisation de la page
             onUpdatePage(true);
@@ -713,8 +725,8 @@ function onSearchNotesToDisplay(keyRef) {
 
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
     console.log("lecture de la Base de Données");
-    let transaction = db.transaction(objectStoreName);//readonly
-    let objectStore = transaction.objectStore(objectStoreName);
+    let transaction = db.transaction(taskStoreName);//readonly
+    let objectStore = transaction.objectStore(taskStoreName);
     let request = objectStore.getAll(IDBKeyRange.only(keyRef));
     
     
@@ -776,7 +788,7 @@ function onDisplayNote(e) {
     onClearNoteView();
 
     // Set les nouveaux élements
-    noteViewTagRef.innerHTML = "[ " + e.tag + " ]";
+    noteViewTagRef.innerHTML = `[ <i> ${e.tag} </i> ]`;
     noteViewTitleRef.innerHTML = e.title;
     noteViewPriorityRef.innerHTML = e.priority;
     hnoteViewStatusRef.innerHTML = e.status;
@@ -879,8 +891,8 @@ function onCancelSuppression() {
 function onDeleteNote() {
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
     console.log("Suppression de la note avec la key : " + currentKeyNoteInView);
-    let transaction = db.transaction(objectStoreName,"readwrite");//transaction en écriture
-    let objectStore = transaction.objectStore(objectStoreName);
+    let transaction = db.transaction(taskStoreName,"readwrite");//transaction en écriture
+    let objectStore = transaction.objectStore(taskStoreName);
     let request = objectStore.delete(IDBKeyRange.only(currentKeyNoteInView));
     
     
