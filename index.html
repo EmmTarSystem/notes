@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/styleCompletion.css">
+    <link rel="stylesheet" href="./styles/dashboard.css">
+    <link rel="stylesheet" href="./styles/setting.css">
+    <link rel="stylesheet" href="./styles/info.css">
     <title>Document</title>
 </head>
 <body>
@@ -121,11 +125,13 @@
             <p>
                 <fieldset>
                     <legend id="legendNoteEditor">Editer une note</legend>
-
+                    <form autocomplete="off" action="">
                     <ul>
                         <li>
                             <label for="inputNoteTag">TAG : </label>
                             <input class="input-field" id="inputNoteTag" type="text" placeholder="20 caractères max" maxlength="20">
+                            <!-- Liste de suggestions -->
+                            <ul id="suggestionList"></ul>
                         </li>
                         <li>
                             <label for="inputNoteTitle">Titre : </label>
@@ -158,8 +164,9 @@
                             <input type="date" name="" id="inputNoteDateEnd">
                         </li>
                     </ul>
-                    
+                    </form>
                 </fieldset>
+            
             </p>
             <p class="pButtonEditor">
                 <button class="basicBtn" onclick="onClickBtnValidNoteEditor()" title="Sauvegarder"><img class="iconeMenu" src="./images/IconeSave.png" alt="Valider" srcset=""></button>

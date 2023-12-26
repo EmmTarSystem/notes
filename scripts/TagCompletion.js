@@ -76,3 +76,69 @@ function onInsertTagInStore(e) {
         onUpdatePage(true);
     }
 }
+
+
+
+//  ------------------------------- AUTO COMPLETION - ---------------------------------
+
+
+
+
+
+function autocomplete(inputElement, completionArray) {
+    var currentInput = inputElement.value.toLowerCase();
+    var suggestions = [];
+
+    for (var i = 0; i < completionArray.length; i++) {
+        var suggestion = completionArray[i];
+        var index = suggestion.toLowerCase().indexOf(currentInput);
+
+        if (index !== -1) {
+            suggestions.push({
+                before: suggestion.substring(0, index),
+                match: suggestion.substring(index, index + currentInput.length),
+                after: suggestion.substring(index + currentInput.length),
+            });
+        }
+    }
+
+    var suggestionList = document.getElementById('suggestionList');
+    suggestionList.innerHTML = '';
+
+    for (var j = 0; j < suggestions.length; j++) {
+        var suggestionItem = document.createElement('li');
+        var suggestionHtml =
+            '<span class="suggestion-before">' + suggestions[j].before + '</span>' +
+            '<span class="suggestion-match">' + suggestions[j].match + '</span>' +
+            '<span class="suggestion-after">' + suggestions[j].after + '</span>';
+
+        suggestionItem.innerHTML = suggestionHtml;
+        suggestionItem.addEventListener('click', function() {
+            inputElement.value = this.textContent.replace(/\n/g, '');;
+            suggestionList.innerHTML = '';
+        });
+        suggestionList.appendChild(suggestionItem);
+    }
+}
+
+function handleInput() {
+    var inputElement = document.getElementById('inputNoteTag');
+    autocomplete(inputElement, allTagCompletion);
+}
+
+
+
+// Il faudra faire en sorte que les éléments qui suivent ne se déclenchent que lorsque l'accueil est active.
+
+
+// Ajout de cet écouteur d'événement pour déclencher l'autocomplétion
+document.getElementById('inputNoteTag').addEventListener('input', handleInput);
+
+
+// Ajout de cet écouteur d'événement pour masquer la liste de suggestions lorsqu'on clique en dehors de l'input
+document.addEventListener('click', function(event) {
+    if (!event.target.matches('#inputNoteTag')) {
+        document.getElementById('suggestionList').innerHTML = '';
+    }
+});
+
