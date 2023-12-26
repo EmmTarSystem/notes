@@ -38,9 +38,10 @@ onSetDateDuJour();
 
 
 let db,
-    dbName = "MyDataBase",
+    dbName = "Planning-DataBase",
     taskStoreName = "TaskList",
     tagStoreName = "TAGList",
+    dashBoardStoreName = "dashboard",
     version = 1;
 
 
@@ -60,7 +61,7 @@ function onStartDataBase() {
         if(!db.objectStoreNames.contains(taskStoreName)){
             // si le l'object store n'existe pas
             let noteStore = db.createObjectStore(taskStoreName, {keyPath:'key', autoIncrement: true});
-            console.log("creation du magasin " + taskStoreName);
+            console.log("Creation du magasin " + taskStoreName);
 
             noteStore.createIndex('title','title',{unique:true});
             noteStore.createIndex('dateStart','dateStart',{unique:false});
@@ -73,11 +74,19 @@ function onStartDataBase() {
 
         // Creation du store pour les TAG d'autocomplétion
         if (!db.objectStoreNames.contains(tagStoreName)) {
-            let tagStore = db.createObjectStore(tagStoreName, {keyPath:'key', autoIncrement: true});
-            console.log("creation du magasin "+  tagStoreName);
-
-            tagStore.createIndex('tag','tag',{unique:true});
+            let tagStore = db.createObjectStore(tagStoreName, {autoIncrement: true});
+            console.log("Creation du magasin "+  tagStoreName);
         }
+
+        // Creation du store pour le dashboard
+        if (!db.objectStoreNames.contains(dashBoardStoreName)) {
+            let dashboardStore = db.createObjectStore(dashBoardStoreName, {keyPath:'key',autoIncrement: true});
+            console.log("Creation du magasin "+  dashBoardStoreName);
+
+            dashboardStore.createIndex('tag','tag',{unique:false});
+            dashboardStore.createIndex('duration','duration',{unique:false});
+        }
+
     };
 
     openRequest.onerror = function(){

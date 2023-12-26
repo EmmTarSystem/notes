@@ -36,23 +36,51 @@ function onUpdatePage(isUpdateTagListRequired) {
     notesStatus0Array = [];
     noteStatus1IndexToStart = 0;
     noteStatus0IndexToStart = 0;
-    
+    allTagCompletion = [];
 
 
 
     // recupere les éléments dans la base et les stock dans une grosse variable temporaire
     
-    let transaction = db.transaction(taskStoreName);//readonly
-    let objectStore = transaction.objectStore(taskStoreName);
-    let indexStore = objectStore.index("title");
-    let request = indexStore.getAll();
+    let transaction = db.transaction([taskStoreName,tagStoreName]);//readonly
+    let objectStoreTask = transaction.objectStore(taskStoreName);
+    let indexStoreTask = objectStoreTask.index("title");
+    let requestTask = indexStoreTask.getAll();
 
-    request.onsuccess = function (){
+    requestTask.onsuccess = function (){
         console.log("Les éléments ont été récupéré dans la base");
         console.log("stockage dans le tableau temporaire");
 
+    }
+    requestTask.error = function (){
+        console.log("Erreur de requete sur la base");
+    }
+
+
+    // les TAG COMPLETION
+    let objectStoreTAG = transaction.objectStore(tagStoreName);
+    let requestTag = objectStoreTAG.getAll();
+    
+    
+
+
+    requestTag.onsuccess = function () {
+        console.log("les TAG de complétion ont été récupéré dans le store");
+        // actualise les TAG de complétion
+        let tagCompletionResult = requestTag.result;
+        allTagCompletion = tagCompletionResult.sort();
+        console.log("Valeur TAG COMPLETION :")
+        console.log(allTagCompletion);
+    }
+
+
+
+
+
+
+    transaction.oncomplete = function (){
+        let arrayResult = requestTask.result;
         
-        let arrayResult = request.result;
         
 
         // Filtre se mise à jour du selecteur de tag
@@ -66,12 +94,6 @@ function onUpdatePage(isUpdateTagListRequired) {
         }
         // check item à supprimer la premiere fois
         if (!isDeleteAllReadyChecked) {onCheckItemToDelete(arrayResult);}
-        
-
-        
-    }
-    request.error = function (){
-        console.log("Erreur de requete sur la base");
     }
 }
 
@@ -570,7 +592,7 @@ function onFormatNote(){
         console.log(noteToInsert);
         // Insertion des datas dans la base
         onInsertData(noteToInsert);
-        onUpdatePage(true);
+
     }else{
         onInsertModification(noteToInsert);
         console.log("mode modification de note");
@@ -595,8 +617,6 @@ function onInsertData(e) {
         eventNotify(e.title);
 
 
-        
-
         // Clear l'editeur de note
         onClearNoteEditor();
     }
@@ -607,7 +627,10 @@ function onInsertData(e) {
     }
 
     transaction.oncomplete = function(){
-        console.log("transaction complete");
+        console.log("transaction insertData complete");
+
+        onCheckTagExist(e.tag);
+
     }
 
 }
@@ -648,11 +671,6 @@ function onInsertModification(e) {
         insertModifiedData.onsuccess = function (){
             console.log("insertModifiedData = success");
 
-          
-
-
-            // Actualisation de la page
-            onUpdatePage(true);
         }
 
         insertModifiedData.onerror = function (){
@@ -670,6 +688,9 @@ function onInsertModification(e) {
 
     transaction.oncomplete = function(){
         console.log("transaction complete");
+
+        // Vérification si nouveau tag de completion
+        onCheckTagExist(e.tag);
 
         // Affiche a nouveau la note qui a été modifié
         console.log("affiche à nouveau la note modifié");

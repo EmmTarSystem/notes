@@ -46,7 +46,9 @@ function onCheckTagExist(tagTarget) {
     console.log("valeur de tagTarget : "+ tagTarget);
     if (!allTagCompletion.includes(tagTarget)) {
         onInsertTagInStore(tagTarget);
-        console.log("le TAG" + tagTarget + "n'existe pas");
+        console.log("le TAG COMPLETION " + tagTarget + "n'existe pas");
+    }else{
+        onUpdatePage(true);
     }
 }
 
@@ -60,7 +62,7 @@ function onInsertTagInStore(e) {
     let insertRequest = store.add(e);
 
     insertRequest.onsuccess = function (){
-        console.log("Le TAG " + e + " a été ajouté dans le store");
+        console.log("Le TAG COMPLETION" + e + " a été ajouté dans le store");
     }
 
     insertRequest.onerror = function (){
@@ -68,7 +70,9 @@ function onInsertTagInStore(e) {
         alert(insertRequest.onerror);
     }
 
-    insertRequest.oncomplete = function (){
-        console.log("Transaction pour le TAG complete");
+    transaction.oncomplete = function (){
+        console.log("Transaction pour le TAG TAG COMPLETION completée");
+
+        onUpdatePage(true);
     }
 }
