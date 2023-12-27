@@ -414,6 +414,32 @@ function onClearNoteEditor() {
 
 
 function onAddStep(isStepToSet,inputValue) {
+
+
+    // Vérification si un step est vide n'en crée par d'autre
+    // Uniquement lors de l'action l'utilisateur.
+    let isNewStepValid = true;
+    if (!isStepToSet) {
+        let allStepToCheck = document.querySelectorAll('[id^="' + "inputNoteStep" + '"]');
+
+        if(allStepToCheck.length > 0){
+            allStepToCheck.forEach(e=>{
+                if(e.value === ""){
+                    console.log("champ input vide détecté !");
+                    isNewStepValid = false;
+                    return
+                }
+                
+            })
+        }
+        if(!isNewStepValid){
+            console.log("Je quitte la fonction onAddStep");
+            return
+        }
+    }
+
+    
+    
     
 
     //création de l'ID 

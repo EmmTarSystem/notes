@@ -86,3 +86,4 @@ Version fonctionnel
         Detection des champs obligatoires vides.
         Impossible que la date de fin soit antérieur à la date de début.
         Possibilité d'exporter le store (task) via le dashboard.
+0.8.0

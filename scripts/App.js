@@ -3,8 +3,8 @@
 //  Définition des textes de notification
 
 let arrayNotify ={
-    emptyField : "Erreur champ obligatoire ",
-    errorDate : "Les dates définis sont incorrectes !"
+    emptyField : "Des champs obligatoires ne sont pas renseignés !",
+    errorDate : "Les dates définies sont incorrectes !"
 };
     
 
