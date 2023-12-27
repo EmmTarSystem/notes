@@ -77,3 +77,12 @@ Version fonctionnel
         Mise en place de l'affichage de la pagination des tâches dans la navigation.
         Le tag s'affiche désormais en italique.
         Mise en place d'un système d'auto complétion pour les tag.
+0.7.9
+    Correctif
+        Retrait du format "form" qui empéchait de créer des étapes.
+        Retrait du system d'autoSuppression des notes "Terminer".
+        Les index dateStart et dateEnd fonctionnent.
+    Evolution
+        Detection des champs obligatoires vides.
+        Impossible que la date de fin soit antérieur à la date de début.
+        Possibilité d'exporter le store (task) via le dashboard.

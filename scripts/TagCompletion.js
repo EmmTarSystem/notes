@@ -2,7 +2,7 @@
 // Initialisation variables
 
 let allTagCompletion = [];//les tag enregistrés pour l'autocomplétion
-
+let ulSuggestionListRef = document.getElementById("suggestionList"); //référence à la liste de suggestion
 
 
 
@@ -86,12 +86,12 @@ function onInsertTagInStore(e) {
 
 
 function autocomplete(inputElement, completionArray) {
-    var currentInput = inputElement.value.toLowerCase();
-    var suggestions = [];
+    let currentInput = inputElement.value.toLowerCase();
+    let suggestions = [];
 
-    for (var i = 0; i < completionArray.length; i++) {
-        var suggestion = completionArray[i];
-        var index = suggestion.toLowerCase().indexOf(currentInput);
+    for (let i = 0; i < completionArray.length; i++) {
+        let suggestion = completionArray[i];
+        let index = suggestion.toLowerCase().indexOf(currentInput);
 
         if (index !== -1) {
             suggestions.push({
@@ -102,12 +102,12 @@ function autocomplete(inputElement, completionArray) {
         }
     }
 
-    var suggestionList = document.getElementById('suggestionList');
+    let suggestionList = document.getElementById('suggestionList');
     suggestionList.innerHTML = '';
 
-    for (var j = 0; j < suggestions.length; j++) {
-        var suggestionItem = document.createElement('li');
-        var suggestionHtml =
+    for (let j = 0; j < suggestions.length; j++) {
+        let suggestionItem = document.createElement('li');
+        let suggestionHtml =
             '<span class="suggestion-before">' + suggestions[j].before + '</span>' +
             '<span class="suggestion-match">' + suggestions[j].match + '</span>' +
             '<span class="suggestion-after">' + suggestions[j].after + '</span>';
@@ -121,8 +121,13 @@ function autocomplete(inputElement, completionArray) {
     }
 }
 
-function handleInput() {
-    var inputElement = document.getElementById('inputNoteTag');
+
+// Lorsque je clique dans l'input TAG
+function onClickInTagInput() {
+    
+    ulSuggestionListRef.style.display = "block";
+    
+    let inputElement = document.getElementById('inputNoteTag');
     autocomplete(inputElement, allTagCompletion);
 }
 
@@ -132,13 +137,14 @@ function handleInput() {
 
 
 // Ajout de cet écouteur d'événement pour déclencher l'autocomplétion
-document.getElementById('inputNoteTag').addEventListener('input', handleInput);
+document.getElementById('inputNoteTag').addEventListener('input', onClickInTagInput);
 
 
 // Ajout de cet écouteur d'événement pour masquer la liste de suggestions lorsqu'on clique en dehors de l'input
 document.addEventListener('click', function(event) {
     if (!event.target.matches('#inputNoteTag')) {
-        document.getElementById('suggestionList').innerHTML = '';
+        ulSuggestionListRef.innerHTML = '';
+        ulSuggestionListRef.style.display = 'none';
     }
 });
 

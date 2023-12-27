@@ -1,5 +1,14 @@
 // Initialisation variables
 // -------------------------------------------------   GLOBAL        ------------------------------------------------
+//  Définition des textes de notification
+
+let arrayNotify ={
+    emptyField : "Erreur champ obligatoire ",
+    errorDate : "Les dates définis sont incorrectes !"
+};
+    
+
+
 
 // DATE DU jour
 let currentDateFR,
@@ -64,10 +73,8 @@ function onStartDataBase() {
             console.log("Creation du magasin " + taskStoreName);
 
             noteStore.createIndex('title','title',{unique:true});
-            noteStore.createIndex('dateStart','dateStart',{unique:false});
-            noteStore.createIndex('dateEnd','dateEnd',{unique:false});
-            noteStore.createIndex('dateStartFormated','dateStartFormated',{unique:false});
-            noteStore.createIndex('dateEndFormated','dateEndFormated',{unique:false});
+            noteStore.createIndex('dateStart','dateStartUS',{unique:false});
+            noteStore.createIndex('dateEnd','dateEndUS',{unique:false});
             noteStore.createIndex('status','status',{unique:false});
             noteStore.createIndex('tag','tag',{unique:false});
         }
@@ -185,6 +192,45 @@ function onSetFirstLetterUppercase(e) {
     let firstLetterUpperCase = e.charAt(0).toUpperCase() + e.slice(1);
     return firstLetterUpperCase;
 }
+
+
+// detection des champs vides obligatoires
+
+function onCheckEmptyField(e) {
+    if (e === "") {
+        console.log("Champ vide obligatoire détecté !");
+        alert(arrayNotify.emptyField);
+    }
+    return e === ""? true :false;
+}
+
+// Detection d'erreur de date
+
+function onCheckDateError(dateDebut, dateFin) {
+
+    // convezrtion des strings en objets Date;
+    let tempDateDebut = new Date(dateDebut);
+    let tempDateFin =new Date(dateFin);
+
+    if (tempDateDebut > tempDateFin) {
+        console.log("Dates choisies incorrecte !");
+        alert(arrayNotify.errorDate);
+    }
+    return tempDateDebut > tempDateFin ? true :false;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

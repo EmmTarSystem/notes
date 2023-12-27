@@ -13,6 +13,7 @@
     z-index: 1000;
     width: 370px;
     font-size: 12px;
+    display: none;
 }
 
 #suggestionList li {

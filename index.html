@@ -20,7 +20,7 @@
         <img onclick="onClickMenuDashboard()" class="iconMainMenu" src="./images/IconeDashboard.png" alt="" srcset="">
         <img onclick="onClickMenuSetting()" class="iconMainMenu" src="./images/IconeSetting.png" alt="" srcset="">
         <img onclick="onClickMenuInfo()" class="iconMainMenu" src="./images/IconeAbout.png" alt="" srcset="">
-        <p class="release">Release 0.7.8</p>
+        <p class="release">Release 0.7.9</p>
     </div>
     <div class="dateVersion">
         <h1 id="h1DateDuJour"></h1>
@@ -125,7 +125,6 @@
             <p>
                 <fieldset>
                     <legend id="legendNoteEditor">Editer une note</legend>
-                    <form autocomplete="off" action="">
                     <ul>
                         <li>
                             <label for="inputNoteTag">TAG : </label>
@@ -164,7 +163,6 @@
                             <input type="date" name="" id="inputNoteDateEnd">
                         </li>
                     </ul>
-                    </form>
                 </fieldset>
             
             </p>
@@ -200,6 +198,7 @@
     <!-- -------------------------   div Dashboard----------------------------------- -->
     <div class="divDashboard" id="divDashboard">
         <h2>DASHBOARD</h2>
+        <button onclick="exportData()">Sauvegarder la base</button>
     </div>
     <!-- -------------------------  FIN div Dashboard----------------------------------- -->
 
@@ -220,9 +219,9 @@
     
     <script src="./scripts/NoteSystem.js"></script>
     <script src="./scripts/TagFilterSystem.js"></script>
-    <script src="./scripts/autoDeleteSystem.js"></script>
     <script src="./scripts/print.js"></script>
     <script src="./scripts/TagCompletion.js"></script>
+    <script src="./scripts/saveData.js"></script>
     <script src="./scripts/App.js"></script>
 </body>
 </html>

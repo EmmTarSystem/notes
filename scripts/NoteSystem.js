@@ -92,8 +92,7 @@ function onUpdatePage(isUpdateTagListRequired) {
             onSortItem(arrayResult);
             
         }
-        // check item à supprimer la premiere fois
-        if (!isDeleteAllReadyChecked) {onCheckItemToDelete(arrayResult);}
+        
     }
 }
 
@@ -508,8 +507,6 @@ function onClickBtnValidNoteEditor() {
 function onFormatNote(){
     console.log("Formatage de la nouvelle note");
     // Les dates
-     let tempDateStart = onFormatSelectedDate(inputNoteDateStartRef.value);
-     let tempDateEnd = onFormatSelectedDate(inputNoteDateEndRef.value);
      let tempDateEndFR = onFormatSelectedDateFR(inputNoteDateEndRef.value);
      let tempDateEndUS = onFormatSelectedDateUS(inputNoteDateEndRef.value);
 
@@ -551,23 +548,20 @@ function onFormatNote(){
     let noteToInsert = {
         tag : inputNoteTagRef.value,
         title :inputNoteTitleRef.value,
-        dateStartFormated : tempDateStart,
         dateStartFR :tempDateStartFR,
         dateStartUS :tempDateStartUS,
         status : selectorNoteStatusRef.value,
         stepArray : [],
         detail : textareaNoteDetailRef.value,
-        dateEndFormated : tempDateEnd,
         dateEndFR : tempDateEndFR,
         dateEndUS : tempDateEndUS,
         dateCreated : tempDateCreated,
         priority : selectorNotePriorityRef.value,
-        dateToDelete :0
     }
 
-    // DETECTION demande de suppression enregistre la date du jour en milliseconde (à laquelle viendra s'ajouter le delay avant suppression)
+    // DETECTION d'une note "TERMINER"
     if (selectorNoteStatusRef.value === statusArray[2]) {
-        noteToInsert.dateToDelete = Date.now();
+        console.log("Note 'Terminer' detecté");
     };
 
     //Formatage en full majuscule titre/TAG
@@ -585,19 +579,47 @@ function onFormatNote(){
 
 
 
+    // Detection des erreurs pour valider ou non la création ou modification de la note
+    console.log("Detection des erreurs")
+    // detection des champs vides obligatoires
+    let isEmptyField = onCheckEmptyField(noteToInsert.title);
 
-    // Filtre selon création ou modification des données
-    if (boolEditNoteCreation) {
-        console.log("mode création de note");
-        console.log(noteToInsert);
-        // Insertion des datas dans la base
-        onInsertData(noteToInsert);
+    // Detection de mauvaise date
+    let isErrorDate = onCheckDateError(noteToInsert.dateStartUS,noteToInsert.dateEndUS);
 
+
+    // Detection champs "STEP" vides
+    let isEmptyStepField = false;
+    noteToInsert.stepArray.forEach(e=>{
+        isEmptyStepField = onCheckEmptyField(e.stepName);
+
+        if(isEmptyStepField){
+            return;
+        }
+    })
+
+
+
+
+
+    // Si une erreur est détectée, ne lance pas la suite (ni création, ni modification)
+    if (isEmptyField === true || isErrorDate === true || isEmptyStepField === true) {
+        console.log("au moins une erreur détéctée. Ne valide pas la note");
     }else{
-        onInsertModification(noteToInsert);
-        console.log("mode modification de note");
+        // Filtre selon création ou modification des données
+        if (boolEditNoteCreation) {
+            console.log("mode création de note");
+            console.log(noteToInsert);
+            // Insertion des datas dans la base
+            onInsertData(noteToInsert);
+
+        }else{
+            onInsertModification(noteToInsert);
+            console.log("mode modification de note");
+        }
     }
-    
+
+
 
 }
 
@@ -654,17 +676,14 @@ function onInsertModification(e) {
         modifiedData.tag = e.tag;
         modifiedData.dateCreated = e.dateCreated;
         modifiedData.dateEndFR = e.dateEndFR;
-        modifiedData.dateEndFormated = e.dateEndFormated;
         modifiedData.dateEndUS = e.dateEndUS;
         modifiedData.dateStartFR = e.dateStartFR;
-        modifiedData.dateStartFormated = e.dateStartFormated;
         modifiedData.dateStartUS = e.dateStartUS;
         modifiedData.detail = e.detail;
         modifiedData.priority = e.priority;
         modifiedData.status = e.status;
         modifiedData.stepArray = e.stepArray;
         modifiedData.title = e.title;
-        modifiedData.dateToDelete = e.dateToDelete;
 
         let insertModifiedData = store.put(modifiedData);
 

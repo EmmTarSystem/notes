@@ -1,5 +1,9 @@
 /* cache la div de base */
 
 div.divDashboard{
+    padding-top: 200px;
     display: none;
+    width: 500px;
+    text-align: center;
+
 }
