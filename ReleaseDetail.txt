@@ -87,3 +87,8 @@ Version fonctionnel
         Impossible que la date de fin soit antérieur à la date de début.
         Possibilité d'exporter le store (task) via le dashboard.
 0.8.0
+    Evolution
+        Empeche l'utilisateur de créer une nouvelle étape si il y en a déjà de vide.
+0.8.1
+    Evolution
+        Variabilisation du TAG par défaut.

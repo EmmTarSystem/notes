@@ -19,6 +19,7 @@ let noteStatus1Array= [],//les notes en cours
 
 let statusArray = ["A faire","En cours","Terminer"];
 let priorityArray = ["Routine","Urgent","Flash"];
+let defaultTagValue = ["DIVERS"];
     
 
 
@@ -520,14 +521,18 @@ function onDeleteStep(target) {
 // Click sur le bouton de validation dans l'éditeur de note
 function onClickBtnValidNoteEditor() {
     
-
+    console.log(inputNoteDateStartRef.value);
 
     // Lance le formatage de la note
-    onFormatNote();
+    // onFormatNote();
 }
 
 
+// Detection des erreurs avant formatage
 
+function onCheckError() {
+    
+}
 
 // Formatage de la note
 function onFormatNote(){
@@ -599,8 +604,8 @@ function onFormatNote(){
 
     // traitement champ TAG VIDE
     if (noteToInsert.tag === "" || noteToInsert.tag === undefined) {
-        console.log("tag vide remplacé par 'DIVERS'");
-        noteToInsert.tag = "DIVERS";
+        console.log("tag vide remplacé par :" + defaultTagValue);
+        noteToInsert.tag = defaultTagValue;
     };
 
 
