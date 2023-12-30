@@ -3,7 +3,8 @@
 //  Définition des textes de notification
 
 let arrayNotify ={
-    emptyField : "Des champs obligatoires ne sont pas renseignés !",
+    emptyTitleField : "Le champ 'Titre' n'est pas renseignés !",
+    emptyStepField : "Un champ d'étape est vide !",
     errorDate : "Les dates définies sont incorrectes !"
 };
     
@@ -115,55 +116,49 @@ function onStartDataBase() {
 
 
 
-// fonction simplification - formatage date du jour
-function onFormatDateCreated() {
-    e = new Date();
-    let tempDate = e.toLocaleDateString("fr");
+// // Formatage de la date du jour qui est en mode FR vers le mode Internationale
+function onFormatDateToday() {
+    let date = new Date();
 
-    let finalDateFR = tempDate.replace(/\//gi,"-");
-     return finalDateFR;
+    // Obtenir les composants de la date
+    let jour = date.getDate();
+    let mois = date.getMonth() + 1; // Les mois vont de 0 à 11, donc ajouter 1
+    let annee = date.getFullYear();
+
+    // Ajouter un zéro devant le jour et le mois si nécessaire
+    jour = (jour < 10) ? '0' + jour : jour;
+    mois = (mois < 10) ? '0' + mois : mois;
+
+    // Créer la chaîne de date au format "yyyy-mm-dd"
+    let dateDuJour = annee + '-' + mois + '-' + jour;
+
+    return dateDuJour;
 }
 
 
 
-// Formatage des dates sélectionnées en mode universel
-function onFormatSelectedDate(e){
-    let dateFormated = e.replace(/-/gi,"");
-    console.log(dateFormated);
-    return dateFormated;
+// Transforme les dates stockées du mode internationale vers le mode FR
+
+function onFormatDateToFr(dateString) {
+    // Créer un objet Date en analysant la chaîne de date
+    let date = new Date(dateString);
+
+    // Obtenir les composants de la date
+    let jour = date.getDate();
+    let mois = date.getMonth() + 1; // Les mois vont de 0 à 11, donc ajouter 1
+    let annee = date.getFullYear();
+
+    // Ajouter un zéro devant le jour et le mois si nécessaire
+    jour = (jour < 10) ? '0' + jour : jour;
+    mois = (mois < 10) ? '0' + mois : mois;
+
+    // Créer la nouvelle chaîne de date au format "dd-mm-yyyy"
+    let dateFormatee = jour + '-' + mois + '-' + annee;
+
+    return dateFormatee;
 }
 
 
-
-// Formatage des dates sélectionnées en mode FR
-function onFormatSelectedDateFR(e) {
-    
-    let tempDateFR = e.split("-");
-    tempDateFR = tempDateFR.reverse();
-
-    let finalDateFR = "";
-    for (const i of tempDateFR) {
-        finalDateFR = finalDateFR + "-" + i
-    }; 
-    // Suppression de premier "-"
-    finalDateFR = finalDateFR.replace("-","");
-    return finalDateFR
-}
-
-// Formatage des dates sélectionnées en mode US
-function onFormatSelectedDateUS(e) {
-    
-    let tempDateUS = e.split("-");
-    
-
-    let finalDateUS = "";
-    for (const i of tempDateUS) {
-        finalDateUS = finalDateUS + "-" + i
-    }; 
-    // Suppression de premier "-"
-    finalDateUS = finalDateUS.replace("-","");
-    return finalDateUS
-}
 
 
 // Desactivation de la page principale
@@ -199,7 +194,6 @@ function onSetFirstLetterUppercase(e) {
 function onCheckEmptyField(e) {
     if (e === "") {
         console.log("Champ vide obligatoire détecté !");
-        alert(arrayNotify.emptyField);
     }
     return e === ""? true :false;
 }
@@ -214,7 +208,6 @@ function onCheckDateError(dateDebut, dateFin) {
 
     if (tempDateDebut > tempDateFin) {
         console.log("Dates choisies incorrecte !");
-        alert(arrayNotify.errorDate);
     }
     return tempDateDebut > tempDateFin ? true :false;
 

@@ -19,7 +19,7 @@ let noteStatus1Array= [],//les notes en cours
 
 let statusArray = ["A faire","En cours","Terminer"];
 let priorityArray = ["Routine","Urgent","Flash"];
-let defaultTagValue = ["DIVERS"];
+let defaultTagValue = "divers";
     
 
 
@@ -373,9 +373,9 @@ function onSetNoteEditor(e) {
     inputNoteTagRef.value = e.tag;
     inputNoteTitleRef.value = e.title;
     selectorNoteStatusRef.value = e.status;
-    inputNoteDateStartRef.value = e.dateStartUS;
+    inputNoteDateStartRef.value = e.dateStart;
+    inputNoteDateEndRef.value = e.dateEnd;
     textareaNoteDetailRef.value = e.detail;
-    inputNoteDateEndRef.value = e.dateEndUS;
     selectorNotePriorityRef.value = e.priority;
 
     e.stepArray.forEach((i)=>onAddStep(true,i));
@@ -402,6 +402,30 @@ function onClearNoteEditor() {
 
 
 
+
+
+// fonction de vérification pour création de nouvelle étape.
+function onCheckStepEmpty() {
+    let allStepToCheck = document.querySelectorAll('[id^="' + "inputNoteStep" + '"]');
+    let isErrorStepDetected = false;
+        if(allStepToCheck.length > 0){
+            allStepToCheck.forEach(e=>{
+                if(e.value === ""){
+                    console.log("champ input vide détecté !");
+                    isErrorStepDetected = true;
+                    return
+                }
+                
+            })
+        }
+        console.log("valeur de isNewStepValid : " + isErrorStepDetected);
+        return isErrorStepDetected;
+}
+
+
+
+
+
 // Ajout d'une étape supplementaire
 
 // resultat Attendu : 
@@ -412,36 +436,20 @@ function onClearNoteEditor() {
     //         <input id="checkboxNoteStep1" type="checkbox">
     //         <button class="blabla" onclick="onDeleteStep()">x</button>
     // </li>
-
-
 function onAddStep(isStepToSet,inputValue) {
 
 
     // Vérification si un step est vide n'en crée par d'autre
     // Uniquement lors de l'action l'utilisateur.
-    let isNewStepValid = true;
+    
     if (!isStepToSet) {
-        let allStepToCheck = document.querySelectorAll('[id^="' + "inputNoteStep" + '"]');
-
-        if(allStepToCheck.length > 0){
-            allStepToCheck.forEach(e=>{
-                if(e.value === ""){
-                    console.log("champ input vide détecté !");
-                    isNewStepValid = false;
-                    return
-                }
-                
-            })
-        }
-        if(!isNewStepValid){
-            console.log("Je quitte la fonction onAddStep");
+       if (onCheckStepEmpty()){
+            console.log("Champ vide détécté : ne crée pas de step supplémentaire");
             return
-        }
+       }
     }
 
-    
-    
-    
+
 
     //création de l'ID 
     let currentListID = "liNoteStepRef" + currentNbreEditorStep;
@@ -521,31 +529,95 @@ function onDeleteStep(target) {
 // Click sur le bouton de validation dans l'éditeur de note
 function onClickBtnValidNoteEditor() {
     
-    console.log(inputNoteDateStartRef.value);
-
-    // Lance le formatage de la note
-    // onFormatNote();
+    
+    // Recheche des erreurs dans la note avant validation
+    onCheckNoteError();
 }
+
+
+
+
+
+
 
 
 // Detection des erreurs avant formatage
 
-function onCheckError() {
+function onCheckNoteError() {
+    console.log("Detection des erreurs")
+
+    // detection des champs vides obligatoires
+    let isEmptyTitleField = onCheckEmptyField(inputNoteTitleRef.value);
+    console.log("valeur de isEmptyTitleField = " + isEmptyTitleField);
+    if (isEmptyTitleField) {
+        alert(arrayNotify.emptyTitleField);
+    }
     
+    // detection des champs vide pour les étapes
+    let isEmptyStepField = onCheckStepEmpty();
+    console.log("valeur de isEmptyStepField = " + isEmptyStepField);
+    if (isEmptyStepField) {
+        alert(arrayNotify.emptyStepField);
+    }
+
+
+
+    // Detection de mauvaise date
+    let isErrorDate = onCheckDateError(inputNoteDateStartRef.value,inputNoteDateEndRef.value);
+
+    if (isErrorDate) {
+        alert(arrayNotify.errorDate);
+    }
+
+        
+
+    if (isEmptyTitleField === true || isErrorDate === true || isEmptyStepField === true) {
+        console.log("au moins une erreur détéctée. Ne valide pas la création/modification de la note");
+    }else{
+        onFormatNote();
+    }
 }
+
+
+
+
 
 // Formatage de la note
 function onFormatNote(){
     console.log("Formatage de la nouvelle note");
-    // Les dates
-     let tempDateEndFR = onFormatSelectedDateFR(inputNoteDateEndRef.value);
-     let tempDateEndUS = onFormatSelectedDateUS(inputNoteDateEndRef.value);
-
-     let tempDateStartFR = onFormatSelectedDateFR(inputNoteDateStartRef.value);
-     let tempDateStartUS = onFormatSelectedDateUS(inputNoteDateStartRef.value);
-     let tempDateCreated = onFormatDateCreated();
+    // ------ Les dates ------
+    let tempDateCreated = onFormatDateToday();
+    let tempDateToday = onFormatDateToday();
+    let tempDateStart = inputNoteDateStartRef.value;
+    let tempDateEnd = inputNoteDateEndRef.value;
 
 
+    // date début et fin vide = les deux égales date du jour.
+    console.log("detection des dates pour test")
+
+    console.log(inputNoteDateStartRef.value);
+    if (tempDateStart === "" && tempDateEnd ==="") {
+        tempDateStart = tempDateToday;
+        tempDateEnd = tempDateToday;
+    }
+
+    // date début remplit et fin vide = date fin égale date début
+    if (tempDateStart !== "" && tempDateEnd ==="") {
+        tempDateEnd = tempDateStart;
+    }
+
+
+    // date début vide et fin remplit = date début = date du jour
+    if (tempDateStart === "" && tempDateEnd !=="") {
+        tempDateStart = tempDateToday;
+    }
+
+
+
+
+
+
+    // ------ ETAPES ------
     // Recupere les ID des inputs pour les étapes (tagé "inputStepTAG")
     let allInputStepArray = document.getElementsByName("inputStepTAG");
     let allInputStepID =[];
@@ -562,31 +634,43 @@ function onFormatNote(){
 
 
     // mise en tableau des étapes
-    let noteEditorStepArray = [];
+    let tempNoteEditorStepArray = [];
 
     for (let i = 0; i < allInputStepID.length; i++) {
         let inputNoteStepRef = document.getElementById(allInputStepID[i]);
         let checkboxNoteStepRef = document.getElementById(allCheckBoxStepID[i]);
-        noteEditorStepArray.push({stepName:inputNoteStepRef.value,stepChecked:checkboxNoteStepRef.checked});
+        tempNoteEditorStepArray.push({stepName:inputNoteStepRef.value,stepChecked:checkboxNoteStepRef.checked});
     }
 
-    
+    // Premiere lettre en majuscule pour les étapes
+    let noteEditorStepArray = [];
+    tempNoteEditorStepArray.forEach(i=> noteEditorStepArray.push({stepName:onSetFirstLetterUppercase(i.stepName),stepChecked:i.stepChecked}));
+
+
+    // ------ TAG --------
+    // traitement champ TAG VIDE et majuscule
+    let tempTag = inputNoteTagRef.value ==="" || inputNoteTagRef.value === undefined ? defaultTagValue : inputNoteTagRef.value;
+    tempTag = onSetToUppercase(tempTag);
+
+
+    //------ Titre ------
+    let tempTitle = onSetToUppercase(inputNoteTitleRef.value);
+
 
 
     
     // Mise en format variable
 
     let noteToInsert = {
-        tag : inputNoteTagRef.value,
-        title :inputNoteTitleRef.value,
-        dateStartFR :tempDateStartFR,
-        dateStartUS :tempDateStartUS,
-        status : selectorNoteStatusRef.value,
-        stepArray : [],
-        detail : textareaNoteDetailRef.value,
-        dateEndFR : tempDateEndFR,
-        dateEndUS : tempDateEndUS,
+        tag : tempTag,
+        title : tempTitle,
         dateCreated : tempDateCreated,
+        dateLastModification : tempDateToday,
+        dateStart : tempDateStart,
+        dateEnd : tempDateEnd,
+        status : selectorNoteStatusRef.value,
+        stepArray : noteEditorStepArray,
+        detail : textareaNoteDetailRef.value,
         priority : selectorNotePriorityRef.value,
     }
 
@@ -595,59 +679,17 @@ function onFormatNote(){
         console.log("Note 'Terminer' detecté");
     };
 
-    //Formatage en full majuscule titre/TAG
-    noteToInsert.tag = onSetToUppercase(noteToInsert.tag);
-    noteToInsert.title = onSetToUppercase(noteToInsert.title);
 
-    // Premiere lettre en majuscule pour les étapes et insertion du résultat dans le tableau
-    noteEditorStepArray.forEach(i=> noteToInsert.stepArray.push({stepName:onSetFirstLetterUppercase(i.stepName),stepChecked:i.stepChecked}));
-
-    // traitement champ TAG VIDE
-    if (noteToInsert.tag === "" || noteToInsert.tag === undefined) {
-        console.log("tag vide remplacé par :" + defaultTagValue);
-        noteToInsert.tag = defaultTagValue;
-    };
-
-
-
-    // Detection des erreurs pour valider ou non la création ou modification de la note
-    console.log("Detection des erreurs")
-    // detection des champs vides obligatoires
-    let isEmptyField = onCheckEmptyField(noteToInsert.title);
-
-    // Detection de mauvaise date
-    let isErrorDate = onCheckDateError(noteToInsert.dateStartUS,noteToInsert.dateEndUS);
-
-
-    // Detection champs "STEP" vides
-    let isEmptyStepField = false;
-    noteToInsert.stepArray.forEach(e=>{
-        isEmptyStepField = onCheckEmptyField(e.stepName);
-
-        if(isEmptyStepField){
-            return;
-        }
-    })
-
-
-
-
-
-    // Si une erreur est détectée, ne lance pas la suite (ni création, ni modification)
-    if (isEmptyField === true || isErrorDate === true || isEmptyStepField === true) {
-        console.log("au moins une erreur détéctée. Ne valide pas la note");
+ 
+    // Filtre selon création ou modification des données
+    if (boolEditNoteCreation) {
+        console.log("mode création de note");
+        console.log(noteToInsert);
+        // Insertion des datas dans la base
+        onInsertData(noteToInsert);
     }else{
-        // Filtre selon création ou modification des données
-        if (boolEditNoteCreation) {
-            console.log("mode création de note");
-            console.log(noteToInsert);
-            // Insertion des datas dans la base
-            onInsertData(noteToInsert);
-
-        }else{
-            onInsertModification(noteToInsert);
-            console.log("mode modification de note");
-        }
+        onInsertModification(noteToInsert);
+        console.log("mode modification de note");
     }
 
 
@@ -705,11 +747,9 @@ function onInsertModification(e) {
         let modifiedData = modifyRequest.result[0];
 
         modifiedData.tag = e.tag;
-        modifiedData.dateCreated = e.dateCreated;
-        modifiedData.dateEndFR = e.dateEndFR;
-        modifiedData.dateEndUS = e.dateEndUS;
-        modifiedData.dateStartFR = e.dateStartFR;
-        modifiedData.dateStartUS = e.dateStartUS;
+        modifiedData.dateLastModification = e.dateLastModification;
+        modifiedData.dateStart = e.dateStart;
+        modifiedData.dateEnd = e.dateEnd;
         modifiedData.detail = e.detail;
         modifiedData.priority = e.priority;
         modifiedData.status = e.status;
@@ -864,8 +904,19 @@ function onDisplayNote(e) {
     noteViewPriorityRef.innerHTML = e.priority;
     hnoteViewStatusRef.innerHTML = e.status;
     pNoteViewDetailRef.innerHTML = e.detail;
-    noteViewDateInfoRef.innerHTML = "<b>Début : </b>" + e.dateStartFR +"   - - -   <b>Fin : </b>" + e.dateEndFR;
-    pNoteViewDateCreatedRef.innerHTML = "<b>Note créée le : </b>" + e.dateCreated;
+
+    // Les dates sont affiché en format francais
+    let dateCreatedFR = onFormatDateToFr(e.dateCreated);
+    let dateStartFR = onFormatDateToFr(e.dateStart);
+    let dateEndFR = onFormatDateToFr(e.dateEnd);
+    let dateLastModificationFR = onFormatDateToFr(e.dateLastModification);
+
+    noteViewDateInfoRef.innerHTML = "<b>Début : </b>" + dateStartFR +"   - - -   <b>Fin : </b>" + dateEndFR;
+    pNoteViewDateCreatedRef.innerHTML = "<b>Note créée le : </b>" + dateCreatedFR + " - - - <b>Modifié le : </b> " + dateLastModificationFR;
+
+
+
+
 
 
     // génération des étapes en visualisation

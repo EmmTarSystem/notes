@@ -90,5 +90,12 @@ Version fonctionnel
     Evolution
         Empeche l'utilisateur de créer une nouvelle étape si il y en a déjà de vide.
 0.8.1
-    Evolution
+    Correctif
+        Correction du system ou la date de création changeait à chaque modification.
+    Optimisation
         Variabilisation du TAG par défaut.
+        Modification du système de date.
+        Modification du système de formatage et de detection des erreurs dans la création/modification des notes.
+    Evolution
+        Mise en place du system de traitement des dates non remplit. (voir info)
+        Implementation de la date de modification de la note.
