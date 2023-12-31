@@ -184,6 +184,23 @@
         <!-- ----------------- FIN CONFIRMATION SUPPRESSION --------------------->
 
 
+        <!-- ----------------- CONFIRMATION NOTE TERMINER --------------------->
+        <div class="popupTerminer" id="divPopupTerminer">
+            <h2>Veuillez renseigner le temps passé sur la tâche pour la terminer :</h2>
+
+            <label for="taskDurationHours">Heure(s):</label>
+            <input type="number" id="taskDurationHours" placeholder="0" min="0" max="999">
+            
+            <label for="TaskDurationMinutes">Minute(s):</label>
+            <input type="number" id="TaskDurationMinutes" placeholder="0" min="0" max="59">
+            <p>
+                <!-- onclick injecté depuis le javascript -->
+                <button class="basicBtn" id="btnValidTerminer" >Terminer</button>
+                <button class="basicBtn" onclick="onRemovePopupTerminer()">Annuler</button>
+            </p>
+        </div>
+        <!-- ----------------- FIN CONFIRMATION SUPPRESSION --------------------->
+
     </div>
     <!-- --------------------------- FIN Div Accueil ------------------------------------- -->
 

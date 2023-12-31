@@ -296,6 +296,7 @@ function onClickNavNoteStatus0Next() {
 
 let divNoteEditorRef = document.getElementById("divNoteEditor"),
     divPopupDeleteRef = document.getElementById("divPopupDelete"),
+    divPopupTerminerRef = document.getElementById("divPopupTerminer"),
     inputNoteTagRef = document.getElementById("inputNoteTag"),
     inputNoteTitleRef = document.getElementById("inputNoteTitle"),
     inputNoteDateStartRef = document.getElementById("inputNoteDateStart"),
@@ -677,6 +678,8 @@ function onFormatNote(){
     // DETECTION d'une note "TERMINER"
     if (selectorNoteStatusRef.value === statusArray[2]) {
         console.log("Note 'Terminer' detecté");
+        onDetectNoteTerminer(noteToInsert,currentKeyNoteInView);
+        return
     };
 
 
@@ -709,7 +712,7 @@ function onInsertData(e) {
     insertRequest.onsuccess = function () {
         console.log(e.title + "a été ajouté à la base");
         // evenement de notification
-        eventNotify(e.title);
+        eventNotify(e.title,"créé !");
 
 
         // Clear l'editeur de note
@@ -807,12 +810,7 @@ function onClickBtnAnnulNoteEditor() {
     divNoteViewRef.style.display = "block";
 
 
-    // Filtre si création ou modification de note
-    if (boolEditNoteCreation) {
-        
-    }else{
 
-    }
 }
 
 
@@ -996,7 +994,7 @@ function onClickBtnDeleteNote() {
 
 function onValidSuppression(){
     // supprime la note active les pages et cache le popup
-    onDeleteNote()
+    onDeleteNote(currentKeyNoteInView);
     onDisableMainPage(false);
 
     divPopupDeleteRef.style.display = "none";
@@ -1010,12 +1008,12 @@ function onCancelSuppression() {
 
 
 
-function onDeleteNote() {
+function onDeleteNote(keyTarget) {
     // recupere les éléments correspondant à la clé recherché et la stoque dans une variable
-    console.log("Suppression de la note avec la key : " + currentKeyNoteInView);
+    console.log("Suppression de la note avec la key : " + keyTarget);
     let transaction = db.transaction(taskStoreName,"readwrite");//transaction en écriture
     let objectStore = transaction.objectStore(taskStoreName);
-    let request = objectStore.delete(IDBKeyRange.only(currentKeyNoteInView));
+    let request = objectStore.delete(IDBKeyRange.only(keyTarget));
     
     
     request.onsuccess = function (){
@@ -1039,3 +1037,130 @@ function onDeleteNote() {
 
 
 
+// ------------------------------ TERMINER UNE NOTE -  -------------------------------
+
+
+function onDetectNoteTerminer(dataToSave,keyToDelete) {
+    // Desactive les éléments et rends visible le popup de confirmation
+    onDisableMainPage(true);
+    divNoteEditorRef.style.opacity = 0.1;
+    divNoteEditorRef.style.pointerEvents = "none";
+
+
+    // Affiche le popup
+    divPopupTerminerRef.style.display = "block";
+
+    // insert la fonction pour la sauvegarde du dashboard et la suppression dans le bouton
+
+    btnValidTerminerRef = document.getElementById("btnValidTerminer");
+    btnValidTerminerRef.onclick = function (){
+
+        onTermineNote(dataToSave,keyToDelete);
+
+        
+    }
+
+}
+
+
+
+
+function onRemovePopupTerminer() {
+    // Desactive les éléments et rends visible le popup de confirmation
+    onDisableMainPage(false);
+    divNoteEditorRef.style.opacity = 1;
+    divNoteEditorRef.style.pointerEvents = "all";
+
+
+    // Affiche le popup
+    divPopupTerminerRef.style.display = "none";
+}
+
+
+
+
+function onTermineNote(data,key) {
+    // Sauvegarde des infos dans le store dashboard
+
+    console.log("Confirmation de note terminer")
+    // Recupere la durée de la tache
+    let taskDuration = onReceiveTaskDuration();
+
+    // Recupere la date du jour
+    let dateDuJour = onFormatDateToday();
+
+    // set les éléments qui seront sauvegardés dans un objet.
+    let dataToSave = {
+        tag : data.tag,
+        title : data.title,
+        dateStart : data.dateStart,
+        dateEnd : data.dateEnd < dateDuJour ? data.dateEnd : dateDuJour,
+        duration : taskDuration,
+
+    }
+    console.log(dataToSave);
+
+
+    // sauvegarde dans le store dashboard
+    onInsertDataDashboard(dataToSave,key);
+
+
+    // Réaffiche la page et masque la div editeur
+    onRemovePopupTerminer();
+    divNoteEditorRef.style.display = "none";
+
+}
+
+
+
+
+function onReceiveTaskDuration() {
+    // Récupérer les valeurs saisies par l'utilisateur
+    const taskDurationHours = parseInt(document.getElementById("taskDurationHours").value) || 0;
+    const TaskDurationMinutes = parseInt(document.getElementById("TaskDurationMinutes").value) || 0;
+
+    // Convertir en TaskDurationMinutes
+    let totalTaskDurationMinutes;
+
+    totalTaskDurationMinutes = taskDurationHours * 60 + TaskDurationMinutes;
+
+    return totalTaskDurationMinutes;
+
+    
+}
+
+
+
+
+// Insertion des data dans le store dashboard
+
+function onInsertDataDashboard(data,keyToDelete) {
+    let transaction = db.transaction(dashBoardStoreName,"readwrite");
+    let store = transaction.objectStore(dashBoardStoreName);
+
+    let insertRequest = store.add(data);
+
+    insertRequest.onsuccess = function () {
+        console.log(data.title + "a été ajouté à la base");
+        // evenement de notification
+        eventNotify(data.title,"terminé !");
+
+
+        // // Clear l'editeur de note
+        // onClearNoteEditor();
+    }
+
+    insertRequest.onerror = function(){
+        console.log("Error", insertRequest.error);
+        alert(insertRequest.error);
+    }
+
+    transaction.oncomplete = function(){
+        console.log("transaction insertData complete");
+
+        console.log("Lancement de la suppression de la note");
+        onDeleteNote(keyToDelete);
+
+    }
+
+}

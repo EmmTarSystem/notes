@@ -92,6 +92,7 @@ Version fonctionnel
 0.8.1
     Correctif
         Correction du system ou la date de création changeait à chaque modification.
+        Correction du bug sur le tagfilter qui ne se réinitialisait pas à "toutes les tâches" lors des tâches "terminer" .
     Optimisation
         Variabilisation du TAG par défaut.
         Modification du système de date.
@@ -99,3 +100,4 @@ Version fonctionnel
     Evolution
         Mise en place du system de traitement des dates non remplit. (voir info)
         Implementation de la date de modification de la note.
+        Mise en place du systeme de note "TERMINER". Enregistrement dans la dashboard et suppression de la tâche.

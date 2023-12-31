@@ -6,9 +6,11 @@ let genericTAG = "TOUTES LES TACHES";
 
 let currentTagFilter = genericTAG;
 
-// Recupère les TAG existants uniquement pour les status0 et status1;
+// Recupère les TAG existants uniquement pour les status0 et status1 ("en cours" et "a faire" );
 function onListTAG(arrayResult) {
-    console.log("Valeur arrayResult dans onListTAG = ");
+    // Reset allTagList
+    allTagList = [];
+    console.log("[TAG-FILTER] Valeur arrayResult dans onListTAG = ");
     console.log(arrayResult);
 
     let dataToFilter = arrayResult.filter(item=>{
@@ -16,7 +18,7 @@ function onListTAG(arrayResult) {
     })
 
 
-    console.log("valeur de dateToFilter = ");
+    console.log("[TAG-FILTER] valeur de dateToFilter = ");
     console.log(dataToFilter);
     let tempTagList = [];
 
@@ -28,7 +30,7 @@ function onListTAG(arrayResult) {
         
     });
 
-    console.log("tempTagList = ");
+    console.log(" [TAG-FILTER] tempTagList = ");
     console.log(tempTagList);
 
     onUpdateTagList(tempTagList,arrayResult);
@@ -42,24 +44,24 @@ function onUpdateTagList(tempTagList,arrayResult) {
 
 
     // Traitement des tag à ajouter
-    console.log("traitement des TAG à ajouter");
+    console.log(" [TAG-FILTER] traitement des TAG à ajouter");
     tempTagList.forEach(e=>{
         if (!allTagList.includes(e)) {
             allTagList.push(e);
-            console.log("J'ajoute = " + e);
+            console.log(" [TAG-FILTER] J'ajoute = " + e);
         }
     })
 
     // Traitement des tag à retirer
-    console.log("traitement des TAG à retirer");
+    console.log(" [TAG-FILTER] traitement des TAG à retirer");
     allTagList.forEach(e=>{
         if (!tempTagList.includes(e)) {
             // Recupère l'index de l'indésirable
             let indexToDelete = allTagList.indexOf(e);
-            console.log("index a supprimer = " + indexToDelete);
+            console.log(" [TAG-FILTER] index a supprimer = " + indexToDelete);
             // Retrait de l'indésirable
             allTagList.splice(indexToDelete,1);
-            console.log("Je retire = " + e);
+            console.log(" [TAG-FILTER] Je retire = " + e);
         }
     })
 
@@ -69,17 +71,18 @@ function onUpdateTagList(tempTagList,arrayResult) {
         allTagList.unshift(genericTAG);
     }
 
-    console.log("final TAG result = ");
-    console.log(allTagList);
+    console.log(" [TAG-FILTER] final TAG result = ");
+    console.log("[TAG-FILTER]" + allTagList);
 
 
     // Filtre pour voir si le filtre sur le tag en cours existe toujours
     let isCurrentTagIsValid = allTagList.includes(currentTagFilter);
+    console.log("[TAG-FILTER] valeur de currentTagFilter = " + currentTagFilter );
 
     if (isCurrentTagIsValid) {
-        console.log("le tag en cours existe toujours");
+        console.log(" [TAG-FILTER] le tag en cours existe toujours");
     }else{
-        console.log("le tag en cours n'existe plus = réinitialisation");
+        console.log(" [TAG-FILTER] le tag en cours n'existe plus = réinitialisation");
         currentTagFilter = genericTAG;
     }
 

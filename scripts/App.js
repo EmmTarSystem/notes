@@ -52,7 +52,7 @@ let db,
     taskStoreName = "TaskList",
     tagStoreName = "TAGList",
     dashBoardStoreName = "dashboard",
-    version = 1;
+    version = 2;
 
 
 // Lancement /création de la base de donnée
@@ -93,6 +93,8 @@ function onStartDataBase() {
 
             dashboardStore.createIndex('tag','tag',{unique:false});
             dashboardStore.createIndex('duration','duration',{unique:false});
+            dashboardStore.createIndex('dateStart','dateStart',{unique:false});
+            dashboardStore.createIndex('dateEnd','dateEnd',{unique:false});
         }
 
     };
@@ -167,7 +169,9 @@ let allDivToDisable = [];
     allDivToDisable.push(document.getElementById("divNoteView"));
 
 
+
 function onDisableMainPage(disable) {
+    console.log("Gestion de desactivation de la page");
     let isDisable = Boolean(disable === true);
 
     allDivToDisable.forEach(e =>{
@@ -229,10 +233,10 @@ function onCheckDateError(dateDebut, dateFin) {
 
 //  --------------------------  Animation notification -------------------------------------
 
-function eventNotify(textToSet) {
+function eventNotify(textToSet,actionName) {
     let pNotifyTextRef = document.getElementById("pNotifyText");
     let divNotifyRef = document.getElementById("divNotify");
-    pNotifyTextRef.innerHTML = "La tache '" + textToSet + "' a été ajouté !";
+    pNotifyTextRef.innerHTML = "La tache '" + textToSet + "' a été  " + " " +actionName;
     
 
     // Affiche la div
