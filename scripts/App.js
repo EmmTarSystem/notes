@@ -49,10 +49,10 @@ onSetDateDuJour();
 
 let db,
     dbName = "Planning-DataBase",
-    taskStoreName = "TaskList",
+    taskStoreName = "taskList",
     tagStoreName = "TAGList",
     dashBoardStoreName = "dashboard",
-    version = 2;
+    version = 1;
 
 
 // Lancement /création de la base de donnée

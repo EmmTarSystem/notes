@@ -20,7 +20,7 @@
         <img onclick="onClickMenuDashboard()" class="iconMainMenu" src="./images/IconeDashboard.png" alt="" srcset="">
         <img onclick="onClickMenuSetting()" class="iconMainMenu" src="./images/IconeSetting.png" alt="" srcset="">
         <img onclick="onClickMenuInfo()" class="iconMainMenu" src="./images/IconeAbout.png" alt="" srcset="">
-        <p class="release">Release 0.8.1</p>
+        <p class="release">Release 0.8.2</p>
     </div>
     <div class="dateVersion">
         <h1 id="h1DateDuJour"></h1>
@@ -215,13 +215,71 @@
     <!-- -------------------------   div Dashboard----------------------------------- -->
     <div class="divDashboard" id="divDashboard">
         <h2>DASHBOARD</h2>
-        <button onclick="exportData()">Sauvegarder la base</button>
+        
+        
     </div>
     <!-- -------------------------  FIN div Dashboard----------------------------------- -->
 
     <!-- -------------------------   div Setting ----------------------------------- -->
     <div class="divSetting" id="divSetting">
         <h2>SETTING</h2>
+
+        <!-- Div gestion des données -->
+        <div>
+            <table border="1">
+                <!-- Première ligne avec une seule cellule -->
+                <tr>
+                    <td colspan="2"> <h2>GESTION DES DONNEES</h2></td>
+                </tr>
+            
+                <!-- Deuxième ligne avec deux cellules -->
+                <tr>
+                    <td><h3>SAUVEGARDE</h3></td>
+                    <td><h3>IMPORT</h3></td>
+                </tr>
+            
+                <!-- Troisième ligne avec deux cellules -->
+                <tr>
+                    <td>
+                        <p>Lancer la sauvegarde téléchargera 3 fichiers distincts !</p>
+                        <button class="basicBtn" onclick="exportData()">Sauvegarder la base</button>
+                    </td>
+                    <td>
+                        <!-- Import TASK -->
+                        <p>
+                            <label class="tempLabel" for="fileInputJsonTask">Tâches :</label>
+                            <input type="file" id="fileInputJsonTask" accept=".json">
+                            <button class="basicBtn" onclick="importTask('fileInputJsonTask','taskList','pImportTaskResult')">Import Tache</button>
+                        </p>
+                        <p id="pImportTaskResult">
+                            <!-- Injection resultat import -->
+                        </p>
+
+                        <!-- Import TAG -->
+                        <p>
+                            <label class="tempLabel" for="fileInputJsonTag">TAG :</label>
+                            <input type="file" id="fileInputJsonTag" accept=".json">
+                            <button class="basicBtn" onclick="importTask('fileInputJsonTag','TAGList','pImportTagResult')">Import TAG</button>
+                        </p>
+                        <p id="pImportTagResult">
+                            <!-- Injection resultat import -->
+                        </p>
+
+                        <!-- Import dashboard -->
+                        <p>
+                            <label class="tempLabel" for="fileInputJsonDashboard">Dashboard : </label>
+                            <input type="file" id="fileInputJsonDashboard" accept=".json">
+                            <button class="basicBtn" onclick="importTask('fileInputJsonDashboard','dashboard','pImportDashboardResult')">Import Dashboard</button>
+                        </p>
+                        <p id="pImportDashboardResult">
+                            <!-- Injection resultat import -->
+                        </p>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
     </div>
     <!-- -------------------------  FIN div Setting----------------------------------- -->
 
@@ -242,7 +300,7 @@
     <script src="./scripts/TagFilterSystem.js"></script>
     <script src="./scripts/print.js"></script>
     <script src="./scripts/TagCompletion.js"></script>
-    <script src="./scripts/saveData.js"></script>
+    <script src="./scripts/importExportData.js"></script>
     <script src="./scripts/App.js"></script>
 </body>
 </html>

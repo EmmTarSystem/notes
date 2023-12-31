@@ -101,3 +101,6 @@ Version fonctionnel
         Mise en place du system de traitement des dates non remplit. (voir info)
         Implementation de la date de modification de la note.
         Mise en place du systeme de note "TERMINER". Enregistrement dans la dashboard et suppression de la tâche.
+0.8.2
+    Evolution
+        Mise en place du système d'import et export des data fonctionnel.

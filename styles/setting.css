@@ -2,4 +2,16 @@
 
 div.divSetting{
     display: none;
+    padding-top: 100px;
+    padding-left: 200px;
+    display: none;
+    width:1200px;
+    text-align: center;
+}
+
+/* A modifier plus tard */
+label.tempLabel{
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
 }
