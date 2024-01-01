@@ -112,3 +112,4 @@ Version fonctionnel
         Verrouillage des valeurs de temps passé sur une tâche pour les heures et les minutes. (nbre de caractere et valeur maximale).
         Mise en place du traitement des données sensibles.
         Setting : système de paramétrage des données sensibles.
+0.8.4
