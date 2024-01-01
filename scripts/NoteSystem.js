@@ -477,7 +477,7 @@ function onAddStep(isStepToSet,inputValue) {
     // fonction pour modifier l'input (barré ou non) en fonction de la checkbox
     newCheckbox.onchange = function (){
         console.log(this.checked);
-        onChangeStepStatus(currentInputStepID,this.checked)
+        onChangeStepStatus(currentInputStepID,this.checked);
     }
    
 
@@ -658,38 +658,46 @@ function onFormatNote(){
     let tempTitle = onSetToUppercase(inputNoteTitleRef.value);
 
 
+    //  -------------   SECURITY  ----------
+
+    let secureTag = securitySearchForbidenItem(tempTag);
+    let secureDetail = securitySearchForbidenItem(textareaNoteDetailRef.value);
+    let secureTitle = securitySearchForbidenItem(tempTitle);
+
+    let secureEditorStepArray = [];
+    noteEditorStepArray.forEach(i=> secureEditorStepArray.push({stepName:securitySearchForbidenItem(i.stepName),stepChecked:i.stepChecked}));
 
     
     // Mise en format variable
 
     let noteToInsert = {
-        tag : tempTag,
-        title : tempTitle,
+        tag : secureTag,
+        title : secureTitle,
         dateCreated : tempDateCreated,
         dateLastModification : tempDateToday,
         dateStart : tempDateStart,
         dateEnd : tempDateEnd,
         status : selectorNoteStatusRef.value,
-        stepArray : noteEditorStepArray,
-        detail : textareaNoteDetailRef.value,
+        stepArray : secureEditorStepArray,
+        detail : secureDetail,
         priority : selectorNotePriorityRef.value,
     }
+
+
+    // Sortie de fonction : Détection de note "terminer", de "création" ou de "modification".
 
     // DETECTION d'une note "TERMINER"
     if (selectorNoteStatusRef.value === statusArray[2]) {
         console.log("Note 'Terminer' detecté");
         onDetectNoteTerminer(noteToInsert,currentKeyNoteInView);
-        return
-    };
 
-
- 
-    // Filtre selon création ou modification des données
-    if (boolEditNoteCreation) {
+    }else if(boolEditNoteCreation) {
+        // Filtre selon création ou modification des données
         console.log("mode création de note");
         console.log(noteToInsert);
         // Insertion des datas dans la base
         onInsertData(noteToInsert);
+
     }else{
         onInsertModification(noteToInsert);
         console.log("mode modification de note");

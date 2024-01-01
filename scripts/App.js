@@ -219,8 +219,24 @@ function onCheckDateError(dateDebut, dateFin) {
 }
 
 
+// Fonction de limite des nombres dans un input
 
+function onlimitNumberLength(input, maxLength, maxValue) {
+    let value = input.value;
 
+    // Limite la longueur du nombre
+    if (value.length > maxLength) {
+      value = value.slice(0, maxLength);
+    }
+
+    // Limite la valeur maximale
+    const numericValue = parseInt(value, 10);
+    if (!isNaN(numericValue) && numericValue > maxValue) {
+      value = maxValue.toString();
+    }
+
+    input.value = value;
+  }
 
 
 
@@ -271,6 +287,7 @@ function onClickMenuDashboard() {
 // Menu Setting
 function onClickMenuSetting() {
     onSetDivVisibility("divSetting");
+    onDisplaySetting();
 }
 
 

@@ -20,7 +20,7 @@
         <img onclick="onClickMenuDashboard()" class="iconMainMenu" src="./images/IconeDashboard.png" alt="" srcset="">
         <img onclick="onClickMenuSetting()" class="iconMainMenu" src="./images/IconeSetting.png" alt="" srcset="">
         <img onclick="onClickMenuInfo()" class="iconMainMenu" src="./images/IconeAbout.png" alt="" srcset="">
-        <p class="release">Release 0.8.2</p>
+        <p class="release">Release 0.8.3</p>
     </div>
     <div class="dateVersion">
         <h1 id="h1DateDuJour"></h1>
@@ -148,7 +148,7 @@
                         </li>
                         <li>
                             <label for="textareaNoteDetail">Detail</label>
-                            <textarea class="textarea-field" name="" id="textareaNoteDetail" cols="30" rows="10"></textarea>
+                            <textarea class="textarea-field" name="" id="textareaNoteDetail" cols="30" rows="10" maxlength="1000"></textarea>
                         </li>
                     </ul>
                     <ul id="ulNoteEditorStep">
@@ -189,10 +189,10 @@
             <h2>Veuillez renseigner le temps passé sur la tâche pour la terminer :</h2>
 
             <label for="taskDurationHours">Heure(s):</label>
-            <input type="number" id="taskDurationHours" placeholder="0" min="0" max="999">
+            <input type="number" id="taskDurationHours" oninput="onlimitNumberLength(this, 3,999)"  placeholder="0" min="0" max="999">
             
             <label for="TaskDurationMinutes">Minute(s):</label>
-            <input type="number" id="TaskDurationMinutes" placeholder="0" min="0" max="59">
+            <input type="number" id="TaskDurationMinutes"  oninput="onlimitNumberLength(this, 2,59)" placeholder="0" min="0" max="59">
             <p>
                 <!-- onclick injecté depuis le javascript -->
                 <button class="basicBtn" id="btnValidTerminer" >Terminer</button>
@@ -215,14 +215,14 @@
     <!-- -------------------------   div Dashboard----------------------------------- -->
     <div class="divDashboard" id="divDashboard">
         <h2>DASHBOARD</h2>
-        
+        <p>Work in progress</p>
         
     </div>
     <!-- -------------------------  FIN div Dashboard----------------------------------- -->
 
     <!-- -------------------------   div Setting ----------------------------------- -->
     <div class="divSetting" id="divSetting">
-        <h2>SETTING</h2>
+        <h1>SETTING</h1>
 
         <!-- Div gestion des données -->
         <div>
@@ -279,6 +279,32 @@
             </table>
 
         </div>
+         <!-- div securite -->
+        <div>
+            <h2>SECURITE</h2>
+            <p>Par défaut, les données sensibles sont volontairement effacées. Si vous le souhaitez, vous pouvez les activer ici :</p>
+
+            <ul>
+                <li>
+                    <label class="tempLabel" for="checkboxPhoneNumber">Numéro de téléphone</label>
+                    <input type="checkbox" name="" id="checkboxPhoneNumber" onchange="onChangeSecuritySetting('phoneNumber',this)">
+                </li>
+                <li>
+                    <label class="tempLabel" for="checkboxEmail">Email</label>
+                    <input type="checkbox" name="" id="checkboxEmail" onchange="onChangeSecuritySetting('email',this)" >
+                </li>
+                <li>
+                    <label class="tempLabel" for="checkboxIP">Adresse IP</label>
+                    <input type="checkbox" name="" id="checkboxIP" onchange="onChangeSecuritySetting('IPAdress',this)">
+                </li>
+                <li>
+                    <label class="tempLabel" for="checkboxWebLink">Lien web</label>
+                    <input type="checkbox" name="" id="checkboxWebLink" onchange="onChangeSecuritySetting('linkWeb',this)">
+                </li>
+
+            </ul>
+
+        </div>
 
     </div>
     <!-- -------------------------  FIN div Setting----------------------------------- -->
@@ -295,12 +321,13 @@
 
    
 
-    
+    <script src="./scripts/setting.js"></script>
     <script src="./scripts/NoteSystem.js"></script>
     <script src="./scripts/TagFilterSystem.js"></script>
     <script src="./scripts/print.js"></script>
     <script src="./scripts/TagCompletion.js"></script>
     <script src="./scripts/importExportData.js"></script>
+    <script src="./scripts/security.js"></script>
     <script src="./scripts/App.js"></script>
 </body>
 </html>

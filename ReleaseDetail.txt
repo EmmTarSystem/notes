@@ -104,3 +104,11 @@ Version fonctionnel
 0.8.2
     Evolution
         Mise en place du système d'import et export des data fonctionnel.
+0.8.3
+    Optimisation
+        Sortie de fonction propre (if else if else) pour la création, modification, ou note terminer.
+        Mise en place d'une limite de caractère pour le champ "Détail".
+    Evolution
+        Verrouillage des valeurs de temps passé sur une tâche pour les heures et les minutes. (nbre de caractere et valeur maximale).
+        Mise en place du traitement des données sensibles.
+        Setting : système de paramétrage des données sensibles.
