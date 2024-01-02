@@ -26,7 +26,8 @@ body {
 div.divAccueil{
 	margin-left: auto;
 	margin-right: auto;
-	width: 1500px;height: 700px;
+	/* width: 1500px;height: 700px; */
+	width: 100%;height: 100%;
 }
 
 
@@ -213,11 +214,11 @@ div.divNoteView{
 	display: none;
 }
 
-table{
+table.tableBasic{
 	width: 100%;
 }
 
-table, tr, td, th{
+table.tableBasic, tr, td, th{
 	border-radius: 10px 0px;
 	
 }
@@ -336,8 +337,8 @@ select.selectTag{
 div.listBtnNote{
 	position: relative;
 	text-align: center;
-	top: 15%;left: 10%;
-	width: 700px;
+	left: 10%; top: 50px;
+	width: 600px;
 }
 
 
@@ -405,43 +406,46 @@ div.divBtnListNote{
 	margin-top: 10px;
 	margin-left: 20px;
   	border-radius: 10px 0px;
-  	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre portée */
 	text-align: center;
-	width:200px ;height: 80px;
+	width:150px; height: 100px;
 	transition: transform 0.3s ease;
   	transform: translateX(0px);
 	background-size: contain;
 	white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
  	overflow: hidden;    /* Cache le texte qui dépasse */
+	 background-repeat: no-repeat;
 }
 
 /* bouton individuel liste note URGENT FLASH ROUTINE*/
 
-div.divBtnListNotePriority0{
-	background-image: url(../images/BtnNoteBackground_Routine.png);
+div.divBtnListNoteStatus0Priority0{
+	background-image: url(../images/Note-Close-Routine.png);
 }
-div.divBtnListNotePriority1{
-	background-image: url(../images/BtnNoteBackground_Urgent.png);
+div.divBtnListNoteStatus0Priority1{
+	background-image: url(../images/Note-Close-Urgent.png);
 }
-div.divBtnListNotePriority2{
-	background-image: url(../images/BtnNoteBackground_Flash.png);
+div.divBtnListNoteStatus0Priority2{
+	background-image: url(../images/Note-Close-Flash.png);
+}
 
+div.divBtnListNoteStatus1Priority0{
+	background-image: url(../images/Note-Open-Routine.png);
+}
+div.divBtnListNoteStatus1Priority1{
+	background-image: url(../images/Note-Open-Urgent.png);
+}
+div.divBtnListNoteStatus1Priority2{
+	background-image: url(../images/Note-Open-Flash.png);
 }
 
 
-/* titre */
 
-p.listNoteTitle{
-	color: white;
-	font-size: 12px;
-	overflow: hidden; /* Cache le texte qui dépasse */
-  	text-overflow: ellipsis; /* Ajoute des points de suspension (...) pour indiquer que du texte est masqué */
-  	white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
-}
+
 
 
 /* tag */
 p.listNoteTAG{
+	margin-top: 30px;
 	color: white;
 	font-size: 10px;
 	font-style: italic;
@@ -450,6 +454,21 @@ p.listNoteTAG{
   	white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
 	
 }
+
+
+/* titre */
+p.listNoteTitle{
+	color: white;
+	font-size: 12px;
+	text-wrap:wrap;
+
+	overflow: hidden; /*Cache le texte qui dépasse */
+  	text-overflow: ellipsis; /* Ajoute des points de suspension (...) pour indiquer que du texte est masqué */
+
+}
+
+
+
 
 div.divBtnListNote:hover{
 	cursor: pointer;

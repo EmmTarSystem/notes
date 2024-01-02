@@ -31,18 +31,18 @@
 
         <!-- ----------------- DIV Tableau d'affichage des boutons de notes--------------------------- -->
         <div class="listBtnNote" id="divListBtnNote">
-            <h2>Mes tâches</h2>
+            <!-- <h2>Mes tâches</h2> -->
             
             <label class="labelTagFilter" for="selectTagFilter">Filtre : </label>
             <select class="selectTag" name="" id="selectTagFilter" onchange="onSelectorTagChange()">
                 <!-- Injection des options -->
             </select>
 
-            <button class="basicBtn" onclick="onDisplayNoteEditor(true)" title="Nouvelle note">
+            <button class="basicBtn" onclick="onCreateNote()" title="Nouvelle note">
                 <img class="iconeMenu" src="./images/IconeNewTask.png" alt="Nouvelle tâche" srcset="">
             </button>
 
-            <table>
+            <table class="tableBasic">
                 <tr class="rowTopLine">
                     <!-- <th id="thTxtEnCours">En cours ( 0 )</th> -->
                     <th>
@@ -83,7 +83,7 @@
             <!-- zone qui sera imprimé -->
             <div id="printArea">
                
-                <table>
+                <table class="tableBasic">
                     <tr>
                         <th class="urgenceCategorie"><p class="noteViewHead" id="noteViewPriority">Priorité</p></th>
                         <th class="noteViewTag"><p class="noteViewHead" id="noteViewTag">[ TAG ]</p></th>
@@ -112,7 +112,7 @@
             </div>
             <!-- Les boutons -->
             <p> 
-                <button class="basicBtn" onclick="onDisplayNoteEditor(false)" title="Modifier"><img class="iconeMenu" src="./images/IconeEditer.png" alt="Editer"></button>
+                <button class="basicBtn" onclick="onEditNote()" title="Modifier"><img class="iconeMenu" src="./images/IconeEditer.png" alt="Editer"></button>
                 <button class="basicBtn" onclick="onClickBtnDeleteNote()" title="Supprimer"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Supprimer" srcset=""></button>
                 <button class="basicBtn" onclick="onClickPrint()" title="Imprimer"><img class="iconeMenu" src="./images/Icone-imp.png" alt="Imprimer" srcset=""></button>
             </p>
@@ -196,7 +196,7 @@
             <p>
                 <!-- onclick injecté depuis le javascript -->
                 <button class="basicBtn" id="btnValidTerminer" >Terminer</button>
-                <button class="basicBtn" onclick="onRemovePopupTerminer()">Annuler</button>
+                <button class="basicBtn" onclick="onCancelPopupTerminer()">Annuler</button>
             </p>
         </div>
         <!-- ----------------- FIN CONFIRMATION SUPPRESSION --------------------->
@@ -226,16 +226,16 @@
 
         <!-- Div gestion des données -->
         <div>
-            <table border="1">
+            <table class="setting">
                 <!-- Première ligne avec une seule cellule -->
                 <tr>
-                    <td colspan="2"> <h2>GESTION DES DONNEES</h2></td>
+                    <th colspan="2">GESTION DES DONNEES</th>
                 </tr>
             
                 <!-- Deuxième ligne avec deux cellules -->
                 <tr>
-                    <td><h3>SAUVEGARDE</h3></td>
-                    <td><h3>IMPORT</h3></td>
+                    <td>SAUVEGARDE</td>
+                    <td>IMPORT</td>
                 </tr>
             
                 <!-- Troisième ligne avec deux cellules -->
@@ -281,30 +281,30 @@
         </div>
          <!-- div securite -->
         <div>
-            <h2>SECURITE</h2>
-            <p>Par défaut, les données sensibles sont volontairement effacées. Si vous le souhaitez, vous pouvez les activer ici :</p>
-
-            <ul>
-                <li>
-                    <label class="tempLabel" for="checkboxPhoneNumber">Numéro de téléphone</label>
-                    <input type="checkbox" name="" id="checkboxPhoneNumber" onchange="onChangeSecuritySetting('phoneNumber',this)">
-                </li>
-                <li>
-                    <label class="tempLabel" for="checkboxEmail">Email</label>
-                    <input type="checkbox" name="" id="checkboxEmail" onchange="onChangeSecuritySetting('email',this)" >
-                </li>
-                <li>
-                    <label class="tempLabel" for="checkboxIP">Adresse IP</label>
-                    <input type="checkbox" name="" id="checkboxIP" onchange="onChangeSecuritySetting('IPAdress',this)">
-                </li>
-                <li>
-                    <label class="tempLabel" for="checkboxWebLink">Lien web</label>
-                    <input type="checkbox" name="" id="checkboxWebLink" onchange="onChangeSecuritySetting('linkWeb',this)">
-                </li>
-
-            </ul>
-
-        </div>
+            <table class="setting">
+                <tr>
+                    <th colspan="2">SECURITE</th>
+                </tr>
+                <tr>
+                    <td colspan="2">Par défaut, les données sensibles sont volontairement effacées. Si vous le souhaitez, vous pouvez les activer ici :</td>
+                </tr>
+                <tr>
+                    <td><label class="tempLabel" for="checkboxPhoneNumber">Autoriser les numéros de téléphone</label></td>
+                    <td><input type="checkbox" name="" id="checkboxPhoneNumber" onchange="onChangeSecuritySetting('phoneNumber',this)"></td>
+                </tr>
+                <tr>
+                    <td><label class="tempLabel" for="checkboxEmail">Autoriser les emails</label></td>
+                    <td><input type="checkbox" name="" id="checkboxEmail" onchange="onChangeSecuritySetting('email',this)" ></td>
+                </tr>
+                <tr>
+                    <td><label class="tempLabel" for="checkboxIP">Autoriser les adresses IP</label></td>
+                    <td><input type="checkbox" name="" id="checkboxIP" onchange="onChangeSecuritySetting('IPAdress',this)"></td>
+                </tr>
+                <tr>
+                    <td><label class="tempLabel" for="checkboxWebLink">Autoriser les liens web</label></td>
+                    <td><input type="checkbox" name="" id="checkboxWebLink" onchange="onChangeSecuritySetting('linkWeb',this)"></td>
+                </tr>
+            </table>
 
     </div>
     <!-- -------------------------  FIN div Setting----------------------------------- -->

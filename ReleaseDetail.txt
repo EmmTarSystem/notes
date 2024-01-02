@@ -113,3 +113,6 @@ Version fonctionnel
         Mise en place du traitement des données sensibles.
         Setting : système de paramétrage des données sensibles.
 0.8.4
+    Optimisation
+        Mise en place d'une fonction unique pour la gestion de l'affichage.
+        Résolution du bug style inconnu.

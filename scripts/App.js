@@ -170,16 +170,40 @@ let allDivToDisable = [];
 
 
 
-function onDisableMainPage(disable) {
-    console.log("Gestion de desactivation de la page");
-    let isDisable = Boolean(disable === true);
 
-    allDivToDisable.forEach(e =>{
-        e.style.opacity = isDisable? 0.1 : 1;
-        e.style.pointerEvents = isDisable? "none" : "all";
+
+// fonction de gestion de l'affichage
+function onChangeDisplay(toHide,toDisplay,toDisable,toEnable) {
+    // Cache les items
+    toHide.forEach(id=>{
+        let itemRef = document.getElementById(id);
+        itemRef.style.display = "none";
     });
-    
+
+    // Affiche les items
+    toDisplay.forEach(id=>{
+        let itemRef = document.getElementById(id);
+        itemRef.style.display = "block";
+    });
+
+    // Desactive les items
+    toDisable.forEach(id=>{
+       let itemRef = document.getElementById(id);
+       itemRef.style.opacity = 0.1;
+       itemRef.style.pointerEvents = "none";
+    });
+
+    // Active les items
+    toEnable.forEach(id=>{
+        let itemRef = document.getElementById(id);
+        itemRef.style.opacity = 1;
+        itemRef.style.pointerEvents = "all";
+     });
+
+
 }
+
+
 
 //formatage =  tout en majuscule
 function onSetToUppercase(e) {
@@ -274,38 +298,42 @@ function eventNotify(textToSet,actionName) {
 
 // Menu Accueil
 function onClickMenuAccueil() {
-    onSetDivVisibility("divAccueil");
+
+
+    // Gestion affichage
+    onChangeDisplay(["divAccueil","divDashboard","divSetting","divInfo"],["divAccueil"],[],[]);
 }
 
 
 // Menu Dashboard
 function onClickMenuDashboard() {
-    onSetDivVisibility("divDashboard");
+
+    // Gestion affichage
+    onChangeDisplay(["divAccueil","divSetting","divInfo"],["divDashboard"],[],[]);
 }
 
 
 // Menu Setting
 function onClickMenuSetting() {
-    onSetDivVisibility("divSetting");
+
+    // Gestion affichage
+    onChangeDisplay(["divAccueil","divDashboard","divInfo"],["divSetting"],[],[]);
+
     onDisplaySetting();
 }
 
 
 // Menu Info
 function onClickMenuInfo() {
-    onSetDivVisibility("divInfo");
+
+
+    // Gestion affichage
+    onChangeDisplay(["divAccueil","divDashboard","divSetting"],["divInfo"],[],[]);
 }
 
-// Affiche la div du menu en cours et cache les autres
-function onSetDivVisibility(divTarget) {
-    let allMainDiv = ["divAccueil","divDashboard","divSetting","divInfo"];
 
-    allMainDiv.forEach(e=>{
-        let divRef = document.getElementById(e);
-        divRef.style.display = e === divTarget ? "block": "none";
-    })
 
-}
+
 
 
 

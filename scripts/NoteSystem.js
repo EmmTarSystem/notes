@@ -154,7 +154,7 @@ function onSortItem(arrayResult) {
 
 
 // Crée les boutons des notes selon la catégorie
-function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,textToDisplay) {
+function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,currentStatus) {
     // Reference pour le nombre de tache 
     let currentThRef = document.getElementById(thIDRef);
 
@@ -181,10 +181,20 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,textToDisp
             }
             
 
-            // Set la class de la divbouton selon l'urgence
-            if (e.priority === priorityArray[0]) { div.className ="divBtnListNote divBtnListNotePriority0" };
-            if (e.priority === priorityArray[1]) { div.className ="divBtnListNote divBtnListNotePriority1" };
-            if (e.priority === priorityArray[2]) { div.className ="divBtnListNote divBtnListNotePriority2" };
+            if (currentStatus === statusArray[0]) {
+                // Set la class  de la divbouton selon l'urgence
+                if (e.priority === priorityArray[0]) { div.className ="divBtnListNote divBtnListNoteStatus0Priority0" };
+                if (e.priority === priorityArray[1]) { div.className ="divBtnListNote divBtnListNoteStatus0Priority1" };
+                if (e.priority === priorityArray[2]) { div.className ="divBtnListNote divBtnListNoteStatus0Priority2" };
+            }
+            
+            if (currentStatus === statusArray[1]) {
+                // Set la class  de la divbouton selon l'urgence
+                if (e.priority === priorityArray[0]) { div.className ="divBtnListNote divBtnListNoteStatus1Priority0" };
+                if (e.priority === priorityArray[1]) { div.className ="divBtnListNote divBtnListNoteStatus1Priority1" };
+                if (e.priority === priorityArray[2]) { div.className ="divBtnListNote divBtnListNoteStatus1Priority2" };
+            }
+            
 
             // Creation du tag dans la div
             let tag = document.createElement("p");
@@ -214,13 +224,13 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,textToDisp
         console.log("Je compte le nombre d'itération " + nbreIteration);
         
         // Set le nombre de tâche
-        currentThRef.innerHTML = `${textToDisplay} ( ${noteArray.length} )   <i>${indexToStart + 1} - ${indexToStart + nbreIteration}</i>`;     
+        currentThRef.innerHTML = `${currentStatus} ( ${noteArray.length} )   <i>${indexToStart + 1} - ${indexToStart + nbreIteration}</i>`;     
 
     }else{
         console.log("Aucune note pour " + divNotesTarget);
         CurrentDivNotesRef.innerHTML = "Aucune note";
         // Set le nombre de tâche à zero
-        currentThRef.innerHTML = `${textToDisplay} ( 0 )   <i> 0 - 0 </i>`;
+        currentThRef.innerHTML = `${currentStatus} ( 0 )   <i> 0 - 0 </i>`;
     }
 
     // Gestion de visibilité des boutons de notes
@@ -329,23 +339,37 @@ statusArray.forEach(e=>{
     
 
 
-function onDisplayNoteEditor(boolModeCreation){
-
-    // Desactive la page principale
-    onDisableMainPage(true);
-    divNoteEditorRef.style.display = "inline-block";
-
-    // cache la visionneuse de note si visible
-
-    // Cache la visionneuse de note si visible (et donc déjà référencé)
-    if (divNoteViewRef !== undefined) {
-        divNoteViewRef.style.display = "none";
-    }
-    
-
-
+// Création d'une note
+function onCreateNote() {
     // clear l'editeur de note
     onClearNoteEditor();
+
+    // Gestion affichage
+    onChangeDisplay(["divNoteView"],["divNoteEditor"],["divListBtnNote"],["divNoteEditor"]);
+
+    onDisplayNoteEditor(true);
+}
+
+
+
+// Modification d'une note
+function onEditNote() {
+    // clear l'editeur de note
+    onClearNoteEditor();
+
+    // Gestion affichage
+    onChangeDisplay(["divNoteView"],["divNoteEditor"],["divListBtnNote"],["divNoteEditor"]);
+
+    onDisplayNoteEditor(false);
+}
+
+
+
+function onDisplayNoteEditor(boolModeCreation){
+
+
+    
+
 
     // Set le mode d'ouverture de l'editeur de note
     boolEditNoteCreation = boolModeCreation;
@@ -797,28 +821,26 @@ function onInsertModification(e) {
         console.log("affiche à nouveau la note modifié");
         onSearchNotesToDisplay(currentKeyNoteInView);
         
-        // reactive la div principale
-        onDisableMainPage(false);
-        // Cacle la div edition
-        divNoteEditorRef.style.display = "none";
+        // reactive la div principale Cache la div edition
+        // Gestion affichage
+        onChangeDisplay(["divNoteEditor"],[],[],["divListBtnNote","divNoteView"]);
+
+
     }
 }
-
-
-
 
 
 // Annuler une édition de note
 function onClickBtnAnnulNoteEditor() {
 
-    // reactive la div principale
-    onDisableMainPage(false);
-    // Cacle la div edition
-    divNoteEditorRef.style.display = "none";
-    divNoteViewRef.style.display = "block";
-
-
-
+    // Si ça vient d'une modification réaffiche le visualiseur de note sinon non.
+    if (boolEditNoteCreation) {
+        // Gestion affichage 
+        onChangeDisplay(["divNoteEditor"],[],[],["divListBtnNote"]);
+    }else{
+        // Gestion affichage 
+        onChangeDisplay(["divNoteEditor"],["divNoteView"],[],["divListBtnNote","divNoteView"]);
+    }
 }
 
 
@@ -867,39 +889,19 @@ function onSearchNotesToDisplay(keyRef) {
 
 
 // Variabilisation pour l'affichage d'une note
-let boolNoteViewItemsAlreadySet = false,//pour ne permettre le référencement qu'une seule fois
-    noteViewTagRef,
-    noteViewTitleRef,
-    noteViewPriorityRef,
-    hnoteViewStatusRef,
-    pNoteViewDetailRef,
-    noteViewDateInfoRef,
-    pNoteViewDateCreatedRef,
-    ulNoteViewStepRef,
-    divNoteViewRef;
+
+let noteViewTagRef = document.getElementById("noteViewTag"),
+    noteViewTitleRef = document.getElementById("noteViewTitle"),
+    noteViewPriorityRef = document.getElementById("noteViewPriority"),
+    hnoteViewStatusRef = document.getElementById("hnoteViewStatus"),
+    pNoteViewDetailRef = document.getElementById("pNoteViewDetail"),
+    noteViewDateInfoRef = document.getElementById("noteViewDateInfo"),
+    pNoteViewDateCreatedRef = document.getElementById("pNoteViewDateCreated"),
+    divNoteViewRef = document.getElementById("divNoteView"),
+    ulNoteViewStepRef = document.getElementById("ulNoteViewStep");
 
 
 function onDisplayNote(e) {
-    // Variabilisation unique des éléments
-
-    
-
-    if (boolNoteViewItemsAlreadySet === false) {
-        noteViewTagRef = document.getElementById("noteViewTag");
-        noteViewTitleRef = document.getElementById("noteViewTitle");
-        noteViewPriorityRef = document.getElementById("noteViewPriority");
-        hnoteViewStatusRef = document.getElementById("hnoteViewStatus");
-        pNoteViewDetailRef = document.getElementById("pNoteViewDetail");
-        noteViewDateInfoRef = document.getElementById("noteViewDateInfo");
-        pNoteViewDateCreatedRef = document.getElementById("pNoteViewDateCreated");
-        divNoteViewRef = document.getElementById("divNoteView");
-        ulNoteViewStepRef = document.getElementById("ulNoteViewStep");
-
-        // les items ne sont référencés qu'une seule fois
-        boolNoteViewItemsAlreadySet = true;
-    }
-
-    
 
     // Vide les élements prédédents
     onClearNoteView();
@@ -970,7 +972,7 @@ function onDisplayNote(e) {
 
 
     // Rend la visionneuse de note visible
-    divNoteViewRef.style.display = "block";
+    onChangeDisplay([],["divNoteView"],[],["divNoteView"]);
 
 }
 
@@ -994,24 +996,26 @@ function onClearNoteView() {
 
 // popup de confirmation
 function onClickBtnDeleteNote() {
-    // Desactive les éléments et rends visible le popup de confirmation
-    onDisableMainPage(true);
 
-    divPopupDeleteRef.style.display = "block";
+
+    // Gestion affichage
+    onChangeDisplay([],["divPopupDelete"],["divNoteView","divListBtnNote"],[]);
+
 }
 
 function onValidSuppression(){
     // supprime la note active les pages et cache le popup
     onDeleteNote(currentKeyNoteInView);
-    onDisableMainPage(false);
 
-    divPopupDeleteRef.style.display = "none";
+    // Gestion affichage
+    onChangeDisplay(["divNoteView","divPopupDelete"],[],[],["divListBtnNote"]);
+
 }
 
 function onCancelSuppression() {
-    // active les pages et cache le popup
-    onDisableMainPage(false);
-    divPopupDeleteRef.style.display = "none";
+ 
+    // Gestion affichage
+    onChangeDisplay(["divPopupDelete"],[],[],["divNoteView","divListBtnNote"]);
 }
 
 
@@ -1049,14 +1053,10 @@ function onDeleteNote(keyTarget) {
 
 
 function onDetectNoteTerminer(dataToSave,keyToDelete) {
-    // Desactive les éléments et rends visible le popup de confirmation
-    onDisableMainPage(true);
-    divNoteEditorRef.style.opacity = 0.1;
-    divNoteEditorRef.style.pointerEvents = "none";
 
+    // Gestion affichage
+    onChangeDisplay([],["divPopupTerminer"],["divNoteEditor"],[]);
 
-    // Affiche le popup
-    divPopupTerminerRef.style.display = "block";
 
     // insert la fonction pour la sauvegarde du dashboard et la suppression dans le bouton
 
@@ -1072,16 +1072,10 @@ function onDetectNoteTerminer(dataToSave,keyToDelete) {
 
 
 
-
-function onRemovePopupTerminer() {
-    // Desactive les éléments et rends visible le popup de confirmation
-    onDisableMainPage(false);
-    divNoteEditorRef.style.opacity = 1;
-    divNoteEditorRef.style.pointerEvents = "all";
-
-
-    // Affiche le popup
-    divPopupTerminerRef.style.display = "none";
+// Annulation du popup "Terminer"
+function onCancelPopupTerminer() {
+    // Gestion affichage
+    onChangeDisplay(["divPopupTerminer"],[],[],["divNoteEditor"]);
 }
 
 
@@ -1113,9 +1107,8 @@ function onTermineNote(data,key) {
     onInsertDataDashboard(dataToSave,key);
 
 
-    // Réaffiche la page et masque la div editeur
-    onRemovePopupTerminer();
-    divNoteEditorRef.style.display = "none";
+    // Gestion affichage
+    onChangeDisplay(["divPopupTerminer","divNoteEditor"],[],[],["divListBtnNote"]);
 
 }
 
