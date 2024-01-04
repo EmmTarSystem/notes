@@ -6,8 +6,11 @@ cookiesEnableIPAdressName = "Planing-IPAdress",
 cookiesEnableEmailName = "Planing-Email",
 cookiesEnableWebLinkName = "Planing-WebLink";
 
+
+
+
 // La valeur des cookies
-let isAdressIPEnabled =localStorage.getItem(cookiesEnableIPAdressName),
+let isAdressIPEnabled = localStorage.getItem(cookiesEnableIPAdressName),
 isPhoneNumberEnabled = localStorage.getItem(cookiesEnablePhoneNumberName),
 isEmailEnabled = localStorage.getItem(cookiesEnableEmailName ),
 isWebLinkEnabled = localStorage.getItem(cookiesEnableWebLinkName);
@@ -23,10 +26,13 @@ checkboxWebLinkRef = document.getElementById("checkboxWebLink");
 
 function onDisplaySetting() {
     // Set les checkbox selon les valeurs des cookies
-    checkboxPhoneNumberRef.checked = isPhoneNumberEnabled;
-    checkboxEmailRef.checked = isEmailEnabled;
-    checkboxIPRef.checked = isAdressIPEnabled;
-    checkboxWebLinkRef.checked = isWebLinkEnabled;
+    // PS  ne peut pas utiliser de boolean car session storage les stockent en string.
+    checkboxPhoneNumberRef.checked = isPhoneNumberEnabled === "true";
+    checkboxEmailRef.checked = isEmailEnabled === "true";
+    checkboxIPRef.checked = isAdressIPEnabled === "true";
+    checkboxWebLinkRef.checked = isWebLinkEnabled === "true";
+
+    console.log(isPhoneNumberEnabled,isEmailEnabled,isAdressIPEnabled,isWebLinkEnabled);
 
 }
 

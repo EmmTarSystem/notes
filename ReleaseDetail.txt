@@ -113,6 +113,10 @@ Version fonctionnel
         Mise en place du traitement des données sensibles.
         Setting : système de paramétrage des données sensibles.
 0.8.4
+    Correctif
+        Correction du bug où les options coché par l'utilisateur n'était pas pris en compte à la reconnexion.
     Optimisation
         Mise en place d'une fonction unique pour la gestion de l'affichage.
         Résolution du bug style inconnu.
+    Evolution
+        Implementation du trie alphabetique pour la liste de filtre de tag excluant le généricTag qui sera toujours en premier.

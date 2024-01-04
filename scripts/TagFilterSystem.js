@@ -65,11 +65,34 @@ function onUpdateTagList(tempTagList,arrayResult) {
         }
     })
 
+
     // Ajoute le TAG 'Toutes les taches' au début de l'array si n'existe pas
+    // si generic tag existe et qu'il n'est pas en premier le retire et le met premier
+
 
     if (!allTagList.includes(genericTAG)) {
         allTagList.unshift(genericTAG);
     }
+
+    // Fonction pour avoir un trie personnalisé et laissé "TOUTE LES TACHES" en premier
+    function customSort(a, b) {
+
+        const textePersonnalise = genericTAG;
+      
+        if (a === textePersonnalise) {
+          return -1; // texte personnalisé en premier
+        } else if (b === textePersonnalise) {
+          return 1; // texte personnalisé en premier
+        } else {
+            //Pour le reste, comparaison normale   
+          return a.localeCompare(b);
+        }
+      }
+      
+    allTagList.sort(customSort);
+
+
+
 
     console.log(" [TAG-FILTER] final TAG result = ");
     console.log("[TAG-FILTER]" + allTagList);
@@ -85,6 +108,7 @@ function onUpdateTagList(tempTagList,arrayResult) {
         console.log(" [TAG-FILTER] le tag en cours n'existe plus = réinitialisation");
         currentTagFilter = genericTAG;
     }
+
 
 
     onSetSelectTagList(allTagList,arrayResult);
