@@ -70,8 +70,6 @@ function onUpdatePage(isUpdateTagListRequired) {
         // actualise les TAG de complétion
         let tagCompletionResult = requestTag.result;
         allTagCompletion = tagCompletionResult.sort();
-        console.log("Valeur TAG COMPLETION :")
-        console.log(allTagCompletion);
     }
 
 
@@ -85,7 +83,7 @@ function onUpdatePage(isUpdateTagListRequired) {
         
 
         // Filtre se mise à jour du selecteur de tag
-        if (isUpdateTagListRequired) {
+        if (isUpdateTagListRequired === true) {
             // TEST FILTRE  PAR TAG
             onListTAG(arrayResult);
         }else{
@@ -181,34 +179,22 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,currentSta
             }
             
 
-            if (currentStatus === statusArray[0]) {
+           
                 // Set la class  de la divbouton selon l'urgence
-                if (e.priority === priorityArray[0]) { div.className ="divBtnListNote divBtnListNoteStatus0Priority0" };
-                if (e.priority === priorityArray[1]) { div.className ="divBtnListNote divBtnListNoteStatus0Priority1" };
-                if (e.priority === priorityArray[2]) { div.className ="divBtnListNote divBtnListNoteStatus0Priority2" };
-            }
-            
-            if (currentStatus === statusArray[1]) {
-                // Set la class  de la divbouton selon l'urgence
-                if (e.priority === priorityArray[0]) { div.className ="divBtnListNote divBtnListNoteStatus1Priority0" };
-                if (e.priority === priorityArray[1]) { div.className ="divBtnListNote divBtnListNoteStatus1Priority1" };
-                if (e.priority === priorityArray[2]) { div.className ="divBtnListNote divBtnListNoteStatus1Priority2" };
-            }
-            
-
-            // Creation du tag dans la div
-            let tag = document.createElement("p");
-            tag.innerHTML = `[ ${e.tag} ]`;
-            tag.className = "listNoteTAG";
+                if (e.priority === priorityArray[0]) { div.className ="divBtnListNote divBtnListNotePriority0" };
+                if (e.priority === priorityArray[1]) { div.className ="divBtnListNote divBtnListNotePriority1" };
+                if (e.priority === priorityArray[2]) { div.className ="divBtnListNote divBtnListNotePriority2" };
+          
+ 
+           
             
 
             // Creation du texte dans la div
             let title = document.createElement("p");
-            title.innerHTML = e.title;
+            title.innerHTML = `<i>[ ${e.tag} ] </i>- - - ${e.title}`;
             title.className = "listNoteTitle";
 
             // insertion des éléments créés dans la div
-            div.appendChild(tag);
             div.appendChild(title);
 
 
@@ -221,7 +207,7 @@ function onSetListNotes(divNotesTarget,noteArray,indexToStart,thIDRef,currentSta
             }
             
         }
-        console.log("Je compte le nombre d'itération " + nbreIteration);
+
         
         // Set le nombre de tâche
         currentThRef.innerHTML = `${currentStatus} ( ${noteArray.length} )   <i>${indexToStart + 1} - ${indexToStart + nbreIteration}</i>`;     
@@ -374,7 +360,7 @@ function onDisplayNoteEditor(boolModeCreation){
     // Set le mode d'ouverture de l'editeur de note
     boolEditNoteCreation = boolModeCreation;
 
-    if (boolEditNoteCreation) {
+    if (boolEditNoteCreation === true) {
         console.log("ouverture de l'editeur en mode création");
 
         legendNoteEditorRef.innerHTML = "Créer une note";
@@ -403,7 +389,11 @@ function onSetNoteEditor(e) {
     textareaNoteDetailRef.value = e.detail;
     selectorNotePriorityRef.value = e.priority;
 
-    e.stepArray.forEach((i)=>onAddStep(true,i));
+    // set les étapes si il y en a
+    if (e.stepArray.length > 0) {
+        e.stepArray.forEach((i)=>onAddStep(true,i));
+    }
+    
 
 }
 
@@ -443,7 +433,6 @@ function onCheckStepEmpty() {
                 
             })
         }
-        console.log("valeur de isNewStepValid : " + isErrorStepDetected);
         return isErrorStepDetected;
 }
 
@@ -467,7 +456,7 @@ function onAddStep(isStepToSet,inputValue) {
     // Vérification si un step est vide n'en crée par d'autre
     // Uniquement lors de l'action l'utilisateur.
     
-    if (!isStepToSet) {
+    if (isStepToSet === false) {
        if (onCheckStepEmpty()){
             console.log("Champ vide détécté : ne crée pas de step supplémentaire");
             return
@@ -476,34 +465,57 @@ function onAddStep(isStepToSet,inputValue) {
 
 
 
-    //création de l'ID 
-    let currentListID = "liNoteStepRef" + currentNbreEditorStep;
+    //création des l'ID 
+    let currentListID = "liNoteStep" + currentNbreEditorStep;
     let currentInputStepID = "inputNoteStep" + currentNbreEditorStep;
 
     // creation de la liste
     let newLi = document.createElement("li");
     newLi.id = currentListID;
+    newLi.name = "stepList";
+    newLi.className = "editorListStep";
 
     // Creation input texte
     let newInput = document.createElement("input");
     newInput.type = "text";
-    newInput.className ="input-field";
     newInput.id = currentInputStepID;
+    newInput.className ="input-field-step";
     newInput.placeholder ="Nouvelle étape";
     newInput.maxLength = "80";
-    newInput.name = "inputStepTAG";
+    newInput.name = "stepName";
+
+
+
+    // Creation input Hour
+    let newInputHour = document.createElement("input");
+    newInputHour.type = "number";
+    newInputHour.placeholder = 0;
+    newInputHour.name = "stepHour";
+    newInputHour.className = "inputTime";
+    newInputHour.oninput = function(){onlimitNumberLength(this, 3,999)};
+
+    // Creation input Minutes
+    let newInputMinutes = document.createElement("input");
+    newInputMinutes.type = "number";
+    newInputMinutes.placeholder = 0;
+    newInputMinutes.name = "stepMinutes";
+    newInputMinutes.className = "inputTime";
+    newInputMinutes.oninput = function(){onlimitNumberLength(this, 2,59)};
+
 
     // Creation input checkbox
     let newCheckbox = document.createElement("input");
     newCheckbox.type =  "checkbox";
     newCheckbox.id = "checkboxNoteStep" + currentNbreEditorStep;
-    newCheckbox.name = "checkboxStepTAG";
+    newCheckbox.name = "stepCheckbox";
+
+
     // fonction pour modifier l'input (barré ou non) en fonction de la checkbox
     newCheckbox.onchange = function (){
-        console.log(this.checked);
         onChangeStepStatus(currentInputStepID,this.checked);
     }
    
+
 
     // Creation du bouton de suppression de l'etape (image)
     let newImg = document.createElement("img");
@@ -515,17 +527,29 @@ function onAddStep(isStepToSet,inputValue) {
 
 
     // Filtre si des valeur à inserer dans le cas d'une réédition de note
-    if (isStepToSet) {
+    if (isStepToSet === true) {
         newInput.value = inputValue.stepName;
         newCheckbox.checked = inputValue.stepChecked;
+        newInputHour.value = inputValue.stepHour;
+        newInputMinutes.value = inputValue.stepMinutes;
         // si c'est coché, change la classe pour barrer le texte
-        if (inputValue.stepChecked) {newInput.className ="input-field-strike";}
+        if (inputValue.stepChecked === true) {newInput.className ="input-field-step-strike";}
         
 
     };
 
+    // creation des "heures"
+    newSymboleHour = document.createElement("p");
+    newSymboleHour.innerHTML = " : ";
+    newSymboleHour.className = "editorStep";
+
+
+
     // Insertion des nouveaux elements
     newLi.appendChild(newInput);
+    newLi.appendChild(newInputHour);
+    newLi.appendChild(newSymboleHour);
+    newLi.appendChild(newInputMinutes);
     newLi.appendChild(newCheckbox);
     newLi.appendChild(newImg);
     ulNoteEditorStepRef.appendChild(newLi);
@@ -538,7 +562,7 @@ function onAddStep(isStepToSet,inputValue) {
 
 function onChangeStepStatus(target,isStrike) {
     let inputTarget = document.getElementById(target);
-    inputTarget.className = isStrike ? "input-field-strike" : "input-field" ;
+    inputTarget.className = isStrike ? "input-field-step-strike" : "input-field-step" ;
 }
 
 
@@ -547,7 +571,7 @@ function onChangeStepStatus(target,isStrike) {
 function onDeleteStep(target) {
     let deleteTarget = document.getElementById(target);
     deleteTarget.remove();
-    currentNbreEditorStep--;
+
 }
 
 
@@ -573,15 +597,13 @@ function onCheckNoteError() {
 
     // detection des champs vides obligatoires
     let isEmptyTitleField = onCheckEmptyField(inputNoteTitleRef.value);
-    console.log("valeur de isEmptyTitleField = " + isEmptyTitleField);
-    if (isEmptyTitleField) {
+    if (isEmptyTitleField === true) {
         alert(arrayNotify.emptyTitleField);
     }
     
     // detection des champs vide pour les étapes
     let isEmptyStepField = onCheckStepEmpty();
-    console.log("valeur de isEmptyStepField = " + isEmptyStepField);
-    if (isEmptyStepField) {
+    if (isEmptyStepField === true) {
         alert(arrayNotify.emptyStepField);
     }
 
@@ -590,7 +612,7 @@ function onCheckNoteError() {
     // Detection de mauvaise date
     let isErrorDate = onCheckDateError(inputNoteDateStartRef.value,inputNoteDateEndRef.value);
 
-    if (isErrorDate) {
+    if (isErrorDate === true) {
         alert(arrayNotify.errorDate);
     }
 
@@ -617,25 +639,26 @@ function onFormatNote(){
     let tempDateEnd = inputNoteDateEndRef.value;
 
 
-    // date début et fin vide = les deux égales date du jour.
-    console.log("detection des dates pour test")
-
-    console.log(inputNoteDateStartRef.value);
+    // date début et fin vide : les deux égales date du jour.
     if (tempDateStart === "" && tempDateEnd ==="") {
         tempDateStart = tempDateToday;
         tempDateEnd = tempDateToday;
+        console.log("Aucune date de définit : set les deux à date du jour");
     }
 
-    // date début remplit et fin vide = date fin égale date début
+    // date début remplit et fin vide : date fin égale date début
     if (tempDateStart !== "" && tempDateEnd ==="") {
         tempDateEnd = tempDateStart;
+        console.log("Uniquement date de début remplit : date de fin = date début");
     }
 
 
-    // date début vide et fin remplit = date début = date du jour
+    // date début vide et fin remplit : date début = date du jour
     if (tempDateStart === "" && tempDateEnd !=="") {
         tempDateStart = tempDateToday;
+        console.log("Uniquement date de fin remplit :  date début = date du jour");
     }
+
 
 
 
@@ -643,33 +666,45 @@ function onFormatNote(){
 
 
     // ------ ETAPES ------
-    // Recupere les ID des inputs pour les étapes (tagé "inputStepTAG")
-    let allInputStepArray = document.getElementsByName("inputStepTAG");
-    let allInputStepID =[];
-    allInputStepArray.forEach(e=>{
-        allInputStepID.push(e.id)
-    })
-
-    // Recupere les ID des checkbox
-    let allCheckBoxStepArray = document.getElementsByName("checkboxStepTAG");
-    let allCheckBoxStepID=[];
-    allCheckBoxStepArray.forEach(e=>{
-        allCheckBoxStepID.push(e.id);
-    })
-
-
-    // mise en tableau des étapes
-    let tempNoteEditorStepArray = [];
-
-    for (let i = 0; i < allInputStepID.length; i++) {
-        let inputNoteStepRef = document.getElementById(allInputStepID[i]);
-        let checkboxNoteStepRef = document.getElementById(allCheckBoxStepID[i]);
-        tempNoteEditorStepArray.push({stepName:inputNoteStepRef.value,stepChecked:checkboxNoteStepRef.checked});
-    }
-
-    // Premiere lettre en majuscule pour les étapes
     let noteEditorStepArray = [];
-    tempNoteEditorStepArray.forEach(i=> noteEditorStepArray.push({stepName:onSetFirstLetterUppercase(i.stepName),stepChecked:i.stepChecked}));
+    let secureEditorStepArray = [];
+
+    // Récupère tous les id des liste dont l'id commence par : stepList
+    let allListStepArray = document.querySelectorAll('[id^="' + "liNoteStep" + '"]');
+
+    console.log("traitement des étapes. Longueur : " + allListStepArray.length);
+
+    // boolean d'étapes à traiter
+
+    let isStepExist = allListStepArray.length > 0;
+    console.log("Valeur de isStepExist : " + isStepExist);
+
+    if (isStepExist === true) {
+        console.log("Etapes existe traitement");
+        // Extraction de la liste d'id.
+        let allListStepID = [];
+        allListStepArray.forEach(listRef=>{
+            allListStepID.push(listRef.id);
+
+        });
+
+        // mise en tableau des étapes
+        let tempNoteEditorStepArray = [];
+
+        // Pour chaques liste, extrait les enfants et stocke dans le tableau
+        allListStepID.forEach(e=>{
+            tempNoteEditorStepArray.push(onSearchChildStep(e));
+        });
+
+        // Premiere lettre en majuscule pour les étapes
+        tempNoteEditorStepArray.forEach(i=> noteEditorStepArray.push({stepName:onSetFirstLetterUppercase(i.stepName),stepChecked:i.stepChecked,stepHour:i.stepHour,stepMinutes:i.stepMinutes}));
+
+
+    }else{console.log("Aucune étape à traiter")};
+
+
+
+
 
 
     // ------ TAG --------
@@ -677,6 +712,9 @@ function onFormatNote(){
     let tempTag = inputNoteTagRef.value ==="" || inputNoteTagRef.value === undefined ? defaultTagValue : inputNoteTagRef.value;
     tempTag = onSetToUppercase(tempTag);
 
+
+
+    
 
     //------ Titre ------
     let tempTitle = onSetToUppercase(inputNoteTitleRef.value);
@@ -688,8 +726,13 @@ function onFormatNote(){
     let secureDetail = securitySearchForbidenItem(textareaNoteDetailRef.value);
     let secureTitle = securitySearchForbidenItem(tempTitle);
 
-    let secureEditorStepArray = [];
-    noteEditorStepArray.forEach(i=> secureEditorStepArray.push({stepName:securitySearchForbidenItem(i.stepName),stepChecked:i.stepChecked}));
+
+
+    if (isStepExist === true) {
+        noteEditorStepArray.forEach(i=> secureEditorStepArray.push({stepName:securitySearchForbidenItem(i.stepName),stepChecked:i.stepChecked,stepHour:i.stepHour,stepMinutes:i.stepMinutes}));
+    }
+
+    
 
     
     // Mise en format variable
@@ -715,7 +758,7 @@ function onFormatNote(){
         console.log("Note 'Terminer' detecté");
         onDetectNoteTerminer(noteToInsert,currentKeyNoteInView);
 
-    }else if(boolEditNoteCreation) {
+    }else if(boolEditNoteCreation === true) {
         // Filtre selon création ou modification des données
         console.log("mode création de note");
         console.log(noteToInsert);
@@ -730,6 +773,47 @@ function onFormatNote(){
 
 
 }
+
+// Fonction pour récupérer les valeurs des inputs d'un LI par son ID
+function onSearchChildStep(idRef) {
+    let liElement = document.getElementById(idRef);
+
+    // Déclaration variables pour stocker les valeurs
+    let stepNameValue, checkboxValue, stepHourValue, stepMinutesValue;
+
+ 
+    // Sélectionne tous les inputs dans la liste
+    let childInputs = liElement.querySelectorAll('input');
+      
+    // Récupérer les valeurs des inputs
+    childInputs.forEach(input=> {
+        switch(input.name) {
+          case 'stepName':
+            stepNameValue = input.value;
+            break;
+          case 'stepHour':
+            stepHourValue = input.value;
+            break;
+          case 'stepMinutes':
+            stepMinutesValue = input.value;
+            break;
+          default:
+            // Traitez les autres champs au besoin
+            break;
+        }
+
+        // Pour le cas particulier du checkbox
+        if (input.type === 'checkbox') {
+          checkboxValue = input.checked;
+        }
+    });
+
+
+    
+
+    return {stepName:stepNameValue,stepChecked:checkboxValue,stepHour:parseInt(stepHourValue),stepMinutes:parseInt(stepMinutesValue)};
+  }
+
 
 
 
@@ -834,7 +918,7 @@ function onInsertModification(e) {
 function onClickBtnAnnulNoteEditor() {
 
     // Si ça vient d'une modification réaffiche le visualiseur de note sinon non.
-    if (boolEditNoteCreation) {
+    if (boolEditNoteCreation === true) {
         // Gestion affichage 
         onChangeDisplay(["divNoteEditor"],[],[],["divListBtnNote"]);
     }else{
@@ -894,7 +978,7 @@ let noteViewTagRef = document.getElementById("noteViewTag"),
     noteViewTitleRef = document.getElementById("noteViewTitle"),
     noteViewPriorityRef = document.getElementById("noteViewPriority"),
     hnoteViewStatusRef = document.getElementById("hnoteViewStatus"),
-    pNoteViewDetailRef = document.getElementById("pNoteViewDetail"),
+    divNoteViewDetailRef = document.getElementById("divNoteViewDetail"),
     noteViewDateInfoRef = document.getElementById("noteViewDateInfo"),
     pNoteViewDateCreatedRef = document.getElementById("pNoteViewDateCreated"),
     divNoteViewRef = document.getElementById("divNoteView"),
@@ -911,7 +995,7 @@ function onDisplayNote(e) {
     noteViewTitleRef.innerHTML = e.title;
     noteViewPriorityRef.innerHTML = e.priority;
     hnoteViewStatusRef.innerHTML = e.status;
-    pNoteViewDetailRef.innerHTML = e.detail;
+    divNoteViewDetailRef.innerHTML = e.detail;
 
     // Les dates sont affiché en format francais
     let dateCreatedFR = onFormatDateToFr(e.dateCreated);
@@ -939,32 +1023,18 @@ function onDisplayNote(e) {
 
     e.stepArray.forEach(i=>
             {
-
-               
                 // Creation des éléments
                 let newLi = document.createElement("li");
 
-                let newLabel = document.createElement("label");
-                if (i.stepChecked) {
+                if (i.stepChecked === true) {
                     // Texte rayé
-                    newLabel.innerHTML = "<del>" + i.stepName + "</del>";
-                }else{
-                    
-                    newLabel.innerHTML = i.stepName;
+                    newLi.innerHTML = "<del>" + i.stepName + "</del>";
+                }else{    
+                    newLi.innerHTML = i.stepName;
                 }
                 
-               
-
-
                 // Insertion 
-
-                newLi.appendChild(newLabel);
-
-
                 ulNoteViewStepRef.appendChild(newLi);
-
-
-            
             }
     )
 
@@ -983,7 +1053,7 @@ function onClearNoteView() {
     noteViewTitleRef.innerHTML = "";
     noteViewPriorityRef.innerHTML = "";
     hnoteViewStatusRef.innerHTML = "";
-    pNoteViewDetailRef.innerHTML = "";
+    divNoteViewDetailRef.innerHTML = "";
     ulNoteViewStepRef.innerHTML = "";
     noteViewDateInfoRef.innerHTML = "";
     pNoteViewDateCreatedRef.innerHTML = "";
@@ -1054,6 +1124,21 @@ function onDeleteNote(keyTarget) {
 
 function onDetectNoteTerminer(dataToSave,keyToDelete) {
 
+    // Proposition heure
+    let pStepTotalTimeInfoRef = document.getElementById("pStepTotalTimeInfo");
+        pStepTotalTimeInfoRef.innerHTML = "";
+
+    // Calcul la durée total des étapes pour proposition d'heure et l'affiche pour info
+    if (dataToSave.stepArray.length > 0){
+        let totalStepMinutes = onCalculTotalStepDuration(dataToSave.stepArray);
+        
+        pStepTotalTimeInfoRef.innerHTML = ("La durée totale des étapes est de :" + totalStepMinutes.heures + " heures et " + totalStepMinutes.minutes + " minutes");
+    }
+    
+
+
+
+
     // Gestion affichage
     onChangeDisplay([],["divPopupTerminer"],["divNoteEditor"],[]);
 
@@ -1082,12 +1167,19 @@ function onCancelPopupTerminer() {
 
 
 function onTermineNote(data,key) {
+
     // Sauvegarde des infos dans le store dashboard
 
     console.log("Confirmation de note terminer")
     // Recupere la durée de la tache
-    let taskDuration = onReceiveTaskDuration();
 
+
+    // let taskDuration =  onConvertDurationToMinutes("taskDurationHours","TaskDurationMinutes");
+
+
+    let taskDuration = onConvertDurationToMinutes(document.getElementById("taskDurationHours").value,document.getElementById("TaskDurationMinutes").value);
+
+    
     // Recupere la date du jour
     let dateDuJour = onFormatDateToday();
 
@@ -1114,21 +1206,46 @@ function onTermineNote(data,key) {
 
 
 
+// fonction de convertion des heures/minutes en total minutes
+function  onConvertDurationToMinutes(inputHourValue,inputMinuteValue) {
+    // Récupérer les valeurs heure/minutes des tâches
+    const taskDurationHours = parseInt(inputHourValue) || 0;
+    const TaskDurationMinutes = parseInt(inputMinuteValue) || 0;
 
-function onReceiveTaskDuration() {
-    // Récupérer les valeurs saisies par l'utilisateur
-    const taskDurationHours = parseInt(document.getElementById("taskDurationHours").value) || 0;
-    const TaskDurationMinutes = parseInt(document.getElementById("TaskDurationMinutes").value) || 0;
+    // Convertir en Minutes
+    let totalDurationMinutes;
+    totalDurationMinutes = taskDurationHours * 60 + TaskDurationMinutes;
 
-    // Convertir en TaskDurationMinutes
-    let totalTaskDurationMinutes;
-
-    totalTaskDurationMinutes = taskDurationHours * 60 + TaskDurationMinutes;
-
-    return totalTaskDurationMinutes;
-
-    
+    return totalDurationMinutes;
+       
 }
+
+
+
+
+// Fonction d'addition des minutes
+function onCalculTotalStepDuration(stepDuration) {
+    let totalMinutes = 0;
+
+    stepDuration.forEach(e=>{
+        let tempMinutes = onConvertDurationToMinutes(e.stepHour,e.stepMinutes);
+        totalMinutes += tempMinutes;
+    });
+
+    // converti le total des minutes en format heures
+    let fullStepHour = onConvertMinutesToHour(totalMinutes);
+    return fullStepHour;
+}
+
+
+// Fonction de convertion d'un nombre de minutes en heures completes
+function onConvertMinutesToHour(totalMinutes) {
+    var heures = Math.floor(totalMinutes / 60);
+    var minutes = totalMinutes % 60;
+    return { heures: heures, minutes: minutes };
+}
+
+
 
 
 

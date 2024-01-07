@@ -10,16 +10,12 @@ let currentTagFilter = genericTAG;
 function onListTAG(arrayResult) {
     // Reset allTagList
     allTagList = [];
-    console.log("[TAG-FILTER] Valeur arrayResult dans onListTAG = ");
-    console.log(arrayResult);
 
     let dataToFilter = arrayResult.filter(item=>{
         return item.status === statusArray[0] || item.status === statusArray[1];
     })
 
 
-    console.log("[TAG-FILTER] valeur de dateToFilter = ");
-    console.log(dataToFilter);
     let tempTagList = [];
 
     dataToFilter.forEach(e => {
@@ -30,8 +26,7 @@ function onListTAG(arrayResult) {
         
     });
 
-    console.log(" [TAG-FILTER] tempTagList = ");
-    console.log(tempTagList);
+
 
     onUpdateTagList(tempTagList,arrayResult);
 }
@@ -93,16 +88,11 @@ function onUpdateTagList(tempTagList,arrayResult) {
 
 
 
-
-    console.log(" [TAG-FILTER] final TAG result = ");
-    console.log("[TAG-FILTER]" + allTagList);
-
-
     // Filtre pour voir si le filtre sur le tag en cours existe toujours
     let isCurrentTagIsValid = allTagList.includes(currentTagFilter);
     console.log("[TAG-FILTER] valeur de currentTagFilter = " + currentTagFilter );
 
-    if (isCurrentTagIsValid) {
+    if (isCurrentTagIsValid === true) {
         console.log(" [TAG-FILTER] le tag en cours existe toujours");
     }else{
         console.log(" [TAG-FILTER] le tag en cours n'existe plus = réinitialisation");

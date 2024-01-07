@@ -115,8 +115,14 @@ Version fonctionnel
 0.8.4
     Correctif
         Correction du bug où les options coché par l'utilisateur n'était pas pris en compte à la reconnexion.
+        Correction du bug pour la gestion des id pour les step = retrait de "currentNbreEditorStep--"
+        Modification du systeme de traitement des étapes.
+        Correction du format pour if.
+        Modification du system de boolean pour les cookies de sécurité.
     Optimisation
         Mise en place d'une fonction unique pour la gestion de l'affichage.
         Résolution du bug style inconnu.
     Evolution
         Implementation du trie alphabetique pour la liste de filtre de tag excluant le généricTag qui sera toujours en premier.
+        Refonte intégrale du design.
+        Barre de défilement pour les étapes et détails.

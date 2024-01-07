@@ -10,10 +10,10 @@ cookiesEnableWebLinkName = "Planing-WebLink";
 
 
 // La valeur des cookies
-let isAdressIPEnabled = localStorage.getItem(cookiesEnableIPAdressName),
-isPhoneNumberEnabled = localStorage.getItem(cookiesEnablePhoneNumberName),
-isEmailEnabled = localStorage.getItem(cookiesEnableEmailName ),
-isWebLinkEnabled = localStorage.getItem(cookiesEnableWebLinkName);
+let isAdressIPDisplay = localStorage.getItem(cookiesEnableIPAdressName) === "true",
+isPhoneNumberDisplay = localStorage.getItem(cookiesEnablePhoneNumberName) === "true",
+isEmailDisplay = localStorage.getItem(cookiesEnableEmailName ) === "true",
+isWebLinkDisplay = localStorage.getItem(cookiesEnableWebLinkName) === "true";
 
 
 // Affichage des settings
@@ -26,13 +26,13 @@ checkboxWebLinkRef = document.getElementById("checkboxWebLink");
 
 function onDisplaySetting() {
     // Set les checkbox selon les valeurs des cookies
-    // PS  ne peut pas utiliser de boolean car session storage les stockent en string.
-    checkboxPhoneNumberRef.checked = isPhoneNumberEnabled === "true";
-    checkboxEmailRef.checked = isEmailEnabled === "true";
-    checkboxIPRef.checked = isAdressIPEnabled === "true";
-    checkboxWebLinkRef.checked = isWebLinkEnabled === "true";
+    // PS  ne peut pas utiliser de boolean car session storage les stocke en string.
+    checkboxPhoneNumberRef.checked = isPhoneNumberDisplay;
+    checkboxEmailRef.checked = isEmailDisplay;
+    checkboxIPRef.checked = isAdressIPDisplay;
+    checkboxWebLinkRef.checked = isWebLinkDisplay;
 
-    console.log(isPhoneNumberEnabled,isEmailEnabled,isAdressIPEnabled,isWebLinkEnabled);
+    console.log(isPhoneNumberDisplay,isEmailDisplay,isAdressIPDisplay,isWebLinkDisplay);
 
 }
 
@@ -44,20 +44,20 @@ function onChangeSecuritySetting(settingTarget,checkboxRef) {
 
 
     if (settingTarget === "email") { 
-        isEmailEnabled = checkboxRef.checked;
-        localStorage.setItem(cookiesEnableEmailName,isEmailEnabled);
+        isEmailDisplay = checkboxRef.checked;
+        localStorage.setItem(cookiesEnableEmailName,isEmailDisplay);
     };
     if (settingTarget === "linkWeb") {
-        isWebLinkEnabled = checkboxRef.checked;
-        localStorage.setItem(cookiesEnableWebLinkName,isWebLinkEnabled);
+        isWebLinkDisplay = checkboxRef.checked;
+        localStorage.setItem(cookiesEnableWebLinkName,isWebLinkDisplay);
     };
     if (settingTarget === "phoneNumber") { 
-        isPhoneNumberEnabled = checkboxRef.checked;
-        localStorage.setItem(cookiesEnablePhoneNumberName,isPhoneNumberEnabled);
+        isPhoneNumberDisplay = checkboxRef.checked;
+        localStorage.setItem(cookiesEnablePhoneNumberName,isPhoneNumberDisplay);
     };
     if (settingTarget === "IPAdress") {
-        isAdressIPEnabled = checkboxRef.checked;
-        localStorage.setItem(cookiesEnableIPAdressName,isAdressIPEnabled);
+        isAdressIPDisplay = checkboxRef.checked;
+        localStorage.setItem(cookiesEnableIPAdressName,isAdressIPDisplay);
     };
 }
 

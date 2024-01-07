@@ -42,32 +42,43 @@
                 <img class="iconeMenu" src="./images/IconeNewTask.png" alt="Nouvelle tâche" srcset="">
             </button>
 
-            <table class="tableBasic">
+            <table class="tableListNotes">
                 <tr class="rowTopLine">
                     <!-- <th id="thTxtEnCours">En cours ( 0 )</th> -->
-                    <th>
-                        <button class="btnPrevious" onclick="onClickNavNoteStatus1Previous()" id="btnNoteStatus1Previous" title="Précédent">&#60;</button>
+                    <td class="btnPrevious">
+                        <button class="buttonNextPrevious" onclick="onClickNavNoteStatus1Previous()" id="btnNoteStatus1Previous" title="Précédent">&#60;</button>
+                    </td>
+                    <td class="btnNextPreviousText">
                         <p class="btnPreviousNext" id="pTxtStatus1">En cours ( 0 )</p>
-                        <button class="btnNext" onclick="onClickNavNoteStatus1Next()" id="btnNoteStatus1Next" title="Suivant">&#62;</button>
-                    </th>
+                    </td>
+                    <td class="btnNext">
+                        <button class="buttonNextPrevious" onclick="onClickNavNoteStatus1Next()" id="btnNoteStatus1Next" title="Suivant">&#62;</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="tdListeNotes">
+                    <td class="tdListeNotes" colspan="3">
                         <div id="divBtnNoteStatus1">
                             <!-- Injection des boutons -->
                         </div>
                     </td>
                 </tr>
+            </table>
+
+            <table class="tableListNotes">
                 <tr class="rowTopLine">
                     <!-- <th id="thTxtAFaire">A faire ( 0 )</th> -->
-                    <th>
-                        <button class="btnPrevious" onclick="onClickNavNoteStatus0Previous()" id="btnNoteStatus0Previous" title="Précédent">&#60;</button>
+                    <td class="btnPrevious">
+                        <button class="buttonNextPrevious" onclick="onClickNavNoteStatus0Previous()" id="btnNoteStatus0Previous" title="Précédent">&#60;</button>
+                    </td>
+                    <td class="btnNextPreviousText">
                         <p class="btnPreviousNext" id="pTxtStatus0">A faire ( 0 )</p>
-                        <button class="btnNext" onclick="onClickNavNoteStatus0Next()" id="btnNoteStatus0Next" title="Suivant">&#62;</button>
-                    </th>
+                    </td>
+                    <td class="btnNext">
+                        <button class="buttonNextPrevious" onclick="onClickNavNoteStatus0Next()" id="btnNoteStatus0Next" title="Suivant">&#62;</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="tdListeNotes">
+                    <td class="tdListeNotes" colspan="3">
                         <div id="divBtnNoteStatus0">
                             <!-- Injection des boutons -->
                         </div>
@@ -79,27 +90,47 @@
        
 
         <!-- ------------------ ---------  Visualisation d'une tache ------------------>
-        <div id="divNoteView" class="divNoteView">
+        <div id="divNoteView" class="noteViewArea">
+            <!-- Les boutons -->
+            <div class="noteViewBtn">
+                <button class="basicBtn" onclick="onEditNote()" title="Modifier"><img class="iconeMenu" src="./images/IconeEditer.png" alt="Editer"></button>
+                <button class="basicBtn" onclick="onClickBtnDeleteNote()" title="Supprimer"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Supprimer" srcset=""></button>
+                <button class="basicBtn" onclick="onClickPrint()" title="Imprimer"><img class="iconeMenu" src="./images/Icone-imp.png" alt="Imprimer" srcset=""></button>
+            </div>
             <!-- zone qui sera imprimé -->
-            <div id="printArea">
+            <div class="noteViewData" id="printArea">
                
-                <table class="tableBasic">
+                <table class="noteViewData">
                     <tr>
-                        <th class="urgenceCategorie"><p class="noteViewHead" id="noteViewPriority">Priorité</p></th>
-                        <th class="noteViewTag"><p class="noteViewHead" id="noteViewTag">[ TAG ]</p></th>
-                        <th class="urgenceCategorie"><p class="noteViewHead" id="hnoteViewStatus">Status</p></th>
+                        <td class="urgenceCategorie"><p id="noteViewPriority">Priorité</p></td>
+                        <td class="noteViewTag"><p id="noteViewTag">[ TAG ]</p></td>
+                        <td class="urgenceCategorie"><p id="hnoteViewStatus">Status</p></td>
                     </tr>
                     <tr class="viewNoteRowTitle">
                         <td colspan="3"><p id="noteViewTitle"> TITRE </p></td>
                     </tr>
+                    <tr>
+                        <td colspan="3">
+                            <p class="annotation"><u>Détail de la tâche :</u></p>
+                        </td>
+                    </tr>
                     <tr class="tableViewNoteRowDetail">
-                        <td colspan="3"><p id="pNoteViewDetail" class="noteViewDetail">Detail</p></td>
+                        <td colspan="3">
+                                <div class="viewNoteDetail" id="divNoteViewDetail">Detail</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <p class="annotation"><u>Les étapes :</u></p>
+                        </td>
                     </tr>
                     <tr class="tableViewNoteRowStep">
-                        <td colspan="3">
-                            <ul id="ulNoteViewStep">
-                               <!-- Injection des étapes -->
-                            </ul>
+                        <td colspan="3" class="scrollable-td">
+                            <div class="scrollable-content">
+                                <ul id="ulNoteViewStep">
+                                    <!-- Injection des étapes -->
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     <tr class="noteViewDateRow">
@@ -110,66 +141,85 @@
                     </tr>
                 </table>
             </div>
-            <!-- Les boutons -->
-            <p> 
-                <button class="basicBtn" onclick="onEditNote()" title="Modifier"><img class="iconeMenu" src="./images/IconeEditer.png" alt="Editer"></button>
-                <button class="basicBtn" onclick="onClickBtnDeleteNote()" title="Supprimer"><img class="iconeMenu" src="./images/IconesDelete.png" alt="Supprimer" srcset=""></button>
-                <button class="basicBtn" onclick="onClickPrint()" title="Imprimer"><img class="iconeMenu" src="./images/Icone-imp.png" alt="Imprimer" srcset=""></button>
-            </p>
+
         </div>
         <!-- ------------------ --------- FIN Visualisation d'une tache ------------------>
 
 
         <!-- ----------------- Creation /modification d'une tache --------------------->
         <div id="divNoteEditor" class="divNoteEditor">
-            <p>
-                <fieldset>
-                    <legend id="legendNoteEditor">Editer une note</legend>
-                    <ul>
-                        <li>
-                            <label for="inputNoteTag">TAG : </label>
-                            <input class="input-field" id="inputNoteTag" type="text" placeholder="20 caractères max" maxlength="20">
-                            <!-- Liste de suggestions -->
-                            <ul id="suggestionList"></ul>
-                        </li>
-                        <li>
-                            <label for="inputNoteTitle">Titre : </label>
-                            <input class="input-field" id="inputNoteTitle" type="text" placeholder="Titre" maxlength="80">
-                        </li>
-                        <li>
-                            <label for="selectorNotePriority">Priorité : </label>
-                            <select name="" id="selectorNotePriority">
+                
+                    <p id="legendNoteEditor">Editer une note</p>
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="selectorNotePriority">Priorité : </label>
+                                <select name="" id="selectorNotePriority">
                                 <!-- Injection des options-->
                             </select>
-                            <label for="selectorNoteStatus">Statut : </label>
-                            <select name="" id="selectorNoteStatus">
-                                <!-- Injection des options-->
-                            </select>
-                        </li>
-                        <li>
-                            <label for="textareaNoteDetail">Detail</label>
-                            <textarea class="textarea-field" name="" id="textareaNoteDetail" cols="30" rows="10" maxlength="1000"></textarea>
-                        </li>
-                    </ul>
-                    <ul id="ulNoteEditorStep">
-                        <!-- Injection des étapes -->
-                    </ul>
-                    <button class="btnAddStep" onclick="onAddStep()">Ajouter une étape</button>
-                    <ul>
-                        <li>
-                            <label for="inputNoteDateStart">Date début</label>
-                            <input type="date" name="" id="inputNoteDateStart">
-                            <label for="inputNoteDateEnd">Date Limite</label>
-                            <input type="date" name="" id="inputNoteDateEnd">
-                        </li>
-                    </ul>
-                </fieldset>
-            
-            </p>
-            <p class="pButtonEditor">
-                <button class="basicBtn" onclick="onClickBtnValidNoteEditor()" title="Sauvegarder"><img class="iconeMenu" src="./images/IconeSave.png" alt="Valider" srcset=""></button>
-                <button class="basicBtn" onclick="onClickBtnAnnulNoteEditor()" title="Retour"><img class="iconeMenu" src="./images/IconeReturnCancel.png" alt="Retour-Annuler" srcset=""></button>    
-            </p>
+                            </td>
+                            <td>
+                                <label for="inputNoteTag">TAG : </label>
+                                <input class="input-field" id="inputNoteTag" type="text" placeholder="20 caractères max" maxlength="20">
+                                <!-- Liste de suggestions -->
+                                <ul id="suggestionList"></ul>
+                            </td>
+                            <td>
+                                <label for="selectorNoteStatus">Statut : </label>
+                                <select name="" id="selectorNoteStatus">
+                                    <!-- Injection des options-->
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="editorTitleRow">
+                            <td colspan="3">
+                                <label for="inputNoteTitle">Titre : </label>
+                                <input class="input-field" id="inputNoteTitle" type="text" placeholder="Titre" maxlength="80">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <p class="annotation"><u>Détail de la tâche :</u></p>
+                            </td>
+                        </tr>
+                        <tr class="editorDetailRow">
+                            <td colspan="3">
+                                <textarea class="textarea-field" name="" id="textareaNoteDetail" cols="30" rows="10" maxlength="1000"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <p class="annotation"><u>Les étapes :</u></p>
+                            </td>
+                        </tr>
+                        <tr class="editorStepRow">
+                            <td colspan="3" class="scrollable-td">
+                                <div class="scrollable-content">
+                                    <ul class="ulEditorStep" id="ulNoteEditorStep">
+                                        <!-- Injection des étapes -->
+                                    </ul>
+                                    <button class="btnAddStep" onclick="onAddStep(false,)">Ajouter une étape</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <label for="inputNoteDateStart">Date début</label>
+                                <input type="date" name="" id="inputNoteDateStart">
+                                <label for="inputNoteDateEnd">Date Limite</label>
+                                <input type="date" name="" id="inputNoteDateEnd">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <p class="pButtonEditor">
+                                    <button class="basicBtn" onclick="onClickBtnValidNoteEditor()" title="Sauvegarder"><img class="iconeMenu" src="./images/IconeSave.png" alt="Valider" srcset=""></button>
+                                    <button class="basicBtn" onclick="onClickBtnAnnulNoteEditor()" title="Retour"><img class="iconeMenu" src="./images/IconeReturnCancel.png" alt="Retour-Annuler" srcset=""></button>    
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
         </div>
         <!-- ----------------- FIN Creation /modification d'une tache --------------------->
 
@@ -186,18 +236,22 @@
 
         <!-- ----------------- CONFIRMATION NOTE TERMINER --------------------->
         <div class="popupTerminer" id="divPopupTerminer">
-            <h2>Veuillez renseigner le temps passé sur la tâche pour la terminer :</h2>
+            <h3>Veuillez renseigner le temps passé sur la tâche pour la terminer :</h3>
 
             <label for="taskDurationHours">Heure(s):</label>
-            <input type="number" id="taskDurationHours" oninput="onlimitNumberLength(this, 3,999)"  placeholder="0" min="0" max="999">
+            <input class="inputTime" type="number" id="taskDurationHours" oninput="onlimitNumberLength(this, 3,999)"  placeholder="0" min="0" max="999">
             
             <label for="TaskDurationMinutes">Minute(s):</label>
-            <input type="number" id="TaskDurationMinutes"  oninput="onlimitNumberLength(this, 2,59)" placeholder="0" min="0" max="59">
+            <input class="inputTime" type="number" id="TaskDurationMinutes"  oninput="onlimitNumberLength(this, 2,59)" placeholder="0" min="0" max="59">
             <p>
                 <!-- onclick injecté depuis le javascript -->
                 <button class="basicBtn" id="btnValidTerminer" >Terminer</button>
                 <button class="basicBtn" onclick="onCancelPopupTerminer()">Annuler</button>
             </p>
+            <p  class="annotation" id="pStepTotalTimeInfo">
+                <!-- Injection -->
+            </p>
+
         </div>
         <!-- ----------------- FIN CONFIRMATION SUPPRESSION --------------------->
 
